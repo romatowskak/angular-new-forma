@@ -18,7 +18,6 @@ export class ActionItemsComponent implements OnInit {
   dataSource;
   constructor(private tasksService: TasksService) {
     this.dataSource = this.tasksService.getAllTasks();
-    console.log(this.tasksService.getAllTasks());
   }
   ngOnInit() {}
 }

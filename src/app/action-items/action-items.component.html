@@ -6,11 +6,8 @@
         <div class="flex-row" role="columnheader">Due Date</div>
         <div class="flex-row" role="columnheader">Days Left</div>
     </div>
-
     <div class="flex-table row" role="rowgroup" *ngFor="let t of dataSource">
-        <div class="flex-row body-cell" role="cell">
-            {{ t.title }}
-        </div>
+        <div class="flex-row body-cell" role="cell">{{ t.title }}</div>
         <div class="flex-row body-cell" role="cell">{{ t.type }}</div>
         <div class="flex-row body-cell" role="cell">{{ t.completed }}</div>
         <div class="flex-row body-cell" role="cell">{{ t.dueDate }}</div>
