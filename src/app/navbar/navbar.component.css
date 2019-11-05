@@ -1,0 +1,30 @@
+.menu-container {
+    padding-bottom: 25px;
+    display: flex;
+    padding-left: 100px;
+    background-color: rgb(10, 44, 51);
+}
+
+a {
+    padding: 0 20px;
+    padding-top: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+}
+
+a:hover {
+    text-decoration: none;
+    outline: none;
+    font-weight: bold;
+}
+
+.navbar-paragraph p {
+    font-size: 20px;
+    padding-left: 20px;
+    padding-top: 10px;
+    color: white;
+}
