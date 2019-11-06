@@ -1,23 +1,20 @@
-import { TasksService } from "./../tasks.service";
-import { Component, OnInit } from "@angular/core";
-import { MatTableModule } from "@angular/material/table";
+import { TasksService, ActionTasksElement } from './../tasks.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "action-items",
-  templateUrl: "./action-items.component.html",
-  styleUrls: ["./action-items.component.css"]
+  selector: 'action-items',
+  templateUrl: './action-items.component.html',
+  styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit {
-  displayedColumns: string[] = [
-    "title",
-    "type",
-    "completed",
-    "dueDate",
-    "daysLeft"
-  ];
+  loading = true;
+  displayedColumns: string[] = ['title', 'type', 'completed', 'dueDate', 'daysLeft'];
   dataSource;
   constructor(private tasksService: TasksService) {
-    this.dataSource = this.tasksService.getAllTasks();
+    this.tasksService.getAllTasks().subscribe(tasks => {
+      this.dataSource = tasks;
+      this.loading = false;
+    });
   }
   ngOnInit() {}
 }

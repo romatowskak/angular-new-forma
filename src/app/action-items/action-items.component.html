@@ -1,4 +1,7 @@
-<div class="table-container" role="table" aria-label="Tasks">
+<div *ngIf="loading" class="spinner">
+    <i class="fa fa-spinner fa-spin"></i>
+</div>
+<div *ngIf="!loading" class="table-container" role="table" aria-label="Tasks">
     <div class="flex-table header" role="rowgroup">
         <div class="flex-row" role="columnheader">Title</div>
         <div class="flex-row" role="columnheader">Type</div>

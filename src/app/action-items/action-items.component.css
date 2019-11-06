@@ -114,3 +114,12 @@ div {
         padding: 10px 0;
     }
 }
+
+.spinner {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.fa {
+    font-size: 100px;
+}
