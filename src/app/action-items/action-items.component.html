@@ -2,18 +2,35 @@
     <i class="fa fa-spinner fa-spin"></i>
 </div>
 <div *ngIf="!loading" class="table-container" role="table" aria-label="Tasks">
+    <div class="options">
+        <div class="assigned-label">
+            <div class="filter filter-opt">
+                <p class="filter-list">filters <i class="arrow fa fa-sort-down"></i></p>
+            </div>
+            <button class="filter assigned">Assigned to me X</button>
+        </div>
+        <div class="new-item-button">
+            <button class="add-item">+ new action item</button>
+        </div>
+    </div>
     <div class="flex-table header" role="rowgroup">
-        <div class="flex-row" role="columnheader">Title</div>
-        <div class="flex-row" role="columnheader">Type</div>
-        <div class="flex-row" role="columnheader">Completed</div>
-        <div class="flex-row" role="columnheader">Due Date</div>
-        <div class="flex-row" role="columnheader">Days Left</div>
+        <div class="flex-row body-header first" role="columnheader">Title</div>
+        <div class="flex-row body-header" role="columnheader">Type</div>
+        <div class="flex-row body-header" role="columnheader">Completed</div>
+        <div class="flex-row body-header" role="columnheader">Due Date</div>
+        <div class="flex-row body-header" role="columnheader">Days Left</div>
     </div>
     <div class="flex-table row" role="rowgroup" *ngFor="let t of dataSource">
-        <div class="flex-row body-cell" role="cell">{{ t.title }}</div>
+        <div class="flex-row body-cell first" role="cell">
+            <div class="title-container"><i class="fa fa-circle" style="font-size: 10px;"></i></div>
+            <div class="title-container">
+                <p class="action-item-name">{{ t.title }}</p>
+                <p class="action-item-name project-name">{{ t.projectName }}</p>
+            </div>
+        </div>
         <div class="flex-row body-cell" role="cell">{{ t.type }}</div>
         <div class="flex-row body-cell" role="cell">{{ t.completed }}</div>
         <div class="flex-row body-cell" role="cell">{{ t.dueDate }}</div>
-        <div class="flex-row body-cell" role="cell">{{ t.daysLeft }}</div>
+        <div class="flex-row body-cell" role="cell"></div>
     </div>
 </div>
