@@ -16,5 +16,7 @@ export class ActionItemsComponent implements OnInit {
       this.loading = false;
     });
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.tasksService.getCurrentDate();
+  }
 }

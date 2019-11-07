@@ -58,6 +58,10 @@
     cursor: pointer;
 }
 
+.fa-circle {
+    color: #979797;
+}
+
 .table-container {
     display: block;
     width: 95%;
