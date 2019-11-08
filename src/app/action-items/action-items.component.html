@@ -22,8 +22,9 @@
     </div>
     <div class="flex-table row" role="rowgroup" *ngFor="let t of dataSource">
         <div class="flex-row body-cell first" role="cell">
-            <div class="title-container">
-                <i class="fa fa-circle" id="circle" style="font-size: 10px;"></i>
+            <div class="title-container" id="circle-container">
+                <!-- [style.color]="color" added to change the value in the .ts file -->
+                <i class="fa fa-circle" id="circle" style="font-size: 10px;" [style.color]="color"></i>
             </div>
             <div class="title-container">
                 <p class="action-item-name">{{ t.title }}</p>

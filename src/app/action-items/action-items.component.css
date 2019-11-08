@@ -87,11 +87,11 @@
     background-color: #ffffff;
     margin-top: 3px;
     padding: 5px 0;
+    border-bottom: 2px solid transparent;
 }
 
 .flex-table.row:hover {
     border-bottom: 2px solid #3d7dca;
-    padding-bottom: 4px;
 }
 
 .project-name {
