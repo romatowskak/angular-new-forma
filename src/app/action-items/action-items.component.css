@@ -4,6 +4,21 @@
     box-sizing: border-box;
 }
 
+
+/* color classes for circles next to action item title */
+
+.afterDeadline {
+    color: #fc0800;
+}
+
+.closeToDeadline {
+    color: #fcbd00;
+}
+
+.moreThanTwoDaysLeft {
+    color: #979797;
+}
+
 .options {
     display: flex;
     justify-content: space-between;
@@ -58,10 +73,6 @@
     cursor: pointer;
 }
 
-.fa-circle {
-    color: #979797;
-}
-
 .table-container {
     display: block;
     width: 95%;
@@ -80,7 +91,6 @@
     text-transform: uppercase;
     padding: 10px;
     color: #979797;
-    font-family: Roboto;
 }
 
 .flex-table.row {
@@ -170,6 +180,10 @@
     color: #003c4d;
 }
 
-.fa {
+.fa-sort {
     font-size: 100px;
+}
+
+.fa-circle {
+    font-size: 10px;
 }

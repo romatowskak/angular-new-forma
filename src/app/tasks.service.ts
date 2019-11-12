@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Observable, from } from "rxjs";
 
 export interface ActionTasksElement {
   title: string;
@@ -9,73 +9,75 @@ export interface ActionTasksElement {
   dueDate: object;
   dueDay: number;
   color: string;
+  colorClass: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class TasksService {
-  constructor() {}
-  tableData: ActionTasksElement[] = [
+  private readonly tableData: ActionTasksElement[] = [
     {
-      title: 'Android - UI Automation Test',
-      projectName: 'CASD Wilson & Lamberton Middle Schools',
-      type: 'General',
-      completed: '80%',
-      dueDate: new Date('2019/11/08'),
+      title: "Android - UI Automation Test",
+      projectName: "CASD Wilson & Lamberton Middle Schools",
+      type: "General",
+      completed: "80",
+      dueDate: new Date("2019/11/08"),
       dueDay: 0,
-      color: ''
+      color: "",
+      colorClass: ""
     },
     {
-      title: 'The Flash Tutorial',
-      projectName: 'CASD Wilson & Lamberton Middle Schools',
-      type: 'General',
-      completed: '70%',
-      dueDate: new Date('2019/11/29'),
+      title: "The Flash Tutorial",
+      projectName: "CASD Wilson & Lamberton Middle Schools",
+      type: "General",
+      completed: "70",
+      dueDate: new Date("2019/12/29"),
       dueDay: 0,
-      color: ''
+      color: "",
+      colorClass: ""
     },
     {
-      title: 'Cleaning and Organising Your Computer',
-      projectName: 'CASD Wilson & Lamberton Middle Schools',
-      type: 'Clash',
-      completed: '0%',
-      dueDate: new Date('2019/11/15'),
+      title: "Cleaning and Organising Your Computer",
+      projectName: "CASD Wilson & Lamberton Middle Schools",
+      type: "Clash",
+      completed: "0",
+      dueDate: new Date("2019/11/15"),
       dueDay: 0,
-      color: ''
+      color: "",
+      colorClass: ""
     },
     {
-      title: 'Android - UI Automation Test',
-      projectName: 'CASD Wilson & Lamberton Middle Schools',
-      type: 'General',
-      completed: '80%',
-      dueDate: new Date('2019/11/25'),
+      title: "Android - UI Automation Test",
+      projectName: "CASD Wilson & Lamberton Middle Schools",
+      type: "General",
+      completed: "80",
+      dueDate: new Date("2019/11/11"),
       dueDay: 0,
-      color: ''
+      color: "",
+      colorClass: ""
     },
     {
-      title: 'The Flash Tutorial',
-      projectName: 'CASD Wilson & Lamberton Middle Schools',
-      type: 'General',
-      completed: '70%',
-      dueDate: new Date('2019/11/17'),
+      title: "The Flash Tutorial",
+      projectName: "CASD Wilson & Lamberton Middle Schools",
+      type: "General",
+      completed: "70",
+      dueDate: new Date("2019/11/13"),
       dueDay: 0,
-      color: ''
+      color: "",
+      colorClass: ""
     },
     {
-      title: 'Cleaning and Organising Your Computer',
-      projectName: 'CASD Wilson & Lamberton Middle Schools',
-      type: 'Clash',
-      completed: '0%',
-      dueDate: new Date('2019/11/14'),
+      title: "Cleaning and Organising Your Computer",
+      projectName: "CASD Wilson & Lamberton Middle Schools",
+      type: "Clash",
+      completed: "0",
+      dueDate: new Date("2020/01/05"),
       dueDay: 0,
-      color: ''
+      color: "",
+      colorClass: ""
     }
   ];
-
-  passTableData() {
-    return this.tableData;
-  }
 
   getAllTasks(): Observable<ActionTasksElement[]> {
     return new Observable(observer => {
@@ -89,12 +91,11 @@ export class TasksService {
     // getting current date
     const currentDate = new Date();
     // calculating "Days Left" based on current date and due date
-    for (let task of this.tableData) {
+    for (const task of this.tableData) {
       const dueDate = task.dueDate;
-      const diff = (dueDate as Date).getDate() - (currentDate as Date).getDate();
-      task.dueDay = diff;
-      // format date to dd/mm/yy
-      task.dueDate = (dueDate as Date).toLocaleDateString('en-GB') as String;
+      const diffInMoths = (dueDate as Date).getTime() - (currentDate as Date).getTime();
+      const diffInDays = Math.round(diffInMoths / (1000 * 3600 * 24));
+      task.dueDay = diffInDays;
     }
   }
 }

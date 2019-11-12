@@ -23,8 +23,7 @@
     <div class="flex-table row" role="rowgroup" *ngFor="let t of dataSource">
         <div class="flex-row body-cell first" role="cell">
             <div class="title-container" id="circle-container">
-                <!-- [style.color]="color" added to change the value in the .ts file -->
-                <i class="fa fa-circle" id="circle" style="font-size: 10px;" [style.color]="color"></i>
+                <i class="fa fa-circle" [ngClass]="t.colorClass | circleColor"></i>
             </div>
             <div class="title-container">
                 <p class="action-item-name">{{ t.title }}</p>
@@ -32,8 +31,8 @@
             </div>
         </div>
         <div class="flex-row body-cell" role="cell">{{ t.type }}</div>
-        <div class="flex-row body-cell" role="cell">{{ t.completed }}</div>
-        <div class="flex-row body-cell" role="cell">{{ t.dueDate }}</div>
+        <div class="flex-row body-cell" role="cell">{{ t.completed }}%</div>
+        <div class="flex-row body-cell" role="cell">{{ t.dueDate | date: 'dd/MM/yyyy' }}</div>
         <div class="flex-row body-cell" role="cell">{{ t.dueDay }}</div>
     </div>
 </div>
