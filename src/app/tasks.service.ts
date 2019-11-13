@@ -65,16 +65,4 @@ export class TasksService {
       }, 1000);
     });
   }
-
-  // getCurrentDate() {
-  //   // getting current date
-  //   const currentDate = new Date();
-  //   // calculating "Days Left" based on current date and due date
-  //   for (const task of this.tableData) {
-  //     const dueDate = task.dueDate;
-  //     const diffInMoths = dueDate.getTime() - currentDate.getTime();
-  //     const diffInDays = Math.round(diffInMoths / (1000 * 3600 * 24));
-  //     task.dueDay = diffInDays;
-  //   }
-  // }
 }

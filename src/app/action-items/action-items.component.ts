@@ -17,21 +17,19 @@ export class ActionItemsComponent implements OnInit {
       .getAllTasks()
       .pipe(
         map(items => {
-          for (const obj of items) {
+          Object.keys(items).map((key, index) => {
             const currentDate = new Date();
-            const dueDate = obj.dueDate;
+            const dueDate = items[key].dueDate;
             const diffInMoths = dueDate.getTime() - currentDate.getTime();
             const diffInDays = Math.round(diffInMoths / (1000 * 3600 * 24));
-            Object.defineProperty(obj, "dueDay", { value: diffInDays });
-            console.log(items);
-            console.log(obj.dueDay);
-          }
+            items[key].dueDay = diffInDays;
+          });
+          return items;
         })
       )
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.loading = false;
-        // this.tasksService.getCurrentDate();
       });
   }
 }
