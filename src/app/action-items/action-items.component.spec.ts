@@ -1,5 +1,5 @@
+import { CircleColorPipe } from "./../circle-color.pipe";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { ActionItemsComponent } from "./action-items.component";
 
 describe("ActionItemsComponent", () => {
@@ -8,9 +8,8 @@ describe("ActionItemsComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActionItemsComponent ]
-    })
-    .compileComponents();
+      declarations: [ActionItemsComponent, CircleColorPipe]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
