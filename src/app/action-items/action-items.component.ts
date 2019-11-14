@@ -1,3 +1,4 @@
+import { DateCountService } from "./../date-count.service";
 import { TasksService } from "./../tasks.service";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { map } from "rxjs/operators";
@@ -11,20 +12,19 @@ export class ActionItemsComponent implements OnInit {
   dataSource;
   loading = true;
   displayedColumns: string[] = ["title", "type", "completed", "dueDate", "daysLeft"];
-  constructor(private tasksService: TasksService) {}
+  constructor(private tasksService: TasksService, private dateCountService: DateCountService) {}
   ngOnInit() {
     this.tasksService
       .getAllTasks()
       .pipe(
         map(items => {
-          Object.keys(items).map((key, index) => {
-            const currentDate = new Date();
-            const dueDate = items[key].dueDate;
-            const diffInMoths = dueDate.getTime() - currentDate.getTime();
-            const diffInDays = Math.round(diffInMoths / (1000 * 3600 * 24));
-            items[key].dueDay = diffInDays;
+          items.map(item => {
+            const dueDayCounted = this.dateCountService.countDate(item.dueDate);
+            const newItem = { ...item, dueDay: dueDayCounted };
+            // objects now have a new property dueDay with a value calculated in the dateCountService
+            console.log(newItem);
+            return item;
           });
-          return items;
         })
       )
       .subscribe(tasks => {
