@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TasksService, ActionTasksElement } from './tasks.service';
 
 @Pipe({
   name: 'circleColor'
