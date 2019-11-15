@@ -19,7 +19,7 @@ export class TasksService {
       projectName: "CASD Wilson & Lamberton Middle Schools",
       type: "General",
       completed: "80",
-      dueDate: new Date("2019/11/08")
+      dueDate: new Date("2019/11/17")
     },
     {
       title: "The Flash Tutorial",
@@ -47,7 +47,7 @@ export class TasksService {
       projectName: "CASD Wilson & Lamberton Middle Schools",
       type: "General",
       completed: "70",
-      dueDate: new Date("2019/11/13")
+      dueDate: new Date("2019/11/16")
     },
     {
       title: "Cleaning and Organising Your Computer",

@@ -18,13 +18,13 @@ export class ActionItemsComponent implements OnInit {
       .getAllTasks()
       .pipe(
         map(items => {
+          const tasksArray = [];
           items.map(item => {
             const dueDayCounted = this.dateCountService.countDate(item.dueDate);
             const newItem = { ...item, dueDay: dueDayCounted };
-            // objects now have a new property dueDay with a value calculated in the dateCountService
-            console.log(newItem);
-            return item;
+            tasksArray.push(newItem);
           });
+          return tasksArray;
         })
       )
       .subscribe(tasks => {
