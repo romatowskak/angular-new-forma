@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NavbarComponent } from './navbar.component';
 
 describe('NavbarComponent', () => {
@@ -21,4 +20,12 @@ describe('NavbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render navbar title in a "p" tag', async(() => {
+    const title = 'All Projects';
+    const compiled = fixture.nativeElement;
+    const titleParagraph = compiled.querySelector('p');
+    fixture.detectChanges();
+    expect(titleParagraph.textContent).toContain(title);
+  }));
 });
