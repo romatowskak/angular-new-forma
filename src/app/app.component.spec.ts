@@ -1,4 +1,4 @@
-import { CircleColorPipe } from './circle-color.pipe';
+import { CircleColorPipe } from './pipes/circle-color.pipe';
 import { ActionItemsComponent } from './action-items/action-items.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TestBed, async } from '@angular/core/testing';

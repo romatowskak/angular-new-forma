@@ -9,21 +9,23 @@ describe('TasksService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getAllTasks() should return data', () => {
+  it('getAllTasks() should return data', done => {
     const service: TasksService = TestBed.get(TasksService);
     service.getAllTasks().subscribe(res => {
-      expect(typeof res).toBe('!null');
+      expect(typeof res).toEqual('object');
+      done();
     });
   });
 
-  it('getAllTasks() should return 6 objects', () => {
+  it('getAllTasks() should return 6 objects', done => {
     const service: TasksService = TestBed.get(TasksService);
     service.getAllTasks().subscribe(res => {
       expect(res.length).toEqual(6);
+      done();
     });
   });
 
-  it('should return tableDataItem', () => {
+  it('should return tableDataItem', done => {
     const service: TasksService = TestBed.get(TasksService);
     const tableItem = {
       title: 'Android - UI Automation Test',
@@ -34,7 +36,8 @@ describe('TasksService', () => {
     };
 
     service.getAllTasks().subscribe(res => {
-      expect(res[0]).toBe(tableItem);
+      expect(res[0]).toEqual(tableItem);
+      done();
     });
   });
 });

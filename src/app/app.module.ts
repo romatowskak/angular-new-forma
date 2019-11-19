@@ -2,11 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TasksService } from './tasks.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ActionItemsComponent } from './action-items/action-items.component';
-import { CircleColorPipe } from './circle-color.pipe';
-import { DaysLeftToDeadlineService } from './days-left-to-deadline.service';
+import { TasksService } from './services/tasks.service';
+import { DaysLeftToDeadlineService } from './services/days-left-to-deadline.service';
+import { CircleColorPipe } from './pipes/circle-color.pipe';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe],

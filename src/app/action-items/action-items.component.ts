@@ -1,7 +1,7 @@
-import { TasksService } from './../tasks.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { DaysLeftToDeadlineService } from '../days-left-to-deadline.service';
+import { TasksService } from '../services/tasks.service';
+import { DaysLeftToDeadlineService } from '../services/days-left-to-deadline.service';
 
 @Component({
   selector: 'app-action-items',
