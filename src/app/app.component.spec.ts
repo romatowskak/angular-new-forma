@@ -1,9 +1,9 @@
-import { CircleColorPipe } from './pipes/circle-color.pipe';
 import { ActionItemsComponent } from './action-items/action-items.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

@@ -1,7 +1,8 @@
+import { ActionTasksElement } from '../services/tasksService/tasks.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { TasksService } from '../services/tasks.service';
-import { DaysLeftToDeadlineService } from '../services/days-left-to-deadline.service';
+import { TasksService } from '../services/tasksService/tasks.service';
+import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 
 @Component({
   selector: 'app-action-items',
@@ -9,11 +10,13 @@ import { DaysLeftToDeadlineService } from '../services/days-left-to-deadline.ser
   styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit {
-  dataSource;
+  dataSource: ActionTasksElement[];
   loading = true;
-  displayedColumns: string[] = ['title', 'type', 'completed', 'dueDate', 'daysLeft'];
   constructor(private tasksService: TasksService, private daysCountService: DaysLeftToDeadlineService) {}
   ngOnInit() {
+    this.getTasks();
+  }
+  getTasks() {
     this.tasksService
       .getAllTasks()
       .pipe(

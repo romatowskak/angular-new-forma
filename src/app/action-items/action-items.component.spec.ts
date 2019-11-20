@@ -1,13 +1,13 @@
-import { TasksService } from './../services/tasks.service';
-import { CircleColorPipe } from '../pipes/circle-color.pipe';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActionItemsComponent } from './action-items.component';
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { TasksService, ActionTasksElement } from '../services/tasksService/tasks.service';
+import { ActionItemsComponent } from './action-items.component';
+import { CircleColorPipe } from '../pipes/circleColorPipe/circle-color.pipe';
 
 describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
   let fixture: ComponentFixture<ActionItemsComponent>;
-  let tableData;
+  let tasksService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,15 +17,7 @@ describe('ActionItemsComponent', () => {
   }));
 
   beforeEach(() => {
-    tableData = [
-      {
-        title: 'Android - UI Automation Test',
-        projectName: 'CASD Wilson & Lamberton Middle Schools',
-        type: 'General',
-        completed: '80',
-        dueDate: new Date('2019/11/17')
-      }
-    ];
+    tasksService = TestBed.get(TasksService);
     fixture = TestBed.createComponent(ActionItemsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -35,42 +27,38 @@ describe('ActionItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should stop loading and render the view after 1s', done => {
-    component.loading = true;
+  it('should return an array with 1 object', async(() => {
+    const response: ActionTasksElement[] = [];
+    spyOn(tasksService, 'getAllTasks').and.returnValue(of(response));
+    component.getTasks();
     component.ngOnInit();
+    expect(typeof component.dataSource).toBe(typeof response);
+  }));
+
+  it('should call getUsers and return list of users', async(() => {
+    const response: ActionTasksElement[] = [];
+    spyOn(tasksService, 'getAllTasks').and.returnValue(of(response));
+    component.getTasks();
+    component.ngOnInit();
+    expect(component.dataSource).toEqual(response);
+  }));
+
+  it('should not return an empty array', async(() => {
+    const response: ActionTasksElement[] = [];
+    spyOn(tasksService, 'getAllTasks').and.returnValue(of(response));
+    component.getTasks();
+    component.ngOnInit();
+    expect(component.dataSource.length).not.toBeNull();
+  }));
+
+  it('should have the initial value of loading=true;', () => {
+    expect(component.loading).toBe(true);
+  });
+
+  it('should stop loading after 1s', done => {
     setTimeout(() => {
       expect(component.loading).toBe(false);
       done();
     }, 1000);
-  });
-
-  it('should return an array with 1 object', () => {
-    const tasksService = new TasksService();
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(tableData));
-    tasksService.getAllTasks();
-    expect(tableData.length).toBe(1);
-  });
-
-  it('type of returned data should be an object', done => {
-    const tasksService = new TasksService();
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(tableData));
-    component.dataSource = tableData;
-    fixture.detectChanges();
-    expect(typeof component.dataSource).toBe('object');
-    done();
-  });
-
-  it('should return array of objects', done => {
-    const tasksService = new TasksService();
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(tableData));
-    component.dataSource = [];
-    component.ngOnInit();
-    expect(component.dataSource.length).not.toBeNull();
-    done();
-  });
-
-  it('should have the initial value of loading=true;', () => {
-    const loading = component.loading;
-    expect(loading).toBe(true);
   });
 });
