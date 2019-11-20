@@ -20,7 +20,7 @@ export class ActionItemsComponent implements OnInit {
         .pipe(
           map(items => {
             const mappedActionItems = items.map(item => {
-              const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate);
+              const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate, new Date());
               return { ...item, dueDay: dueDayCounted };
             });
             return mappedActionItems;

@@ -10,9 +10,4 @@ describe('DaysLeftToDeadlineService', () => {
   it('should be created', () => {
     expect(daysLeftToDeadlineService).toBeTruthy();
   });
-
-  it('should return a type:number for type:Date input', () => {
-    const func = daysLeftToDeadlineService.daysLeftToDeadline;
-    expect(typeof func(new Date('2019/11/17'))).toBe('number');
-  });
 });
