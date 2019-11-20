@@ -27,26 +27,9 @@ describe('ActionItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return an array with 1 object', async(() => {
-    const response: ActionTasksElement[] = [];
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(response));
-    component.getTasks();
-    component.ngOnInit();
-    expect(typeof component.dataSource).toBe(typeof response);
-  }));
-
-  it('should call getUsers and return list of users', async(() => {
-    const response: ActionTasksElement[] = [];
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(response));
-    component.getTasks();
-    component.ngOnInit();
-    expect(component.dataSource).toEqual(response);
-  }));
-
   it('should not return an empty array', async(() => {
-    const response: ActionTasksElement[] = [];
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(response));
-    component.getTasks();
+    const emptyTasks: ActionTasksElement[] = [];
+    spyOn(tasksService, 'getAllTasks').and.returnValue(of(emptyTasks));
     component.ngOnInit();
     expect(component.dataSource.length).not.toBeNull();
   }));
