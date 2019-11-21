@@ -66,7 +66,6 @@ describe('ActionItemsComponent', () => {
       return 3;
     });
     component.ngOnInit();
-    expect(Object.keys(component.dataSource[0])).toContain('dueDay');
     expect(component.dataSource[0].dueDay).toEqual(3);
   });
 });
