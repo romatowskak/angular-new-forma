@@ -1,14 +1,13 @@
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { TasksService, ActionTasksElement } from '../services/tasksService/tasks.service';
-import { ActionItemsComponent } from './action-items.component';
+import { ActionItemsComponent, ActionTasksElementMapped } from './action-items.component';
 import { CircleColorPipe } from '../pipes/circleColorPipe/circle-color.pipe';
-import { By } from 'selenium-webdriver';
 
 describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
   let fixture: ComponentFixture<ActionItemsComponent>;
-  let tasksService;
+  let tasksService: TasksService;
   let element;
 
   beforeEach(async(() => {
@@ -34,12 +33,18 @@ describe('ActionItemsComponent', () => {
     expect(component.loading).toBe(true);
   });
 
-  it('should stop loading after 1s and should not return an empty array', done => {
+  it('should stop loading after 1s ', () => {
     const emptyTasks: ActionTasksElement[] = [];
     spyOn(tasksService, 'getAllTasks').and.returnValue(of(emptyTasks));
     component.ngOnInit();
     expect(component.loading).toBe(false);
-    expect(component.dataSource.length).not.toBeNull();
-    done();
+  });
+
+  it('should return a mapped array', () => {
+    const actionItemsBeforeMapping: ActionTasksElement[] = [];
+    const actionItemsMapped: ActionTasksElementMapped[] = [];
+    spyOn(tasksService, 'getAllTasks').and.returnValue(of(actionItemsBeforeMapping));
+    component.ngOnInit();
+    expect(component.dataSource).toEqual(actionItemsMapped);
   });
 });

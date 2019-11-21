@@ -1,8 +1,12 @@
-import { ActionTasksElement } from '../services/tasksService/tasks.service';
+import { ActionTasksElement } from './../services/tasksService/tasks.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { TasksService } from '../services/tasksService/tasks.service';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
+
+export interface ActionTasksElementMapped extends ActionTasksElement {
+  dueDay: number;
+}
 
 @Component({
   selector: 'app-action-items',
@@ -10,7 +14,7 @@ import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService
   styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit {
-  dataSource: ActionTasksElement[];
+  dataSource: ActionTasksElementMapped[];
   loading = true;
   constructor(private tasksService: TasksService, private daysCountService: DaysLeftToDeadlineService) {}
   ngOnInit() {
