@@ -62,10 +62,10 @@ describe('ActionItemsComponent', () => {
       }
     ];
     spyOn(tasksService, 'getAllTasks').and.returnValue(of(actionItemsBeforeMapping));
-    spyOn(daysLeftToDeadlineService, 'daysLeftToDeadline').and.callFake(() => {
-      return 3;
-    });
+    spyOn(daysLeftToDeadlineService, 'daysLeftToDeadline').and.returnValue(3);
     component.ngOnInit();
+    expect(component.dataSource.length).toBeGreaterThanOrEqual(0);
+    expect(component.dataSource.length).toBe(1);
     expect(component.dataSource[0].dueDay).toEqual(3);
   });
 });
