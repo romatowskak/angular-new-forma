@@ -18,22 +18,21 @@ export class ActionItemsComponent implements OnInit {
   loading = true;
   constructor(private tasksService: TasksService, private daysCountService: DaysLeftToDeadlineService) {}
   ngOnInit() {
-    {
-      this.tasksService
-        .getAllTasks()
-        .pipe(
-          map(items => {
-            const mappedActionItems = items.map(item => {
-              const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate, new Date());
-              return { ...item, dueDay: dueDayCounted };
-            });
-            return mappedActionItems;
-          })
-        )
-        .subscribe(tasks => {
-          this.dataSource = tasks;
-          this.loading = false;
-        });
-    }
+    this.tasksService
+      .getAllTasks()
+      .pipe(
+        map(items => {
+          const mappedActionItems = items.map(item => {
+            const newDate = new Date();
+            const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate, newDate);
+            return { ...item, dueDay: dueDayCounted };
+          });
+          return mappedActionItems;
+        })
+      )
+      .subscribe(tasks => {
+        this.dataSource = tasks;
+        this.loading = false;
+      });
   }
 }

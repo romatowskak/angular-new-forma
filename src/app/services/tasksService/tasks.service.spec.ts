@@ -25,7 +25,7 @@ describe('TasksService', () => {
     });
   });
 
-  it('should return tableDataItem', () => {
+  it('should return tableDataItem', done => {
     const tableItem = {
       title: 'Android - UI Automation Test',
       projectName: 'CASD Wilson & Lamberton Middle Schools',
@@ -35,6 +35,7 @@ describe('TasksService', () => {
     };
     tasksService.getAllTasks().subscribe(res => {
       expect(res[0]).toEqual(tableItem);
+      done();
     });
   });
 });

@@ -21,7 +21,7 @@ describe('DaysLeftToDeadlineService', () => {
     expect(diff).toBeGreaterThan(31);
   });
 
-  it('should calculate correctly difference between dates if there are different months', () => {
+  it('should calculate correctly difference between dates if there are different years', () => {
     const diff = daysLeftToDeadlineService.daysLeftToDeadline(new Date('2020/10/05'), new Date('2019/08/10'));
     expect(diff).toBeGreaterThan(365);
   });

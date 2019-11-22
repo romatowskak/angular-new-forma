@@ -1,3 +1,7 @@
+* {
+    font-family: Roboto;
+}
+
 html,
 body {
     height: 100%;
@@ -5,6 +9,5 @@ body {
 
 body {
     margin: 0;
-    font-family: Roboto;
     background-color: #dde4ec;
 }
