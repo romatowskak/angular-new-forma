@@ -1,0 +1,43 @@
+* {
+    font-size: 13px;
+    font-weight: normal;
+    color: #979797;
+}
+
+mat-form-field {
+    width: 95%;
+}
+
+.container {
+    position: relative;
+}
+
+.datePicker {
+    width: 30%;
+}
+
+.dialogTitle {
+    color: #003c4d;
+    font-size: 18px;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mat-raised-button {
+    text-transform: uppercase;
+    border: none;
+    box-shadow: none;
+    width: 70px;
+    line-height: 25px;
+    border-radius: 1px;
+    font-size: 10px;
+}
+
+.mat-raised-button:hover:enabled {
+    background-color: #ddd4d4;
+    color: white;
+}
