@@ -36,7 +36,7 @@ describe('ActionItemsComponent', () => {
     expect(component.loading).toBe(true);
   });
 
-  it('should stop loading after 1s ', () => {
+  it('should change the value of "loading" and show the view', () => {
     const emptyTasks: ActionTasksElement[] = [];
     spyOn(tasksService, 'getAllTasks').and.returnValue(of(emptyTasks));
     component.ngOnInit();
@@ -64,7 +64,6 @@ describe('ActionItemsComponent', () => {
     spyOn(tasksService, 'getAllTasks').and.returnValue(of(actionItemsBeforeMapping));
     spyOn(daysLeftToDeadlineService, 'daysLeftToDeadline').and.returnValue(3);
     component.ngOnInit();
-    expect(component.dataSource.length).toBeGreaterThanOrEqual(0);
     expect(component.dataSource.length).toBe(1);
     expect(component.dataSource[0].dueDay).toEqual(3);
   });

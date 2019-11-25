@@ -16,6 +16,7 @@ export interface ActionTasksElementMapped extends ActionTasksElement {
 export class ActionItemsComponent implements OnInit {
   dataSource: ActionTasksElementMapped[];
   loading = true;
+  currentDate = new Date();
   constructor(private tasksService: TasksService, private daysCountService: DaysLeftToDeadlineService) {}
   ngOnInit() {
     this.tasksService
@@ -23,8 +24,7 @@ export class ActionItemsComponent implements OnInit {
       .pipe(
         map(items => {
           const mappedActionItems = items.map(item => {
-            const newDate = new Date();
-            const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate, newDate);
+            const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate, this.currentDate);
             return { ...item, dueDay: dueDayCounted };
           });
           return mappedActionItems;
