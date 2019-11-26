@@ -9,7 +9,7 @@ import { DaysLeftToDeadlineService } from './services/daysLeftToDeadlineService/
 import { TasksService } from './services/tasksService/tasks.service';
 import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
 import { AddItemComponent } from './add-item/add-item.component';
-import { FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule, MatInputModule, MatNativeDateModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,7 +20,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     MatDialogModule,
     NoopAnimationsModule,
     MatFormFieldModule,

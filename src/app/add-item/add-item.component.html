@@ -1,28 +1,29 @@
 <div class="container">
     <h2 class="dialogTitle" mat-dialog-title>{{ title }}</h2>
-    <mat-dialog-content [formGroup]="dialogForm" (ngSubmit)="onSubmit(dialogForm)">
+    <mat-dialog-content [formGroup]="dialogForm" (ngSubmit)="createItem(dialogForm)">
         <mat-form-field>
-            <input matInput [(ngModel)]="name" placeholder="Action Item Name" formControlName="name" required />
+            <input matInput placeholder="Action Item Name" formControlName="name" />
         </mat-form-field>
         <mat-form-field>
             <mat-label>Project</mat-label>
-            <mat-select [formControl]="projectControl" required>
+            <mat-select  formControlName="project">
+                <mat-option></mat-option>
                 <mat-option *ngFor="let project of projects" [value]="project">
                     {{ project.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="datePicker">
-            <input matInput [matDatepicker]="picker" placeholder="Due date" />
+            <input matInput [matDatepicker]="picker" placeholder="Due date" formControlName="dueDate" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="description">
-            <textarea matInput placeholder="Description"></textarea>
+            <textarea matInput placeholder="Description" formControlName="description"></textarea>
         </mat-form-field>
     </mat-dialog-content>
 </div>
 <mat-dialog-actions class="buttons">
     <button class="mat-raised-button" (click)="close()">Close</button>
-    <button type="submit" class="mat-raised-button" [disabled]="dialogForm.invalid">Create</button>
+    <button type="submit" class="mat-raised-button" [disabled]="dialogForm.invalid" (click)="createItem()">Create</button>
 </mat-dialog-actions>

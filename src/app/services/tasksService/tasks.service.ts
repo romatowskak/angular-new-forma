@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface ActionTasksElement {
   title: string;
@@ -57,6 +57,7 @@ export class TasksService {
       dueDate: new Date('2020/01/05')
     }
   ];
+
   getAllTasks(): Observable<ActionTasksElement[]> {
     return new Observable(observer => {
       setTimeout(() => {
