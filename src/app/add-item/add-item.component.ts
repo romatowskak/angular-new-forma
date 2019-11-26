@@ -1,6 +1,7 @@
+import { DialogProjectsService, DialogProject } from './../services/dialogProjects/dialog-projects.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-add-item',
@@ -10,10 +11,15 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 export class AddItemComponent implements OnInit {
   dialogForm: FormGroup;
   title = 'Create Action Item';
-  projects = [{ name: 'project name' }];
+  projects: DialogProject[];
 
-  constructor(public dialogRef: MatDialogRef<AddItemComponent>, private formBuilder: FormBuilder) {}
+  constructor(
+    public dialogRef: MatDialogRef<AddItemComponent>,
+    private formBuilder: FormBuilder,
+    private dialogProjects: DialogProjectsService
+  ) {}
   ngOnInit() {
+    this.dialogProjects.getProjectsNames().subscribe(projects => (this.projects = projects));
     this.dialogForm = this.formBuilder.group({
       name: ['', Validators.required],
       project: ['', Validators.required],

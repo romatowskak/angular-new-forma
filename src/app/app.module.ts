@@ -1,3 +1,4 @@
+import { DialogProjectsService } from './services/dialogProjects/dialog-projects.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -29,7 +30,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatNativeDateModule,
     ReactiveFormsModule
   ],
-  providers: [TasksService, DaysLeftToDeadlineService],
+  providers: [TasksService, DaysLeftToDeadlineService, DialogProjectsService],
   bootstrap: [AppComponent],
   entryComponents: [AddItemComponent]
 })
