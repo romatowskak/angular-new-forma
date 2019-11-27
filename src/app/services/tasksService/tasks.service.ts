@@ -1,5 +1,6 @@
+import { ActionItemsComponent } from './../../action-items/action-items.component';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 export interface ActionTasksElement {
   title: string;
@@ -57,6 +58,14 @@ export class TasksService {
       dueDate: new Date('2020/01/05')
     }
   ];
+
+  private customSubject = new Subject<any>();
+  customObservable = this.customSubject.asObservable();
+
+  updateTableData(item) {
+    this.tableData.push(item);
+    this.customSubject.next();
+  }
 
   getAllTasks(): Observable<ActionTasksElement[]> {
     return new Observable(observer => {

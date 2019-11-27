@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { TasksService } from '../services/tasksService/tasks.service';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DialogProjectsService } from '../services/dialogProjects/dialog-projects.service';
 
 export interface ActionTasksElementMapped extends ActionTasksElement {
   dueDay: number;
@@ -18,12 +19,21 @@ export class ActionItemsComponent implements OnInit {
   dataSource: ActionTasksElementMapped[];
   loading = true;
   currentDate = new Date();
+
   constructor(
     private tasksService: TasksService,
     private daysCountService: DaysLeftToDeadlineService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private dialogProjects: DialogProjectsService
   ) {}
   ngOnInit() {
+    this.loadTasks();
+    this.tasksService.customObservable.subscribe(() => {
+      this.loadTasks();
+    });
+  }
+
+  loadTasks() {
     this.tasksService
       .getAllTasks()
       .pipe(
@@ -40,6 +50,7 @@ export class ActionItemsComponent implements OnInit {
         this.loading = false;
       });
   }
+
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = { width: '450px', height: '380px' };

@@ -1,12 +1,12 @@
 <div class="container">
     <h2 class="dialogTitle" mat-dialog-title>{{ title }}</h2>
-    <mat-dialog-content [formGroup]="dialogForm" (ngSubmit)="createItem(dialogForm)">
+    <mat-dialog-content [formGroup]="dialogForm" (ngSubmit)="createActionItem(dialogForm)">
         <mat-form-field>
             <input matInput placeholder="Action Item Name" formControlName="name" />
         </mat-form-field>
         <mat-form-field>
             <mat-label>Project</mat-label>
-            <mat-select  formControlName="project">
+            <mat-select formControlName="project">
                 <mat-option></mat-option>
                 <mat-option *ngFor="let project of projects" [value]="project">
                     {{ project.name }}
@@ -25,5 +25,5 @@
 </div>
 <mat-dialog-actions class="buttons">
     <button class="mat-raised-button" (click)="close()">Close</button>
-    <button type="submit" class="mat-raised-button" [disabled]="dialogForm.invalid" (click)="createItem()">Create</button>
+    <button type="submit" class="mat-raised-button" [disabled]="dialogForm.invalid" (click)="createActionItem()">Create</button>
 </mat-dialog-actions>
