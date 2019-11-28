@@ -7,7 +7,6 @@
         <mat-form-field>
             <mat-label>Project</mat-label>
             <mat-select formControlName="project">
-                <mat-option></mat-option>
                 <mat-option *ngFor="let project of projects" [value]="project">
                     {{ project.name }}
                 </mat-option>

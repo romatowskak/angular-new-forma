@@ -159,6 +159,19 @@
     display: inline;
 }
 
+.inner {
+    text-align: center;
+}
+
+.body-header {
+    text-align: center;
+}
+
+.body-header.first {
+    text-align: left;
+    padding-left: 30px;
+}
+
 .flex-row.body-cell.first {
     display: flex;
     align-items: center;
@@ -187,4 +200,3 @@
 .fa-circle {
     font-size: 10px;
 }
-

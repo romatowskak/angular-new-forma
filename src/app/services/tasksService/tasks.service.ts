@@ -58,15 +58,12 @@ export class TasksService {
       dueDate: new Date('2020/01/05')
     }
   ];
-
-  private customSubject = new Subject<any>();
-  customObservable = this.customSubject.asObservable();
-
-  updateTableData(item) {
+  private newActionItems = new Subject<any>();
+  updatedItemsList = this.newActionItems.asObservable();
+  addActionItem(item) {
     this.tableData.push(item);
-    this.customSubject.next();
+    this.newActionItems.next();
   }
-
   getAllTasks(): Observable<ActionTasksElement[]> {
     return new Observable(observer => {
       setTimeout(() => {
