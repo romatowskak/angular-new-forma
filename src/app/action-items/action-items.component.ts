@@ -42,7 +42,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           return mappedActionItems;
         })
       )
-      // first, map, mergemap, switchmap
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.loading = false;

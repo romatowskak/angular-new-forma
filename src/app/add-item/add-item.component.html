@@ -24,5 +24,5 @@
 </div>
 <mat-dialog-actions class="buttons">
     <button class="mat-raised-button" (click)="close()">Close</button>
-    <button class="mat-raised-button" (click)="createActionItem()">Create<span class="fa-button" *ngIf="buttonSpinner"><i class="fa fa-spinner fa-spin"></i></span></button>
+    <button class="mat-raised-button" [disabled]="dialogForm.invalid" (click)="createActionItem()">Create<span class="fa-button" *ngIf="buttonSpinner"><i class="fa fa-spinner fa-spin"></i></span></button>
 </mat-dialog-actions>
