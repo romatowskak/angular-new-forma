@@ -1,9 +1,11 @@
+import { AddItemComponent } from './../add-item/add-item.component';
 import { DaysLeftToDeadlineService } from './../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { TasksService, ActionTasksElement } from '../services/tasksService/tasks.service';
-import { ActionItemsComponent, ActionTasksElementMapped } from './action-items.component';
+import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
+import { ActionItemsComponent, ActionItemMapped } from './action-items.component';
 import { CircleColorPipe } from '../pipes/circleColorPipe/circle-color.pipe';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
 describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
@@ -14,8 +16,8 @@ describe('ActionItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ActionItemsComponent, CircleColorPipe],
-      providers: [TasksService]
+      declarations: [ActionItemsComponent, CircleColorPipe, AddItemComponent],
+      providers: [TasksService, MatDialog, MatDialogConfig]
     }).compileComponents();
   }));
 
@@ -37,16 +39,16 @@ describe('ActionItemsComponent', () => {
   });
 
   it('should change the value of "loading" and show the view', () => {
-    const emptyTasks: ActionTasksElement[] = [];
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(emptyTasks));
+    const emptyTasks: ActionItem[] = [];
+    spyOn(tasksService, 'getAllItems').and.returnValue(of(emptyTasks));
     component.ngOnInit();
     expect(component.loading).toBe(false);
   });
 
   it('for an empty array passed it should return an empty array as well', () => {
-    const actionItemsBeforeMapping: ActionTasksElement[] = [];
-    const actionItemsMapped: ActionTasksElementMapped[] = [];
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(actionItemsBeforeMapping));
+    const actionItemsBeforeMapping: ActionItem[] = [];
+    const actionItemsMapped: ActionItemMapped[] = [];
+    spyOn(tasksService, 'getAllItems').and.returnValue(of(actionItemsBeforeMapping));
     component.ngOnInit();
     expect(component.dataSource).toEqual(actionItemsMapped);
   });
@@ -61,7 +63,7 @@ describe('ActionItemsComponent', () => {
         dueDate: new Date('2019/12/19')
       }
     ];
-    spyOn(tasksService, 'getAllTasks').and.returnValue(of(actionItemsBeforeMapping));
+    spyOn(tasksService, 'getAllItems').and.returnValue(of(actionItemsBeforeMapping));
     spyOn(daysLeftToDeadlineService, 'daysLeftToDeadline').and.returnValue(3);
     component.ngOnInit();
     expect(component.dataSource.length).toBe(1);

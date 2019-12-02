@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
+import { Overlay } from '@angular/cdk/overlay';
 import { ActionItemsComponent } from './action-items/action-items.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TestBed, async } from '@angular/core/testing';
@@ -9,7 +11,8 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe]
+      declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe],
+      providers: [Overlay, MatDialog]
     }).compileComponents();
   }));
 

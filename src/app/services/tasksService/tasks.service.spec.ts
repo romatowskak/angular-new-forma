@@ -11,15 +11,15 @@ describe('TasksService', () => {
     expect(tasksService).toBeTruthy();
   });
 
-  it('getAllTasks() should return data', done => {
-    tasksService.getAllTasks().subscribe(res => {
+  it('getAllItems() should return data', done => {
+    tasksService.getAllItems().subscribe(res => {
       expect(typeof res).toEqual('object');
       done();
     });
   });
 
-  it('getAllTasks() should return 6 objects', done => {
-    tasksService.getAllTasks().subscribe(res => {
+  it('getAllItems() should return 6 objects', done => {
+    tasksService.getAllItems().subscribe(res => {
       expect(res.length).toEqual(6);
       done();
     });
@@ -33,7 +33,7 @@ describe('TasksService', () => {
       completed: '80',
       dueDate: new Date('2019/11/17')
     };
-    tasksService.getAllTasks().subscribe(res => {
+    tasksService.getAllItems().subscribe(res => {
       expect(res[0]).toEqual(tableItem);
       done();
     });

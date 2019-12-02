@@ -9,9 +9,9 @@ import { DaysLeftToDeadlineService } from './services/daysLeftToDeadlineService/
 import { TasksService } from './services/tasksService/tasks.service';
 import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
 import { AddItemComponent } from './add-item/add-item.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule, MatInputModule, MatNativeDateModule } from '@angular/material';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialogModule, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule, MatInputModule, MatLabel } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ProjectsService } from './services/projects/projects.service';
@@ -22,13 +22,18 @@ import { ProjectsService } from './services/projects/projects.service';
     BrowserModule,
     AppRoutingModule,
     MatDialogModule,
+    MatDialogContent,
     NoopAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule
+    MatLabel,
+    ReactiveFormsModule,
+    FormGroup,
+    FormBuilder,
+    MatDialogRef,
+    Validators
   ],
   providers: [TasksService, DaysLeftToDeadlineService, ProjectsService],
   bootstrap: [AppComponent],
