@@ -55,7 +55,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .open(AddItemComponent, dialogConfig.data)
       .afterClosed()
       .subscribe(item => {
-        console.log(item);
         if (item !== undefined) {
           this.retrieveActionItems();
         } else {
