@@ -1,16 +1,34 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddItemComponent } from './add-item.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('AddItemComponent', () => {
   let component: AddItemComponent;
   let fixture: ComponentFixture<AddItemComponent>;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddItemComponent],
-      imports: [MatDialogModule, ReactiveFormsModule]
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatNativeDateModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: {}
+        }
+      ]
     }).compileComponents();
   }));
 

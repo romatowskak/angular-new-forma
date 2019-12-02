@@ -5,7 +5,18 @@ import { of } from 'rxjs';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { ActionItemsComponent, ActionItemMapped } from './action-items.component';
 import { CircleColorPipe } from '../pipes/circleColorPipe/circle-color.pipe';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatInputModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatNativeDateModule,
+  MatDialogRef
+} from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
@@ -17,7 +28,23 @@ describe('ActionItemsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ActionItemsComponent, CircleColorPipe, AddItemComponent],
-      providers: [TasksService, MatDialog, MatDialogConfig]
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatNativeDateModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        TasksService,
+        {
+          provide: MatDialogRef,
+          useValue: {}
+        }
+      ]
     }).compileComponents();
   }));
 
