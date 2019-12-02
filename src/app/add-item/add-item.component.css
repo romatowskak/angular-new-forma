@@ -31,7 +31,7 @@ mat-form-field {
     text-transform: uppercase;
     border: none;
     box-shadow: none;
-    width: 70px;
+    width: 75px;
     line-height: 25px;
     border-radius: 1px;
     font-size: 10px;
@@ -41,4 +41,9 @@ mat-form-field {
 .mat-raised-button:hover:enabled {
     background-color: #ddd4d4;
     color: white;
+}
+
+.mat-raised-button span {
+    margin: 1px 2px;
+    padding: 1px 2px;
 }

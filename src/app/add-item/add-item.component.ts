@@ -1,9 +1,8 @@
-import { TasksService } from './../services/tasksService/tasks.service';
-import { Project, ProjectsService } from './../services/dialogProjects/dialog-projects.service';
+import { TasksService, ActionItem } from './../services/tasksService/tasks.service';
+import { Project, ProjectsService } from '../services/projects/projects.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { ActionTasksElement } from '../services/tasksService/tasks.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,7 +14,8 @@ export class AddItemComponent implements OnInit, OnDestroy {
   dialogForm: FormGroup;
   title = 'Create Action Item';
   projects: Project[];
-  newActionItems: ActionTasksElement[] = [];
+  newActionItems: ActionItem[] = [];
+  buttonSpinner = false;
   subscription: Subscription;
 
   constructor(
@@ -33,20 +33,23 @@ export class AddItemComponent implements OnInit, OnDestroy {
       description: ''
     });
   }
-  createActionItem() {
-    const projectName = this.dialogForm.get('project').value;
-    const newItem = {
+  createActionItem(): void {
+    const projectNameValue = this.dialogForm.get('project').value;
+    const dueDateValue = this.dialogForm.get('dueDate').value;
+    const newItem: ActionItem = {
       title: this.dialogForm.get('name').value,
-      projectName: projectName.name,
+      projectName: projectNameValue.name,
       type: 'General',
       completed: '60',
-      dueDate: this.dialogForm.get('dueDate').value
+      // !! ?
+      dueDate: !!dueDateValue ? dueDateValue : undefined
     };
-    this.tasksService.addActionItem(newItem);
-    this.close();
+    this.buttonSpinner = true;
+    this.dialogForm.disable();
+    this.tasksService.add(newItem).subscribe(() => this.close()); // first vs subscribe
   }
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(this.dialogForm.value);
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

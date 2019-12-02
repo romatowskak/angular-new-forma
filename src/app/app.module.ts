@@ -1,4 +1,3 @@
-import { ProjectsService } from './services/dialogProjects/dialog-projects.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -15,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule, MatInputModule, MatNativeDateModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ProjectsService } from './services/projects/projects.service';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe, AddItemComponent],

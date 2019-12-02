@@ -1,14 +1,13 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { ActionTasksElement } from './../services/tasksService/tasks.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { TasksService } from '../services/tasksService/tasks.service';
+import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
-export interface ActionTasksElementMapped extends ActionTasksElement {
-  dueDay: number;
+export interface ActionItemMapped extends ActionItem {
+  dueDay?: number;
 }
 @Component({
   selector: 'app-action-items',
@@ -16,9 +15,9 @@ export interface ActionTasksElementMapped extends ActionTasksElement {
   styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit, OnDestroy {
-  dataSource: ActionTasksElementMapped[];
-  loading = true;
-  currentDate = new Date();
+  dataSource: ActionItemMapped[];
+  loading = false;
+  currentDate: Date = new Date();
   subscription: Subscription;
   constructor(
     private tasksService: TasksService,
@@ -26,23 +25,24 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog
   ) {}
   ngOnInit() {
-    this.retrieveTasks();
-    this.subscription = this.tasksService.updatedItemsList.subscribe(() => {
-      this.retrieveTasks();
-    });
+    this.retrieveActionItems();
   }
-  retrieveTasks() {
+  retrieveActionItems() {
+    this.loading = true;
     this.tasksService
-      .getAllTasks()
+      .getAllItems()
       .pipe(
         map(items => {
-          const mappedActionItems = items.map(item => {
-            const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate, this.currentDate);
+          const mappedActionItems: ActionItemMapped[] = items.map(item => {
+            const dueDayCounted = item.dueDate
+              ? this.daysCountService.daysLeftToDeadline(item.dueDate, this.currentDate)
+              : undefined;
             return { ...item, dueDay: dueDayCounted };
           });
           return mappedActionItems;
         })
       )
+      // first, map, mergemap, switchmap
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.loading = false;
@@ -51,7 +51,16 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   openDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = { width: '450px', height: '380px' };
-    this.matDialog.open(AddItemComponent, dialogConfig.data);
+    this.matDialog
+      .open(AddItemComponent, dialogConfig.data)
+      .afterClosed()
+      .subscribe(item => {
+        if (item.name === '' && item.project === '' && item.dueDate === '' && item.description === '') {
+          return undefined;
+        } else {
+          this.retrieveActionItems();
+        }
+      });
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
