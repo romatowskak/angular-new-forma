@@ -57,9 +57,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(item => {
         if (item !== undefined) {
           this.retrieveActionItems();
-        } else {
-          return;
         }
+        return;
       });
   }
   ngOnDestroy() {
