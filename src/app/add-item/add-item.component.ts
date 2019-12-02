@@ -41,15 +41,14 @@ export class AddItemComponent implements OnInit, OnDestroy {
       projectName: projectNameValue.name,
       type: 'General',
       completed: '60',
-      // !! ?
       dueDate: !!dueDateValue ? dueDateValue : undefined
     };
     this.buttonSpinner = true;
     this.dialogForm.disable();
-    this.tasksService.add(newItem).subscribe(() => this.close()); // first vs subscribe
+    this.tasksService.add(newItem).subscribe(actionItem => this.close(actionItem));
   }
-  close() {
-    this.dialogRef.close(this.dialogForm.value);
+  close(actionItem: ActionItem) {
+    this.dialogRef.close(actionItem);
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
