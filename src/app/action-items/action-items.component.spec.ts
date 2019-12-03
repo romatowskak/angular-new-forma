@@ -17,6 +17,7 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 
 describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
@@ -95,5 +96,14 @@ describe('ActionItemsComponent', () => {
     component.ngOnInit();
     expect(component.dataSource.length).toBe(1);
     expect(component.dataSource[0].dueDay).toEqual(3);
+  });
+
+  it('dialog should be opened', () => {
+    spyOn(component, 'openDialog');
+    component.loading = false;
+    fixture.detectChanges();
+    const btn = fixture.debugElement.query(By.css('.add-item')).nativeElement;
+    btn.click();
+    expect(component.openDialog).toHaveBeenCalled();
   });
 });
