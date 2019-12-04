@@ -17,8 +17,8 @@ export interface ActionItemMapped extends ActionItem {
 export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
   loading = false;
-  currentDate: Date = new Date();
-  subscription: Subscription;
+  private currentDate: Date = new Date();
+  private subscription: Subscription;
   constructor(
     private tasksService: TasksService,
     private daysCountService: DaysLeftToDeadlineService,
@@ -29,7 +29,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
   retrieveActionItems() {
     this.loading = true;
-    this.tasksService
+    this.subscription = this.tasksService
       .getAllItems()
       .pipe(
         map(items => {
@@ -57,7 +57,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         if (item !== undefined) {
           this.retrieveActionItems();
         }
-        return;
       });
   }
   ngOnDestroy() {

@@ -16,7 +16,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
   projects: Project[];
   newActionItems: ActionItem[] = [];
   buttonSpinner = false;
-  subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<AddItemComponent>,

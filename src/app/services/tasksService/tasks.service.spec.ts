@@ -11,13 +11,6 @@ describe('TasksService', () => {
     expect(tasksService).toBeTruthy();
   });
 
-  it('getAllItems() should return data', done => {
-    tasksService.getAllItems().subscribe(res => {
-      expect(typeof res).toEqual('object');
-      done();
-    });
-  });
-
   it('getAllItems() should return 6 objects', done => {
     tasksService.getAllItems().subscribe(res => {
       expect(res.length).toEqual(6);

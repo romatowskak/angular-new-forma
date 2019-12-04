@@ -1,3 +1,4 @@
+import { MatDialogRef } from '@angular/material/dialog';
 import { AddItemComponent } from './../add-item/add-item.component';
 import { DaysLeftToDeadlineService } from './../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
@@ -12,8 +13,7 @@ import {
   MatSelectModule,
   MatDatepickerModule,
   MatDialogModule,
-  MatNativeDateModule,
-  MatDialogRef
+  MatNativeDateModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +25,7 @@ describe('ActionItemsComponent', () => {
   let tasksService: TasksService;
   let daysLeftToDeadlineService: DaysLeftToDeadlineService;
   let element;
+  let dialog: MatDialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

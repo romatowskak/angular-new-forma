@@ -1,21 +1,28 @@
+import { Project, ProjectsService } from './../services/projects/projects.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddItemComponent } from './add-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
+import { TasksService } from '../services/tasksService/tasks.service';
 import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { of } from 'rxjs';
 
 describe('AddItemComponent', () => {
   let component: AddItemComponent;
   let fixture: ComponentFixture<AddItemComponent>;
   let tasksService: TasksService;
+  let projectsService: ProjectsService;
   let nameField;
   let projectField;
+  let dueDateField;
+  let descriptionField;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddItemComponent],
@@ -32,7 +39,7 @@ describe('AddItemComponent', () => {
       providers: [
         {
           provide: MatDialogRef,
-          useValue: {}
+          useValue: { close: () => {} }
         }
       ]
     }).compileComponents();
@@ -40,11 +47,14 @@ describe('AddItemComponent', () => {
 
   beforeEach(() => {
     tasksService = TestBed.get(TasksService);
+    projectsService = TestBed.get(ProjectsService);
     fixture = TestBed.createComponent(AddItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     nameField = component.dialogForm.controls.name;
     projectField = component.dialogForm.controls.project;
+    dueDateField = component.dialogForm.controls.dueDate;
+    descriptionField = component.dialogForm.controls.description;
   });
 
   it('should create', () => {
@@ -105,5 +115,54 @@ describe('AddItemComponent', () => {
     projectField.setValue('test');
     fixture.detectChanges();
     expect(createButton.nativeElement.disabled).toBeFalsy();
+  });
+
+  it('on createActionItem() form disabled', () => {
+    expect(component.dialogForm.valid).toBeFalsy();
+    nameField.setValue('test name');
+    projectField.setValue('test project');
+    expect(component.dialogForm.valid).toBeTruthy();
+    component.createActionItem();
+    expect(nameField.enabled).toBe(false);
+    expect(projectField.enabled).toBe(false);
+    expect(dueDateField.enabled).toBe(false);
+    expect(descriptionField.enabled).toBe(false);
+  });
+
+  // it('createActionItem() should call close()', () => {
+  //   const spyObj = spyOn(component.dialogRef, 'close').and.callThrough();
+  //   component.createActionItem();
+  //   fixture.detectChanges();
+  //   expect(spyObj).toHaveBeenCalled();
+  // });
+
+  it('should call close() when close button clicked', () => {
+    spyOn(component, 'close');
+    const cancelButton: DebugElement = fixture.debugElement.query(By.css('.close'));
+    cancelButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    expect(component.close).toHaveBeenCalled();
+  });
+
+  it('should display spinner when createActionItem() called and deactivate it after 3s', done => {
+    component.createActionItem();
+    setTimeout(() => {
+      expect(component.buttonSpinner).toBe(true);
+      done();
+    }, 101);
+    setTimeout(() => {
+      expect(component.buttonSpinner).toBe(false);
+      done();
+    }, 3001);
+  });
+
+  it('should retrieve projects names from projectsService', done => {
+    const projectsNames: Project[] = [];
+    spyOn(projectsService, 'getProjectsNames').and.returnValue(of(projectsNames));
+    setTimeout(() => {
+      projectsService.getProjectsNames();
+      expect(component.projects.length).toBeGreaterThan(0);
+      done();
+    }, 3001);
   });
 });
