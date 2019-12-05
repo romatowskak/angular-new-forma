@@ -91,6 +91,8 @@
     text-transform: uppercase;
     padding: 10px;
     color: #979797;
+    position: sticky;
+    top: 0;
 }
 
 .flex-table.row {
@@ -175,10 +177,18 @@
 .flex-row.body-cell.first {
     display: flex;
     align-items: center;
+    width: 35%;
 }
 
 .title-container {
     margin: 0 10px;
+}
+
+.title {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .flex-cell {

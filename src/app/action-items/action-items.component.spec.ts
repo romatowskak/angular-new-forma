@@ -1,7 +1,7 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { AddItemComponent } from './../add-item/add-item.component';
 import { DaysLeftToDeadlineService } from './../services/daysLeftToDeadlineService/days-left-to-deadline.service';
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { ActionItemsComponent, ActionItemMapped } from './action-items.component';
@@ -25,7 +25,6 @@ describe('ActionItemsComponent', () => {
   let tasksService: TasksService;
   let daysLeftToDeadlineService: DaysLeftToDeadlineService;
   let element;
-  let dialog: MatDialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -64,14 +63,14 @@ describe('ActionItemsComponent', () => {
   });
 
   it('should have the initial value of loading=true;', () => {
-    expect(component.loading).toBe(true);
+    expect(component.isloadingActionItems).toBe(true);
   });
 
   it('should change the value of "loading" and show the view', () => {
     const emptyTasks: ActionItem[] = [];
     spyOn(tasksService, 'getAllItems').and.returnValue(of(emptyTasks));
     component.ngOnInit();
-    expect(component.loading).toBe(false);
+    expect(component.isloadingActionItems).toBe(false);
   });
 
   it('for an empty array passed it should return an empty array as well', () => {
@@ -101,7 +100,7 @@ describe('ActionItemsComponent', () => {
 
   it('dialog should be opened', () => {
     spyOn(component, 'openDialog');
-    component.loading = false;
+    component.isloadingActionItems = false;
     fixture.detectChanges();
     const btn = fixture.debugElement.query(By.css('.add-item')).nativeElement;
     btn.click();

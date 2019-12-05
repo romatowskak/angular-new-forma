@@ -1,5 +1,5 @@
 import { Project, ProjectsService } from './../services/projects/projects.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AddItemComponent } from './add-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +8,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TasksService } from '../services/tasksService/tasks.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { of } from 'rxjs';
@@ -16,7 +15,6 @@ import { of } from 'rxjs';
 describe('AddItemComponent', () => {
   let component: AddItemComponent;
   let fixture: ComponentFixture<AddItemComponent>;
-  let tasksService: TasksService;
   let projectsService: ProjectsService;
   let nameField;
   let projectField;
@@ -39,14 +37,13 @@ describe('AddItemComponent', () => {
       providers: [
         {
           provide: MatDialogRef,
-          useValue: { close: () => {} }
+          useValue: { close() {} }
         }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    tasksService = TestBed.get(TasksService);
     projectsService = TestBed.get(ProjectsService);
     fixture = TestBed.createComponent(AddItemComponent);
     component = fixture.componentInstance;
@@ -129,13 +126,6 @@ describe('AddItemComponent', () => {
     expect(descriptionField.enabled).toBe(false);
   });
 
-  // it('createActionItem() should call close()', () => {
-  //   const spyObj = spyOn(component.dialogRef, 'close').and.callThrough();
-  //   component.createActionItem();
-  //   fixture.detectChanges();
-  //   expect(spyObj).toHaveBeenCalled();
-  // });
-
   it('should call close() when close button clicked', () => {
     spyOn(component, 'close');
     const cancelButton: DebugElement = fixture.debugElement.query(By.css('.close'));
@@ -144,25 +134,22 @@ describe('AddItemComponent', () => {
     expect(component.close).toHaveBeenCalled();
   });
 
-  it('should display spinner when createActionItem() called and deactivate it after 3s', done => {
-    component.createActionItem();
+  it('spinner displayed on "createActionItem" should be deactivated after 1s when item added', fakeAsync(() => {
+    component.isCreatingActionItem = true;
     setTimeout(() => {
-      expect(component.buttonSpinner).toBe(true);
-      done();
-    }, 101);
-    setTimeout(() => {
-      expect(component.buttonSpinner).toBe(false);
-      done();
-    }, 3001);
-  });
+      component.isCreatingActionItem = false;
+    }, 1000);
+    expect(component.isCreatingActionItem).toBe(true);
+    tick(500);
+    expect(component.isCreatingActionItem).toBe(true);
+    tick(500);
+    expect(component.isCreatingActionItem).toBe(false);
+  }));
 
-  it('should retrieve projects names from projectsService', done => {
-    const projectsNames: Project[] = [];
+  it('should retrieve projects names from projectsService', () => {
+    const projectsNames: Project[] = [{ name: 'CASD Wilson & Lamberton Middle Schools' }];
     spyOn(projectsService, 'getProjectsNames').and.returnValue(of(projectsNames));
-    setTimeout(() => {
-      projectsService.getProjectsNames();
-      expect(component.projects.length).toBeGreaterThan(0);
-      done();
-    }, 3001);
+    component.ngOnInit();
+    expect(component.projects.length).toBeGreaterThan(0);
   });
 });

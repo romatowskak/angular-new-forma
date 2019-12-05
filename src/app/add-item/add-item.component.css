@@ -8,8 +8,17 @@ mat-form-field {
     width: 95%;
 }
 
+mat-dialog-content {
+    overflow-y: hidden;
+}
+
 .container {
     position: relative;
+}
+
+.invalid-feedback {
+    font-size: 12px;
+    color: #f44336;
 }
 
 .datePicker {

@@ -14,8 +14,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
   dialogForm: FormGroup;
   title = 'Create Action Item';
   projects: Project[];
-  newActionItems: ActionItem[] = [];
-  buttonSpinner = false;
+  isCreatingActionItem = false;
   private subscription: Subscription;
 
   constructor(
@@ -33,6 +32,9 @@ export class AddItemComponent implements OnInit, OnDestroy {
       description: ''
     });
   }
+  get formControls() {
+    return this.dialogForm.controls;
+  }
   createActionItem(): void {
     const projectNameValue = this.dialogForm.get('project').value;
     const dueDateValue = this.dialogForm.get('dueDate').value;
@@ -43,11 +45,11 @@ export class AddItemComponent implements OnInit, OnDestroy {
       completed: '60',
       dueDate: !!dueDateValue ? dueDateValue : undefined
     };
-    this.buttonSpinner = true;
+    this.isCreatingActionItem = true;
     this.dialogForm.disable();
     this.tasksService.add(newItem).subscribe(actionItem => this.close(actionItem));
   }
-  close(actionItem: ActionItem) {
+  close(actionItem?: ActionItem) {
     this.dialogRef.close(actionItem);
   }
   ngOnDestroy() {

@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
 }
+
 @Component({
   selector: 'app-action-items',
   templateUrl: './action-items.component.html',
@@ -16,7 +17,7 @@ export interface ActionItemMapped extends ActionItem {
 })
 export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
-  loading = false;
+  isloadingActionItems = false;
   private currentDate: Date = new Date();
   private subscription: Subscription;
   constructor(
@@ -28,7 +29,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.retrieveActionItems();
   }
   retrieveActionItems() {
-    this.loading = true;
+    this.isloadingActionItems = true;
     this.subscription = this.tasksService
       .getAllItems()
       .pipe(
@@ -44,12 +45,12 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       )
       .subscribe(tasks => {
         this.dataSource = tasks;
-        this.loading = false;
+        this.isloadingActionItems = false;
       });
   }
   openDialog() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = { width: '450px', height: '380px' };
+    dialogConfig.data = { width: '470px', height: '390px' };
     this.matDialog
       .open(AddItemComponent, dialogConfig.data)
       .afterClosed()

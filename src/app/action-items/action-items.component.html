@@ -1,7 +1,7 @@
-<div *ngIf="loading" class="spinner">
+<div *ngIf="isloadingActionItems" class="spinner">
     <i class="fa fa-spinner fa-spin"></i>
 </div>
-<div *ngIf="!loading" class="table-container" role="table" aria-label="Tasks">
+<div *ngIf="!isloadingActionItems" class="table-container" role="table" aria-label="Tasks">
     <div class="options">
         <div class="assigned-label">
             <div class="filter filter-opt">

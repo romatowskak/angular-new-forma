@@ -1,17 +1,22 @@
 <div class="container">
     <h2 class="dialogTitle" mat-dialog-title>{{ title }}</h2>
-    <mat-dialog-content [formGroup]="dialogForm" (ngSubmit)="createActionItem(dialogForm)">
+    <mat-dialog-content [formGroup]="dialogForm">
         <mat-form-field>
             <input matInput placeholder="Action Item Name" formControlName="name" />
         </mat-form-field>
+        <div *ngIf="formControls.name.errors && formControls.name.touched">
+            <div *ngIf="formControls.name.errors.required" class="invalid-feedback">Name is required.</div>
+        </div>
         <mat-form-field>
-            <mat-label>Project</mat-label>
-            <mat-select formControlName="project">
+            <mat-select formControlName="project" placeholder="Project">
                 <mat-option *ngFor="let project of projects" [value]="project">
                     {{ project.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <div *ngIf="formControls.project.errors && formControls.project.touched">
+            <div *ngIf="formControls.project.errors.required" class="invalid-feedback">Project is required.</div>
+        </div>
         <mat-form-field class="datePicker">
             <input matInput [matDatepicker]="picker" placeholder="Due date" formControlName="dueDate" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
