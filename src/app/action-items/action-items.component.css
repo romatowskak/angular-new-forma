@@ -1,11 +1,6 @@
-/* flex datatable */
-
 * {
     box-sizing: border-box;
 }
-
-
-/* color classes for circles next to action item title */
 
 .afterDeadline {
     color: #fc0800;
@@ -79,6 +74,13 @@
     margin: 0 auto;
 }
 
+.t-body {
+    margin-top: 3px;
+    height: 550px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .flex-table {
     display: flex;
     flex-flow: row no-wrap;
@@ -97,7 +99,7 @@
 
 .flex-table.row {
     background-color: #ffffff;
-    margin-top: 3px;
+    margin-bottom: 3px;
     padding: 5px 0;
     border-bottom: 2px solid transparent;
 }
@@ -117,7 +119,7 @@
 
 .flex-row.body-cell.first {
     font-size: 14px;
-    padding: 0 30px;
+    padding: 0 15px;
 }
 
 .arrow {
@@ -128,17 +130,18 @@
 .flex-row.body-header {
     font-size: 12px;
     color: #979797;
-    margin-left: 5px;
+    text-align: left;
 }
 
 .flex-row {
     width: calc(100% / 5);
     text-align: left;
-    padding: 10px 5px;
+    padding: 10px 0;
 }
 
-.first {
-    width: 35%;
+.flex-row.body-header.first {
+    width: 55%;
+    padding-right: 10px;
 }
 
 .rowspan {
@@ -161,12 +164,9 @@
     display: inline;
 }
 
-.inner {
-    text-align: center;
-}
-
 .body-header {
     text-align: center;
+    padding-right: 10px;
 }
 
 .body-header.first {
@@ -177,19 +177,20 @@
 .flex-row.body-cell.first {
     display: flex;
     align-items: center;
-    width: 35%;
+    width: 55%;
 }
 
 .title-container {
     margin: 0 10px;
 }
 
-.title {
+
+/* .title {
     width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+} */
 
 .flex-cell {
     width: calc(100% / 3);
@@ -209,4 +210,21 @@
 
 .fa-circle {
     font-size: 10px;
+}
+
+.t-body::-webkit-scrollbar-track {
+    background-color: #D0D0D0;
+}
+
+
+/* scrollbar */
+
+.t-body::-webkit-scrollbar {
+    width: 12px;
+    background-color: #D0D0D0;
+}
+
+.t-body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #686868;
 }

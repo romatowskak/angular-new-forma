@@ -10,29 +10,33 @@
             <button class="filter assigned">Assigned to me X</button>
         </div>
         <div class="new-item-button">
-            <button class="add-item" (click)="openDialog()">+ new action item</button>
+            <button class="add-item" (click)="openDialog()">+ create action item</button>
         </div>
     </div>
-    <div class="flex-table header" role="rowgroup">
-        <div class="flex-row body-header first" role="columnheader">Title</div>
-        <div class="flex-row body-header" role="columnheader">Type</div>
-        <div class="flex-row body-header" role="columnheader">Completed</div>
-        <div class="flex-row body-header" role="columnheader">Due Date</div>
-        <div class="flex-row body-header" role="columnheader">Days Left</div>
-    </div>
-    <div class="flex-table row" role="rowgroup" *ngFor="let t of dataSource">
-        <div class="flex-row body-cell first" role="cell">
-            <div class="title-container" id="circle-container">
-                <i class="fa fa-circle" [ngClass]="t.dueDay | circleColor"></i>
-            </div>
-            <div class="title-container">
-                <p class="action-item-name title">{{ t.title }}</p>
-                <p class="action-item-name project-name">{{ t.projectName }}</p>
-            </div>
+    <div class="t-head">
+        <div class="flex-table header" role="rowgroup">
+            <div class="flex-row body-header first" role="columnheader">Title</div>
+            <div class="flex-row body-header" role="columnheader">Type</div>
+            <div class="flex-row body-header" role="columnheader">Completed</div>
+            <div class="flex-row body-header" role="columnheader">Due Date</div>
+            <div class="flex-row body-header" role="columnheader">Days Left</div>
         </div>
-        <div class="flex-row body-cell inner" role="cell">{{ t.type }}</div>
-        <div class="flex-row body-cell inner" role="cell">{{ t.completed }}%</div>
-        <div class="flex-row body-cell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
-        <div class="flex-row body-cell inner" role="cell">{{ t.dueDay }}</div>
+    </div>
+    <div class="t-body">
+        <div class="flex-table row" role="rowgroup" *ngFor="let t of dataSource">
+            <div class="flex-row body-cell first" role="cell">
+                <div class="title-container" id="circle-container">
+                    <i class="fa fa-circle" [ngClass]="t.dueDay | circleColor"></i>
+                </div>
+                <div class="title-container">
+                    <p class="action-item-name title">{{ t.title }}</p>
+                    <p class="action-item-name project-name">{{ t.projectName }}</p>
+                </div>
+            </div>
+            <div class="flex-row body-cell inner" role="cell">{{ t.type }}</div>
+            <div class="flex-row body-cell inner" role="cell">{{ t.completed }}%</div>
+            <div class="flex-row body-cell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
+            <div class="flex-row body-cell inner" role="cell">{{ t.dueDay }}</div>
+        </div>
     </div>
 </div>

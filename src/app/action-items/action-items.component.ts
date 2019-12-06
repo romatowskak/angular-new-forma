@@ -50,7 +50,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
   openDialog() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = { width: '470px', height: '390px' };
+    dialogConfig.data = { width: '470px', height: 'auto' };
     this.matDialog
       .open(AddItemComponent, dialogConfig.data)
       .afterClosed()
@@ -58,6 +58,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         if (item !== undefined) {
           this.retrieveActionItems();
         }
+        this.isloadingActionItems = false;
       });
   }
   ngOnDestroy() {

@@ -9,8 +9,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { of } from 'rxjs';
+
+const dialogMock = {
+  close: () => {}
+};
 
 describe('AddItemComponent', () => {
   let component: AddItemComponent;
@@ -37,7 +40,7 @@ describe('AddItemComponent', () => {
       providers: [
         {
           provide: MatDialogRef,
-          useValue: { close() {} }
+          useValue: dialogMock
         }
       ]
     }).compileComponents();
@@ -126,23 +129,14 @@ describe('AddItemComponent', () => {
     expect(descriptionField.enabled).toBe(false);
   });
 
-  it('should call close() when close button clicked', () => {
-    spyOn(component, 'close');
-    const cancelButton: DebugElement = fixture.debugElement.query(By.css('.close'));
-    cancelButton.triggerEventHandler('click', null);
+  it('spinner displayed on "createActionItem()"', fakeAsync(() => {
+    component.isCreatingActionItem = false;
+    component.createActionItem();
+    tick();
     fixture.detectChanges();
-    expect(component.close).toHaveBeenCalled();
-  });
-
-  it('spinner displayed on "createActionItem" should be deactivated after 1s when item added', fakeAsync(() => {
-    component.isCreatingActionItem = true;
-    setTimeout(() => {
-      component.isCreatingActionItem = false;
-    }, 1000);
     expect(component.isCreatingActionItem).toBe(true);
-    tick(500);
-    expect(component.isCreatingActionItem).toBe(true);
-    tick(500);
+    tick(1000);
+    fixture.detectChanges();
     expect(component.isCreatingActionItem).toBe(false);
   }));
 
@@ -150,6 +144,22 @@ describe('AddItemComponent', () => {
     const projectsNames: Project[] = [{ name: 'CASD Wilson & Lamberton Middle Schools' }];
     spyOn(projectsService, 'getProjectsNames').and.returnValue(of(projectsNames));
     component.ngOnInit();
-    expect(component.projects.length).toBeGreaterThan(0);
+    expect(component.projects.length).toEqual(projectsNames.length);
   });
+
+  it('button active when nameField and projectField filled', () => {
+    const createButton = fixture.debugElement.query(By.css('.create'));
+    nameField.setValue('test');
+    projectField.setValue('test');
+    fixture.detectChanges();
+    expect(createButton.nativeElement.disabled).toBeFalsy();
+  });
+
+  it('"createActionItem()" should call "close()"', fakeAsync(() => {
+    const spyObj = spyOn(component.dialogRef, 'close');
+    component.createActionItem();
+    tick(1000);
+    fixture.detectChanges();
+    expect(spyObj).toHaveBeenCalled();
+  }));
 });

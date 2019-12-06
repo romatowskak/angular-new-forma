@@ -32,9 +32,6 @@ export class AddItemComponent implements OnInit, OnDestroy {
       description: ''
     });
   }
-  get formControls() {
-    return this.dialogForm.controls;
-  }
   createActionItem(): void {
     const projectNameValue = this.dialogForm.get('project').value;
     const dueDateValue = this.dialogForm.get('dueDate').value;
@@ -47,10 +44,10 @@ export class AddItemComponent implements OnInit, OnDestroy {
     };
     this.isCreatingActionItem = true;
     this.dialogForm.disable();
-    this.tasksService.add(newItem).subscribe(actionItem => this.close(actionItem));
-  }
-  close(actionItem?: ActionItem) {
-    this.dialogRef.close(actionItem);
+    this.tasksService.add(newItem).subscribe(actionItem => {
+      this.dialogRef.close(actionItem);
+      this.isCreatingActionItem = false;
+    });
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
