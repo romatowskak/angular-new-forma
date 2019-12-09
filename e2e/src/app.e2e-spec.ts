@@ -1,5 +1,5 @@
 import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import { browser, by, element } from 'protractor';
 
 describe('workspace-project App', () => {
   let page: AppPage;
@@ -8,16 +8,32 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display table with 6 action items', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('examp-ng-app app is running!');
+    expect(page.getActionItemsTable()).toBeTruthy();
+    expect(page.getActionItems().count()).toBe(6);
   });
 
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
+  it('should open and close dialog modal', () => {
+    page.navigateTo();
+    page.getOpenDialogButton().click();
+    browser.wait(element(by.css('.dialog-modal')).isDisplayed, 5000);
+    page.getCloseDialogButton().click();
+    expect(page.getModalDialog()).toBeTruthy();
+  });
+
+  it('should open a modal dialog, fill inputs and create action item', () => {
+    page.getOpenDialogButton().click();
+    browser.wait(element(by.css('.dialog-modal')).isDisplayed, 3000);
+    page.getItemNameInput().sendKeys('New Action Item');
+    page.getProjectNameInput().sendKeys('Project Name');
+    page.getDateInput().sendKeys('2019/11/15');
+    browser
+      .actions()
+      .mouseMove(page.getCreateActionItemButton())
+      .click()
+      .perform();
+
+    // expect(page.getActionItems().count()).toBe(7);
   });
 });

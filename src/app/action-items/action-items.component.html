@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="t-body">
-        <div class="flex-table row" role="rowgroup" *ngFor="let t of dataSource">
+        <div class="flex-table row single-item" role="rowgroup" *ngFor="let t of dataSource">
             <div class="flex-row body-cell first" role="cell">
                 <div class="title-container" id="circle-container">
                     <i class="fa fa-circle" [ngClass]="t.dueDay | circleColor"></i>

@@ -1,14 +1,14 @@
-<div class="container">
+<div class="container dialog-modal">
     <h2 class="dialogTitle" mat-dialog-title>{{ title }}</h2>
     <mat-dialog-content [formGroup]="dialogForm">
         <mat-form-field>
-            <input matInput class="typedValueColor" placeholder="Action Item Name" formControlName="name" />
+            <input matInput class="typedValueColor name-input" placeholder="Action Item Name" formControlName="name" />
             <mat-error *ngIf="dialogForm.get('name').hasError('required')" class="invalid-feedback">
                 Name is required.
             </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-select formControlName="project" placeholder="Project">
+            <mat-select class="project-input" formControlName="project" placeholder="Project">
                 <mat-option *ngFor="let project of projects" [value]="project">
                     {{ project.name }}
                 </mat-option>
@@ -18,7 +18,7 @@
             </mat-error>
         </mat-form-field>
         <mat-form-field class="datePicker">
-            <input matInput [matDatepicker]="picker" class="typedValueColor" placeholder="Due date" formControlName="dueDate" />
+            <input matInput [matDatepicker]="picker" class="typedValueColor date-input" placeholder="Due date" formControlName="dueDate" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
