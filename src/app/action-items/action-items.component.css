@@ -104,6 +104,10 @@
     border-bottom: 2px solid transparent;
 }
 
+.flex-table.row:last-child {
+    margin-bottom: 0;
+}
+
 .flex-table.row:hover {
     border-bottom: 2px solid #3d7dca;
 }
