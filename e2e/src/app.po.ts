@@ -29,12 +29,20 @@ export class AppPage {
     return element(by.css('.close'));
   }
 
-  getProjectNameInput() {
-    return element(by.css('.project-input'));
+  getMatSelect() {
+    return element(by.tagName('mat-select'));
+  }
+
+  getMatOption() {
+    return element(by.cssContainingText('mat-option', 'CASD Wilson & Lamberton Middle Schools'));
   }
 
   getItemNameInput() {
     return element(by.css('.name-input'));
+  }
+
+  getProjectInput() {
+    return element(by.css('.project-input'));
   }
 
   getDateInput() {
@@ -43,10 +51,6 @@ export class AppPage {
 
   passActionItemName() {
     return this.getItemNameInput().sendKeys('New Action Item');
-  }
-
-  passProjectName() {
-    return this.getProjectNameInput().sendKeys('Project Name');
   }
 
   passDueDate() {

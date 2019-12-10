@@ -12,7 +12,6 @@ describe('workspace-project App', () => {
 
   it('should display table with 8 action items', () => {
     page.navigateTo();
-    expect(page.getActionItemsTable()).toBeTruthy();
     expect(page.getActionItems().count()).toBe(8);
   });
 
@@ -21,6 +20,7 @@ describe('workspace-project App', () => {
     page.getOpenDialogButton().click();
     browser.wait(modalDialog.isDisplayed, 5000);
     page.getCloseDialogButton().click();
+    browser.sleep(3000);
     expect(page.getActionItemsTable()).toBeTruthy();
   });
 
@@ -28,13 +28,17 @@ describe('workspace-project App', () => {
     page.getOpenDialogButton().click();
     browser.wait(modalDialog.isDisplayed, 3000);
     page.passActionItemName();
-    page.passProjectName();
+    page.getMatSelect().click();
+    page.getMatOption().click();
+    browser.waitForAngular();
     page.passDueDate();
+    browser.sleep(2000);
     browser
       .actions()
       .mouseMove(page.getCreateActionItemButton())
       .click()
       .perform();
-    expect(page.getActionItemsTable()).toBeTruthy();
+    browser.sleep(4000);
+    expect(page.getActionItems().count()).toBe(9);
   });
 });
