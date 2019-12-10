@@ -50,6 +50,20 @@ export class TasksService {
       dueDate: new Date('2019/11/16')
     },
     {
+      title: 'Android - UI Automation Test',
+      projectName: 'CASD Wilson & Lamberton Middle Schools',
+      type: 'General',
+      completed: '80',
+      dueDate: new Date('2019/11/17')
+    },
+    {
+      title: 'The Flash Tutorial',
+      projectName: 'CASD Wilson & Lamberton Middle Schools',
+      type: 'General',
+      completed: '70',
+      dueDate: new Date('2019/11/16')
+    },
+    {
       title: 'Cleaning and Organising Your Computer',
       projectName: 'CASD Wilson & Lamberton Middle Schools',
       type: 'Clash',

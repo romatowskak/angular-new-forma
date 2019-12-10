@@ -22,7 +22,9 @@ export class AddItemComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dialogProjects: ProjectsService,
     private tasksService: TasksService
-  ) {}
+  ) {
+    dialogRef.disableClose = true;
+  }
   ngOnInit() {
     this.subscription = this.dialogProjects.getProjectsNames().subscribe(projects => (this.projects = projects));
     this.dialogForm = this.formBuilder.group({

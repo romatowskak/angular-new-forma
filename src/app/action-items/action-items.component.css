@@ -72,13 +72,14 @@
     display: block;
     width: 95%;
     margin: 0 auto;
+    height: 100%;
 }
 
-.t-body {
+:host .t-body {
     margin-top: 3px;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 55vh;
+    height: calc(100% - 300px);
 }
 
 .flex-table {

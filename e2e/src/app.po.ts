@@ -40,4 +40,16 @@ export class AppPage {
   getDateInput() {
     return element(by.css('.date-input'));
   }
+
+  passActionItemName() {
+    return this.getItemNameInput().sendKeys('New Action Item');
+  }
+
+  passProjectName() {
+    return this.getProjectNameInput().sendKeys('Project Name');
+  }
+
+  passDueDate() {
+    return this.getDateInput().sendKeys('2019/11/15');
+  }
 }
