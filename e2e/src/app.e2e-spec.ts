@@ -20,7 +20,6 @@ describe('workspace-project App', () => {
     page.getOpenDialogButton().click();
     browser.wait(modalDialog.isDisplayed, 5000);
     page.getCloseDialogButton().click();
-    browser.sleep(3000);
     expect(page.getActionItemsTable()).toBeTruthy();
   });
 
@@ -32,13 +31,13 @@ describe('workspace-project App', () => {
     page.getMatOption().click();
     browser.waitForAngular();
     page.passDueDate();
-    browser.sleep(2000);
     browser
       .actions()
       .mouseMove(page.getCreateActionItemButton())
       .click()
       .perform();
-    browser.sleep(4000);
-    expect(page.getActionItems().count()).toBe(9);
+    const uniqueId = page.getItemNameInputId();
+    const newItem = element(by.cssContainingText(uniqueId, 'New Action Item'));
+    expect(newItem).toBeTruthy();
   });
 });
