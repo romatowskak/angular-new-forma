@@ -34,6 +34,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
       description: ''
     });
   }
+
   createActionItem(): void {
     const projectNameValue = this.dialogForm.get('project').value;
     const dueDateValue = this.dialogForm.get('dueDate').value;
