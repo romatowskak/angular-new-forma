@@ -102,7 +102,7 @@ describe('ActionItemsComponent', () => {
     spyOn(component, 'openDialog');
     component.isloadingActionItems = false;
     fixture.detectChanges();
-    const btn = fixture.debugElement.query(By.css('.add-item')).nativeElement;
+    const btn = fixture.debugElement.query(By.css('.addItem')).nativeElement;
     btn.click();
     expect(component.openDialog).toHaveBeenCalled();
   });

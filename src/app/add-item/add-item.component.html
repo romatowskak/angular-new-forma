@@ -1,24 +1,24 @@
-<div class="container dialog-modal">
+<div class="container dialogModal">
     <h2 class="dialogTitle" mat-dialog-title>{{ title }}</h2>
     <mat-dialog-content [formGroup]="dialogForm">
         <mat-form-field>
-            <input matInput class="typedValueColor name-input" placeholder="Action Item Name" formControlName="name" />
-            <mat-error *ngIf="dialogForm.get('name').hasError('required')" class="invalid-feedback">
+            <input matInput class="typedValueColor nameInput" placeholder="Action Item Name" formControlName="name" />
+            <mat-error *ngIf="dialogForm.get('name').hasError('required')" class="invalidFeedback">
                 Name is required.
             </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-select class="project-input" formControlName="project" placeholder="Project">
+            <mat-select class="projectInput" formControlName="project" placeholder="Project">
                 <mat-option *ngFor="let project of projects" [value]="project">
                     {{ project.name }}
                 </mat-option>
             </mat-select>
-            <mat-error *ngIf="dialogForm.get('project').hasError('required')" class="invalid-feedback" class="invalid-feedback">
+            <mat-error *ngIf="dialogForm.get('project').hasError('required')" class="invalidFeedback">
                 Project is required.
             </mat-error>
         </mat-form-field>
         <mat-form-field class="datePicker">
-            <input matInput [matDatepicker]="picker" class="typedValueColor date-input" placeholder="Due date" formControlName="dueDate" />
+            <input matInput [matDatepicker]="picker" class="typedValueColor dateInput" placeholder="Due date" formControlName="dueDate" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -28,6 +28,6 @@
     </mat-dialog-content>
 </div>
 <mat-dialog-actions class="buttons">
-    <button class="mat-raised-button close" type="button" mat-button mat-dialog-close>Close</button>
-    <button class="mat-raised-button create" [disabled]="dialogForm.invalid" (click)="createActionItem()">Create<span class="fa-button" *ngIf="isCreatingActionItem"><i class="fa fa-spinner fa-spin"></i></span></button>
+    <button class="matRaisedButton close" type="button" mat-button mat-dialog-close>Close</button>
+    <button class="matRaisedButton create" [disabled]="dialogForm.invalid" (click)="createActionItem()">Create<span class="faButton" *ngIf="isCreatingActionItem"><i class="fa fa-spinner fa-spin"></i></span></button>
 </mat-dialog-actions>

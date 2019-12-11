@@ -11,9 +11,9 @@ describe('TasksService', () => {
     expect(tasksService).toBeTruthy();
   });
 
-  it('getAllItems() should return 6 objects', done => {
+  it('getAllItems() should return 8 objects', done => {
     tasksService.getAllItems().subscribe(res => {
-      expect(res.length).toEqual(6);
+      expect(res.length).toEqual(8);
       done();
     });
   });

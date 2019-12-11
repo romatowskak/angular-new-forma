@@ -5,20 +5,25 @@ export class AppPage {
     return browser.get('/');
   }
 
+  openDialog() {
+    this.getOpenDialogButton().click();
+    browser.wait(this.getModalDialog().isDisplayed, 3000);
+  }
+
   getActionItemsTable() {
-    return element(by.css('.table-container'));
+    return element(by.css('.tableContainer'));
   }
 
   getActionItems() {
-    return element.all(by.css('.single-item'));
+    return element.all(by.css('.singleItem'));
   }
 
   getOpenDialogButton() {
-    return element(by.css('.add-item'));
+    return element(by.css('.addItem'));
   }
 
   getModalDialog() {
-    return element(by.css('.dialog-modal'));
+    return element(by.css('.dialogModal'));
   }
 
   getCreateActionItemButton() {
@@ -38,26 +43,26 @@ export class AppPage {
   }
 
   getItemNameInput() {
-    return element(by.css('.name-input'));
+    return element(by.css('.nameInput'));
   }
 
   getProjectInput() {
-    return element(by.css('.project-input'));
+    return element(by.css('.projectInput'));
   }
 
   getDateInput() {
-    return element(by.css('.date-input'));
+    return element(by.css('.dateInput'));
   }
 
   passActionItemName() {
-    return this.getItemNameInput().sendKeys('New Action Item');
+    return this.getItemNameInput().sendKeys(this.itemUUID());
   }
 
   passDueDate() {
     return this.getDateInput().sendKeys('2019/11/15');
   }
 
-  uniqueID() {
+  itemUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
       const r = (Math.random() * 16) | 0,
         v = c === 'x' ? r : (r & 0x3) | 0x8;
@@ -67,7 +72,11 @@ export class AppPage {
 
   getItemNameInputId() {
     const name = this.getItemNameInput();
-    name.id = 'id';
+    name.id = this.itemUUID();
     return name.id;
+  }
+
+  getNewItem() {
+    return element(by.cssContainingText(this.getItemNameInputId(), this.itemUUID()));
   }
 }

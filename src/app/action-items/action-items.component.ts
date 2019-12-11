@@ -58,7 +58,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         if (item !== undefined) {
           this.retrieveActionItems();
         }
-        this.isloadingActionItems = false;
       });
   }
   ngOnDestroy() {

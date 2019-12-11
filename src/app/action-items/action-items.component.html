@@ -1,42 +1,42 @@
 <div *ngIf="isloadingActionItems" class="spinner">
     <i class="fa fa-spinner fa-spin"></i>
 </div>
-<div *ngIf="!isloadingActionItems" class="table-container" role="table" aria-label="Tasks">
+<div *ngIf="!isloadingActionItems" class="tableContainer" role="table" aria-label="Tasks">
     <div class="options">
-        <div class="assigned-label">
-            <div class="filter filter-opt">
-                <p class="filter-list">filters <i class="arrow fa fa-sort-down"></i></p>
+        <div class="assignedLabel">
+            <div class="filter filterOpt">
+                <p class="filterList">filters <i class="arrow fa fa-sort-down"></i></p>
             </div>
             <button class="filter assigned">Assigned to me X</button>
         </div>
-        <div class="new-item-button">
-            <button class="add-item" (click)="openDialog()">+ create action item</button>
+        <div class="newItemButton">
+            <button class="addItem" (click)="openDialog()">+ create action item</button>
         </div>
     </div>
-    <div class="t-head">
-        <div class="flex-table header" role="rowgroup">
-            <div class="flex-row body-header first" role="columnheader">Title</div>
-            <div class="flex-row body-header" role="columnheader">Type</div>
-            <div class="flex-row body-header" role="columnheader">Completed</div>
-            <div class="flex-row body-header" role="columnheader">Due Date</div>
-            <div class="flex-row body-header" role="columnheader">Days Left</div>
+    <div class="tHead">
+        <div class="flexTable header" role="rowgroup">
+            <div class="flexRow bodyHeader first" role="columnheader">Title</div>
+            <div class="flexRow bodyHeader" role="columnheader">Type</div>
+            <div class="flexRow bodyHeader" role="columnheader">Completed</div>
+            <div class="flexRow bodyHeader" role="columnheader">Due Date</div>
+            <div class="flexRow bodyHeader" role="columnheader">Days Left</div>
         </div>
     </div>
-    <div class="t-body">
-        <div class="flex-table row single-item" role="rowgroup" *ngFor="let t of dataSource">
-            <div class="flex-row body-cell first" role="cell">
-                <div class="title-container" id="circle-container">
+    <div class="tBody">
+        <div class="flexTable row singleItem" role="rowgroup" *ngFor="let t of dataSource">
+            <div class="flexRow bodyCell first" role="cell">
+                <div class="titleContainer" id="circleContainer">
                     <i class="fa fa-circle" [ngClass]="t.dueDay | circleColor"></i>
                 </div>
-                <div class="title-container">
-                    <p class="action-item-name title">{{ t.title }}</p>
-                    <p class="action-item-name project-name">{{ t.projectName }}</p>
+                <div class="titleContainer">
+                    <p class="actionItemName title">{{ t.title }}</p>
+                    <p class="actionItemName projectName">{{ t.projectName }}</p>
                 </div>
             </div>
-            <div class="flex-row body-cell inner" role="cell">{{ t.type }}</div>
-            <div class="flex-row body-cell inner" role="cell">{{ t.completed }}%</div>
-            <div class="flex-row body-cell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
-            <div class="flex-row body-cell inner" role="cell">{{ t.dueDay }}</div>
+            <div class="flexRow bodyCell inner" role="cell">{{ t.type }}</div>
+            <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
+            <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
+            <div class="flexRow bodyCell inner" role="cell">{{ t.dueDay }}</div>
         </div>
     </div>
 </div>
