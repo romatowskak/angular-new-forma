@@ -57,6 +57,10 @@
         color: white;
     }
     
+    .matRaisedButton:disabled {
+        opacity: 0.5;
+    }
+    
     .matRaisedButton span {
         margin: 1px 2px;
         padding: 1px 2px;

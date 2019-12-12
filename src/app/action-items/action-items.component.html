@@ -1,7 +1,4 @@
-<div *ngIf="isloadingActionItems" class="spinner">
-    <i class="fa fa-spinner fa-spin"></i>
-</div>
-<div *ngIf="!isloadingActionItems" class="tableContainer" role="table" aria-label="Tasks">
+<div class="tableContainer" role="table" aria-label="Tasks">
     <div class="options">
         <div class="assignedLabel">
             <div class="filter filterOpt">
@@ -22,7 +19,10 @@
             <div class="flexRow bodyHeader" role="columnheader">Days Left</div>
         </div>
     </div>
-    <div class="tBody">
+    <div *ngIf="isloadingActionItems" class="spinner">
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
+    <div class="tBody" *ngIf="!isloadingActionItems">
         <div class="flexTable row singleItem" role="rowgroup" *ngFor="let t of dataSource">
             <div class="flexRow bodyCell first" role="cell">
                 <div class="titleContainer" id="circleContainer">

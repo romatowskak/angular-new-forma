@@ -162,4 +162,11 @@ describe('AddItemComponent', () => {
     fixture.detectChanges();
     expect(spyObj).toHaveBeenCalled();
   }));
+
+  it('should not show any error message', () => {
+    const nameError = fixture.debugElement.query(By.css('.nameError'));
+    const projectError = fixture.debugElement.query(By.css('.projectError'));
+    expect(nameError).toBeFalsy();
+    expect(projectError).toBeFalsy();
+  });
 });

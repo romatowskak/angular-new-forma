@@ -54,8 +54,8 @@ export class AppPage {
     return element(by.css('.dateInput'));
   }
 
-  passActionItemName() {
-    return this.getItemNameInput().sendKeys(this.itemUUID());
+  passActionItemName(itemName) {
+    return this.getItemNameInput().sendKeys(itemName);
   }
 
   passDueDate() {
@@ -70,13 +70,7 @@ export class AppPage {
     });
   }
 
-  getItemNameInputId() {
-    const name = this.getItemNameInput();
-    name.id = this.itemUUID();
-    return name.id;
-  }
-
-  getNewItem() {
-    return element(by.cssContainingText(this.getItemNameInputId(), this.itemUUID()));
+  getNewItem(itemName) {
+    return element(by.cssContainingText('.title', itemName));
   }
 }

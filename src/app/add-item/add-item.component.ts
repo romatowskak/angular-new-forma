@@ -4,18 +4,18 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.css']
 })
-export class AddItemComponent implements OnInit, OnDestroy {
+export class AddItemComponent implements OnInit {
   dialogForm: FormGroup;
   title = 'Create Action Item';
   projects: Project[];
   isCreatingActionItem = false;
-  private subscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<AddItemComponent>,
@@ -26,7 +26,10 @@ export class AddItemComponent implements OnInit, OnDestroy {
     dialogRef.disableClose = true;
   }
   ngOnInit() {
-    this.subscription = this.dialogProjects.getProjectsNames().subscribe(projects => (this.projects = projects));
+    this.dialogProjects
+      .getProjectsNames()
+      .pipe(first())
+      .subscribe(projects => (this.projects = projects));
     this.dialogForm = this.formBuilder.group({
       name: ['', Validators.required],
       project: ['', Validators.required],
@@ -47,12 +50,12 @@ export class AddItemComponent implements OnInit, OnDestroy {
     };
     this.isCreatingActionItem = true;
     this.dialogForm.disable();
-    this.tasksService.add(newItem).subscribe(actionItem => {
-      this.dialogRef.close(actionItem);
-      this.isCreatingActionItem = false;
-    });
-  }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.tasksService
+      .add(newItem)
+      .pipe(first())
+      .subscribe(actionItem => {
+        this.dialogRef.close(actionItem);
+        this.isCreatingActionItem = false;
+      });
   }
 }

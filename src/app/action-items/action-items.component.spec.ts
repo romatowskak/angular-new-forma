@@ -66,7 +66,20 @@ describe('ActionItemsComponent', () => {
     expect(component.isloadingActionItems).toBe(true);
   });
 
-  it('should change the value of "loading" and show the view', () => {
+  it('should not display action items when spinner is loading', () => {
+    component.isloadingActionItems = true;
+    const actionItems = fixture.debugElement.query(By.css('.tBody'));
+    expect(actionItems).toBeFalsy();
+  });
+
+  it('should display action items when spinner stops loading', () => {
+    component.isloadingActionItems = false;
+    fixture.detectChanges();
+    const actionItems = fixture.debugElement.query(By.css('.tBody'));
+    expect(actionItems).toBeTruthy();
+  });
+
+  it('should change the value of "loading" to "false"', () => {
     const emptyTasks: ActionItem[] = [];
     spyOn(tasksService, 'getAllItems').and.returnValue(of(emptyTasks));
     component.ngOnInit();

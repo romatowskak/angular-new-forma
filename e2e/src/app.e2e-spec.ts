@@ -21,8 +21,9 @@ describe('workspace-project App', () => {
   });
 
   it('should open a modal dialog, fill inputs, create action item and closed dialog', () => {
+    const itemName = page.itemUUID();
     page.openDialog();
-    page.passActionItemName();
+    page.passActionItemName(itemName);
     page.getMatSelect().click();
     page.getMatOption().click();
     page.passDueDate();
@@ -31,6 +32,6 @@ describe('workspace-project App', () => {
       .mouseMove(page.getCreateActionItemButton())
       .click()
       .perform();
-    expect(page.getNewItem()).toBeTruthy();
+    expect(page.getNewItem(itemName)).toBeTruthy();
   });
 });

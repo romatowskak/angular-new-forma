@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ProjectsService } from './projects.service';
+import { of } from 'rxjs';
 
 describe('ProjectsService', () => {
-  let projectService;
+  let projectsService;
   beforeEach(() => {
-    projectService = TestBed.get(ProjectsService);
+    projectsService = TestBed.get(ProjectsService);
   });
 
   it('should be created', () => {
@@ -13,12 +14,24 @@ describe('ProjectsService', () => {
   });
 
   it('getProjectsNames() should return 1 object with project name', done => {
-    const mockProject = { name: 'CASD Wilson & Lamberton Middle Schools' };
-    projectService.getProjectsNames().subscribe(res => {
+    const projectName = { name: 'CASD Wilson & Lamberton Middle Schools' };
+    projectsService.getProjectsNames().subscribe(res => {
       expect(res.length).toEqual(1);
-      expect(res[0]).toEqual(mockProject);
+      expect(res[0]).toEqual(projectName);
       expect(res[0].name).toEqual('CASD Wilson & Lamberton Middle Schools');
       done();
+    });
+  });
+
+  it('getProjectsNames() should return multiple projects names', () => {
+    const projectsNames = [
+      { name: 'CASD Wilson & Lamberton Middle Schools' },
+      { name: 'CASD Wilson & Lamberton Middle Schools' },
+      { name: 'CASD Wilson & Lamberton Middle Schools' }
+    ];
+    spyOn(projectsService, 'getProjectsNames').and.returnValue(of(projectsNames));
+    projectsService.getProjectsNames().subscribe(res => {
+      expect(res.length).toEqual(3);
     });
   });
 });

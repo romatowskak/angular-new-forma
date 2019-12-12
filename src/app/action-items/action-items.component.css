@@ -189,14 +189,6 @@
     margin: 0 10px;
 }
 
-
-/* .title {
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-} */
-
 .flexCell {
     width: calc(100% / 3);
     text-align: center;

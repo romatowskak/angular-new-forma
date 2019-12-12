@@ -3,7 +3,7 @@
     <mat-dialog-content [formGroup]="dialogForm">
         <mat-form-field>
             <input matInput class="typedValueColor nameInput" placeholder="Action Item Name" formControlName="name" />
-            <mat-error class="invalidFeedback">
+            <mat-error class="invalidFeedback nameError">
                 Name is required.
             </mat-error>
         </mat-form-field>
@@ -13,7 +13,7 @@
                     {{ project.name }}
                 </mat-option>
             </mat-select>
-            <mat-error class="invalidFeedback">
+            <mat-error class="invalidFeedback projectError">
                 Project is required.
             </mat-error>
         </mat-form-field>
