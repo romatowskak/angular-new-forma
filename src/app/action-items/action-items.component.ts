@@ -1,10 +1,9 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map, first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -51,7 +50,7 @@ export class ActionItemsComponent implements OnInit {
   }
   openDialog() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = { width: '470px', height: 'auto' };
+    dialogConfig.data = { width: '470px', height: 'auto', disableClose: true };
     this.matDialog
       .open(AddItemComponent, dialogConfig.data)
       .afterClosed()

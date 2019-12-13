@@ -1,3 +1,4 @@
+import { AppMaterialModule } from './app-material/app-material.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -9,28 +10,20 @@ import { DaysLeftToDeadlineService } from './services/daysLeftToDeadlineService/
 import { TasksService } from './services/tasksService/tasks.service';
 import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
 import { AddItemComponent } from './add-item/add-item.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule, MatInputModule, MatNativeDateModule } from '@angular/material';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ProjectsService } from './services/projects/projects.service';
+import { ItemDetailsComponent } from './item-details/item-details.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe, AddItemComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatDialogModule,
-    NoopAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    ActionItemsComponent,
+    CircleColorPipe,
+    AddItemComponent,
+    ItemDetailsComponent
   ],
-  providers: [TasksService, DaysLeftToDeadlineService, ProjectsService],
+  imports: [AppMaterialModule, BrowserModule, AppRoutingModule],
+  providers: [TasksService, DaysLeftToDeadlineService, ProjectsService, CircleColorPipe],
   bootstrap: [AppComponent],
   entryComponents: [AddItemComponent]
 })

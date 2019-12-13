@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display table with 8 action items', () => {
     page.navigateTo();
-    expect(page.getActionItems().count()).toBe(8);
+    expect(page.getAllActionItems().count()).toBe(8);
   });
 
   it('should open and close dialog modal', () => {
@@ -24,14 +24,10 @@ describe('workspace-project App', () => {
     const itemName = page.itemUUID();
     page.openDialog();
     page.passActionItemName(itemName);
-    page.getMatSelect().click();
-    page.getMatOption().click();
+    page.getProjectField();
+    page.getFirstProjectName();
     page.passDueDate();
-    browser
-      .actions()
-      .mouseMove(page.getCreateActionItemButton())
-      .click()
-      .perform();
+    page.getCreateActionItemButton().click();
     expect(page.getNewItem(itemName)).toBeTruthy();
   });
 });

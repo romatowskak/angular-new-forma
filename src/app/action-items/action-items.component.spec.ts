@@ -1,3 +1,5 @@
+import { ItemDetailsComponent } from './../item-details/item-details.component';
+import { AppMaterialModule } from './../app-material/app-material.module';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AddItemComponent } from './../add-item/add-item.component';
 import { DaysLeftToDeadlineService } from './../services/daysLeftToDeadlineService/days-left-to-deadline.service';
@@ -6,17 +8,6 @@ import { of } from 'rxjs';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { ActionItemsComponent, ActionItemMapped } from './action-items.component';
 import { CircleColorPipe } from '../pipes/circleColorPipe/circle-color.pipe';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatInputModule,
-  MatSelectModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatNativeDateModule
-} from '@angular/material';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 
 describe('ActionItemsComponent', () => {
@@ -28,17 +19,8 @@ describe('ActionItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ActionItemsComponent, CircleColorPipe, AddItemComponent],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatDialogModule,
-        MatNativeDateModule,
-        BrowserAnimationsModule
-      ],
+      declarations: [ActionItemsComponent, CircleColorPipe, AddItemComponent, ItemDetailsComponent],
+      imports: [AppMaterialModule],
       providers: [
         TasksService,
         {

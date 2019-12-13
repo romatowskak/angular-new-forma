@@ -1,42 +1,47 @@
-<div class="tableContainer" role="table" aria-label="Tasks">
-    <div class="options">
-        <div class="assignedLabel">
-            <div class="filter filterOpt">
-                <p class="filterList">filters <i class="arrow fa fa-sort-down"></i></p>
-            </div>
-            <button class="filter assigned">Assigned to me X</button>
-        </div>
-        <div class="newItemButton">
-            <button class="addItem" (click)="openDialog()">+ create action item</button>
-        </div>
-    </div>
-    <div class="tHead">
-        <div class="flexTable header" role="rowgroup">
-            <div class="flexRow bodyHeader first" role="columnheader">Title</div>
-            <div class="flexRow bodyHeader" role="columnheader">Type</div>
-            <div class="flexRow bodyHeader" role="columnheader">Completed</div>
-            <div class="flexRow bodyHeader" role="columnheader">Due Date</div>
-            <div class="flexRow bodyHeader" role="columnheader">Days Left</div>
-        </div>
-    </div>
-    <div *ngIf="isloadingActionItems" class="spinner">
-        <i class="fa fa-spinner fa-spin"></i>
-    </div>
-    <div class="tBody" *ngIf="!isloadingActionItems">
-        <div class="flexTable row singleItem" role="rowgroup" *ngFor="let t of dataSource">
-            <div class="flexRow bodyCell first" role="cell">
-                <div class="titleContainer" id="circleContainer">
-                    <i class="fa fa-circle" [ngClass]="t.dueDay | circleColor"></i>
+<div class="itemsAndDetailsContainer">
+    <div class="innerContainer tableContainer" role="table" aria-label="Tasks">
+        <div class="options">
+            <div class="assignedLabel">
+                <div class="filter filterOpt">
+                    <p class="filterList">filters <i class="arrow fa fa-sort-down"></i></p>
                 </div>
-                <div class="titleContainer">
-                    <p class="actionItemName title">{{ t.title }}</p>
-                    <p class="actionItemName projectName">{{ t.projectName }}</p>
-                </div>
+                <button class="filter assigned">Assigned to me X</button>
             </div>
-            <div class="flexRow bodyCell inner" role="cell">{{ t.type }}</div>
-            <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
-            <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
-            <div class="flexRow bodyCell inner" role="cell">{{ t.dueDay }}</div>
+            <div class="newItemButton">
+                <button class="addItem" (click)="openDialog()">+ create action item</button>
+            </div>
         </div>
+        <div class="tHead">
+            <div class="flexTable header" role="rowgroup">
+                <div class="flexRow bodyHeader first" role="columnheader">Title</div>
+                <div class="flexRow bodyHeader" role="columnheader">Type</div>
+                <div class="flexRow bodyHeader" role="columnheader">Completed</div>
+                <div class="flexRow bodyHeader" role="columnheader">Due Date</div>
+                <div class="flexRow bodyHeader" role="columnheader">Days Left</div>
+            </div>
+        </div>
+        <div *ngIf="isloadingActionItems" class="spinner">
+            <i class="fa fa-spinner fa-spin"></i>
+        </div>
+        <div class="tBody" *ngIf="!isloadingActionItems">
+            <div class="flexTable row singleItem" role="rowgroup" *ngFor="let t of dataSource">
+                <div class="flexRow bodyCell first" role="cell">
+                    <div class="titleContainer" id="circleContainer">
+                        <i class="fa fa-circle" [ngClass]="t.dueDay | circleColor"></i>
+                    </div>
+                    <div class="titleContainer">
+                        <p class="actionItemName title">{{ t.title }}</p>
+                        <p class="actionItemName projectName">{{ t.projectName }}</p>
+                    </div>
+                </div>
+                <div class="flexRow bodyCell inner" role="cell">{{ t.type }}</div>
+                <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
+                <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
+                <div class="flexRow bodyCell inner" role="cell">{{ t.dueDay }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="innerContainer detailsContainer">
+        <app-item-details></app-item-details>
     </div>
 </div>

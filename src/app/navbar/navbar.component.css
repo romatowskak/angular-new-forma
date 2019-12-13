@@ -3,7 +3,8 @@
     display: flex;
     padding-left: 115px;
     background-color: #003c4d;
-    height: 122px;
+    height: 110px;
+    box-sizing: border-box;
 }
 
 .menuWrapper {
@@ -11,7 +12,7 @@
 }
 
 .menuLink {
-    font-size: 12px;
+    font-size: 11px;
     color: #ffffff;
     letter-spacing: 0.36px;
     line-height: 1.2em;
@@ -20,7 +21,6 @@
     display: inline-block;
     text-align: center;
     padding: 0 20px;
-    padding-top: 10px;
 }
 
 a:hover {
@@ -30,9 +30,8 @@ a:hover {
 }
 
 .navbarParagraph p {
-    font-size: 23px;
+    font-size: 22px;
     color: #ffffff;
     font-weight: 300;
     padding-left: 20px;
-    padding-top: 10px;
 }

@@ -14,6 +14,10 @@
     color: #979797;
 }
 
+.filter {
+    margin-right: 10px;
+}
+
 .options {
     display: flex;
     justify-content: space-between;
@@ -37,7 +41,7 @@
 .filterList {
     text-transform: uppercase;
     color: #4e5860;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     letter-spacing: 0.61px;
     cursor: pointer;
@@ -66,20 +70,6 @@
     border-radius: 3px;
     text-transform: uppercase;
     cursor: pointer;
-}
-
-.tableContainer {
-    display: block;
-    width: 95%;
-    margin: 0 auto;
-    height: 100%;
-}
-
-:host .tBody {
-    margin-top: 3px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: calc(100% - 300px);
 }
 
 .flexTable {
@@ -133,7 +123,7 @@
 }
 
 .flexRow.bodyHeader {
-    font-size: 12px;
+    font-size: 11px;
     color: #979797;
     text-align: left;
 }
@@ -224,4 +214,40 @@
 .tBody::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #686868;
+}
+
+:host .itemsAndDetailsContainer {
+    height: 100%;
+}
+
+.itemsAndDetailsContainer {
+    display: flex;
+    width: 99%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.innerContainer {
+    padding: 0 10px;
+}
+
+.detailsContainer {
+    margin: 82px 0 0;
+    margin-right: 10px;
+    width: 35%;
+    height: calc(100% - 200px);
+    background-color: white;
+}
+
+.tableContainer {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.tBody {
+    margin-top: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 255px);
 }

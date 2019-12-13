@@ -1,15 +1,13 @@
+import { CircleColorPipe } from './../pipes/circleColorPipe/circle-color.pipe';
+import { ItemDetailsComponent } from './../item-details/item-details.component';
+import { ActionItemsComponent } from './../action-items/action-items.component';
+import { AppMaterialModule } from './../app-material/app-material.module';
 import { Project, ProjectsService } from './../services/projects/projects.service';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AddItemComponent } from './add-item.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { MatDialogRef } from '@angular/material';
 
 const dialogMock = {
   close: () => {}
@@ -26,17 +24,8 @@ describe('AddItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddItemComponent],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatDialogModule,
-        MatNativeDateModule,
-        BrowserAnimationsModule
-      ],
+      declarations: [AddItemComponent, ActionItemsComponent, ItemDetailsComponent, CircleColorPipe],
+      imports: [AppMaterialModule],
       providers: [
         {
           provide: MatDialogRef,
@@ -88,12 +77,10 @@ describe('AddItemComponent', () => {
   });
 
   it('dueDate field valid when empty', () => {
-    const dueDateField = component.dialogForm.controls.dueDate;
     expect(dueDateField.valid).toBeTruthy();
   });
 
   it('description field valid when empty', () => {
-    const descriptionField = component.dialogForm.controls.description;
     expect(descriptionField.valid).toBeTruthy();
   });
 

@@ -1,3 +1,4 @@
+import { ItemDetailsComponent } from './item-details/item-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionItemsComponent } from './action-items/action-items.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -10,7 +11,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe],
+      declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe, ItemDetailsComponent],
       providers: [
         {
           provide: MatDialog,

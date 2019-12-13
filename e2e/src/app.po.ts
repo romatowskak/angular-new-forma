@@ -14,7 +14,7 @@ export class AppPage {
     return element(by.css('.tableContainer'));
   }
 
-  getActionItems() {
+  getAllActionItems() {
     return element.all(by.css('.singleItem'));
   }
 
@@ -34,12 +34,14 @@ export class AppPage {
     return element(by.css('.close'));
   }
 
-  getMatSelect() {
-    return element(by.tagName('mat-select'));
+  getProjectField() {
+    return element(by.tagName('mat-select')).click();
   }
 
-  getMatOption() {
-    return element(by.cssContainingText('mat-option', 'CASD Wilson & Lamberton Middle Schools'));
+  getFirstProjectName() {
+    return element.all(by.css('mat-option')).then(options => {
+      options[0].click();
+    });
   }
 
   getItemNameInput() {
@@ -63,11 +65,11 @@ export class AppPage {
   }
 
   itemUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = (Math.random() * 16) | 0,
-        v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+    return (
+      Math.random()
+        .toString(36)
+        .substring(2) + Date.now().toString(36)
+    );
   }
 
   getNewItem(itemName) {
