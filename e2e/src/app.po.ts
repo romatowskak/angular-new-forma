@@ -1,70 +1,70 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, promise, ElementFinder, ElementArrayFinder } from 'protractor';
 
 export class AppPage {
   navigateTo() {
     return browser.get('/');
   }
 
-  openDialog() {
+  openDialog(): void {
     this.getOpenDialogButton().click();
     browser.wait(this.getModalDialog().isDisplayed, 3000);
   }
 
-  getActionItemsTable() {
+  getActionItemsTable(): ElementFinder {
     return element(by.css('.tableContainer'));
   }
 
-  getAllActionItems() {
+  getAllActionItems(): ElementArrayFinder {
     return element.all(by.css('.singleItem'));
   }
 
-  getOpenDialogButton() {
+  getOpenDialogButton(): ElementFinder {
     return element(by.css('.addItem'));
   }
 
-  getModalDialog() {
+  getModalDialog(): ElementFinder {
     return element(by.css('.dialogModal'));
   }
 
-  getCreateActionItemButton() {
+  getCreateActionItemButton(): ElementFinder {
     return element(by.css('.create'));
   }
 
-  getCloseDialogButton() {
+  getCloseDialogButton(): ElementFinder {
     return element(by.css('.close'));
   }
 
-  getProjectField() {
+  getProjectField(): promise.Promise<void> {
     return element(by.tagName('mat-select')).click();
   }
 
-  getFirstProjectName() {
+  getFirstProjectName(): promise.Promise<void> {
     return element.all(by.css('mat-option')).then(options => {
       options[0].click();
     });
   }
 
-  getItemNameInput() {
+  getItemNameInput(): ElementFinder {
     return element(by.css('.nameInput'));
   }
 
-  getProjectInput() {
+  getProjectInput(): ElementFinder {
     return element(by.css('.projectInput'));
   }
 
-  getDateInput() {
+  getDateInput(): ElementFinder {
     return element(by.css('.dateInput'));
   }
 
-  passActionItemName(itemName) {
+  passActionItemName(itemName): promise.Promise<void> {
     return this.getItemNameInput().sendKeys(itemName);
   }
 
-  passDueDate() {
+  passDueDate(): promise.Promise<void> {
     return this.getDateInput().sendKeys('2019/11/15');
   }
 
-  itemUUID() {
+  itemUUID(): string {
     return (
       Math.random()
         .toString(36)
@@ -72,7 +72,7 @@ export class AppPage {
     );
   }
 
-  getNewItem(itemName) {
+  getNewItem(itemName): ElementFinder {
     return element(by.cssContainingText('.title', itemName));
   }
 }
