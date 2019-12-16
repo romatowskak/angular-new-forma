@@ -6,9 +6,12 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
+app/**/*.js
+app/**/*.js.map
 
 # dependencies
 /node_modules
+/bower_components
 
 # profiling files
 chrome-profiler-events*.json
@@ -44,3 +47,12 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# e2e
+e2e/*.js
+e2e/*.map
+
+# 
+debug.log
+
+

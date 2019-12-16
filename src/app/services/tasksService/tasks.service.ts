@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 
-export interface ActionTasksElement {
+export interface ActionItem {
   title: string;
   projectName: string;
-  type: string;
-  completed: string;
-  dueDate: Date;
+  type?: string;
+  completed?: string;
+  dueDate?: Date;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
-  private readonly tableData: ActionTasksElement[] = [
+  private readonly dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
       projectName: 'CASD Wilson & Lamberton Middle Schools',
@@ -50,6 +50,20 @@ export class TasksService {
       dueDate: new Date('2019/11/16')
     },
     {
+      title: 'Android - UI Automation Test',
+      projectName: 'CASD Wilson & Lamberton Middle Schools',
+      type: 'General',
+      completed: '80',
+      dueDate: new Date('2019/11/17')
+    },
+    {
+      title: 'The Flash Tutorial',
+      projectName: 'CASD Wilson & Lamberton Middle Schools',
+      type: 'General',
+      completed: '70',
+      dueDate: new Date('2019/11/16')
+    },
+    {
       title: 'Cleaning and Organising Your Computer',
       projectName: 'CASD Wilson & Lamberton Middle Schools',
       type: 'Clash',
@@ -57,10 +71,20 @@ export class TasksService {
       dueDate: new Date('2020/01/05')
     }
   ];
-  getAllTasks(): Observable<ActionTasksElement[]> {
+
+  add(item: ActionItem): Observable<ActionItem> {
     return new Observable(observer => {
       setTimeout(() => {
-        observer.next(this.tableData);
+        this.dataTable.push(item);
+        observer.next(item);
+      }, 1000);
+    });
+  }
+
+  getAllItems(): Observable<ActionItem[]> {
+    return new Observable(observer => {
+      setTimeout(() => {
+        observer.next(this.dataTable);
       }, 1000);
     });
   }

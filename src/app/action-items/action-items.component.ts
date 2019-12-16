@@ -1,11 +1,12 @@
-import { ActionTasksElement } from './../services/tasksService/tasks.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { TasksService } from '../services/tasksService/tasks.service';
+import { AddItemComponent } from './../add-item/add-item.component';
+import { Component, OnInit } from '@angular/core';
+import { map, first } from 'rxjs/operators';
+import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-export interface ActionTasksElementMapped extends ActionTasksElement {
-  dueDay: number;
+export interface ActionItemMapped extends ActionItem {
+  dueDay?: number;
 }
 
 @Component({
@@ -14,17 +15,29 @@ export interface ActionTasksElementMapped extends ActionTasksElement {
   styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit {
-  dataSource: ActionTasksElementMapped[];
-  loading = true;
-  currentDate = new Date();
-  constructor(private tasksService: TasksService, private daysCountService: DaysLeftToDeadlineService) {}
+  dataSource: ActionItemMapped[];
+  isloadingActionItems = false;
+  private currentDate: Date = new Date();
+
+  constructor(
+    private tasksService: TasksService,
+    private daysCountService: DaysLeftToDeadlineService,
+    private matDialog: MatDialog
+  ) {}
   ngOnInit() {
+    this.retrieveActionItems();
+  }
+  retrieveActionItems(): void {
+    this.isloadingActionItems = true;
     this.tasksService
-      .getAllTasks()
+      .getAllItems()
       .pipe(
+        first(),
         map(items => {
-          const mappedActionItems = items.map(item => {
-            const dueDayCounted = this.daysCountService.daysLeftToDeadline(item.dueDate, this.currentDate);
+          const mappedActionItems: ActionItemMapped[] = items.map(item => {
+            const dueDayCounted = item.dueDate
+              ? this.daysCountService.daysLeftToDeadline(item.dueDate, this.currentDate)
+              : undefined;
             return { ...item, dueDay: dueDayCounted };
           });
           return mappedActionItems;
@@ -32,7 +45,19 @@ export class ActionItemsComponent implements OnInit {
       )
       .subscribe(tasks => {
         this.dataSource = tasks;
-        this.loading = false;
+        this.isloadingActionItems = false;
+      });
+  }
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = { width: '470px', height: 'auto', disableClose: true };
+    this.matDialog
+      .open(AddItemComponent, dialogConfig.data)
+      .afterClosed()
+      .subscribe(item => {
+        if (!!item) {
+          this.retrieveActionItems();
+        }
       });
   }
 }

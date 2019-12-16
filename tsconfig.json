@@ -1,6 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -11,16 +14,33 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  }
+  },
+  "paths": {
+    "@action-items/*": ["app/action-items/*"],
+    "@core/*": ["app/core/*"],
+    "@files/*": ["app/files/*"],
+    "@project-log/*": ["app/project-log/*"],
+    "@projects/*": ["app/projects/*"],
+    "@services/*": ["app/services/*"],
+    "@server-access/*": ["app/server-access/*"],
+    "@shared/*": ["app/shared/*"],
+    "@shared-item/*": ["app/shared-item/*"],
+    "@submittals/*": ["app/submittals/*"],
+    "@emails/*": ["app/emails/*"],
+    "@architecture/*": ["app/architecture/*"],
+    "@authentication/*": ["app/authentication/*"],
+    "@redirect/*": ["app/redirect/*"],
+    "@root/*": ["app/root/*"],
+    "@assets/*": ["assets/*"],
+    "@environments/*": ["environments/*"],
+    "@app/*": ["app/*"],
+    "@src/*": ["*"]
+  },
+  "module": "esnext"
 }

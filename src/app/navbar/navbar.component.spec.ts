@@ -30,6 +30,6 @@ describe('NavbarComponent', () => {
   });
 
   it('contains 3 menu links', () => {
-    expect(fixture.debugElement.queryAll(By.css('.menu-link')).length).toBe(3);
+    expect(fixture.debugElement.queryAll(By.css('.menuLink')).length).toBe(3);
   });
 });
