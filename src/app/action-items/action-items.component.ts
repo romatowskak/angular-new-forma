@@ -27,7 +27,7 @@ export class ActionItemsComponent implements OnInit {
   ngOnInit() {
     this.retrieveActionItems();
   }
-  retrieveActionItems() {
+  retrieveActionItems(): void {
     this.isloadingActionItems = true;
     this.tasksService
       .getAllItems()
@@ -48,7 +48,7 @@ export class ActionItemsComponent implements OnInit {
         this.isloadingActionItems = false;
       });
   }
-  openDialog() {
+  openDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = { width: '470px', height: 'auto', disableClose: true };
     this.matDialog

@@ -30,7 +30,7 @@ export class AddItemComponent implements OnInit {
     this.createForm();
   }
 
-  private createForm() {
+  private createForm(): void {
     this.dialogForm = this.formBuilder.group({
       name: ['', Validators.required],
       project: ['', Validators.required],
@@ -52,7 +52,7 @@ export class AddItemComponent implements OnInit {
       });
   }
 
-  private formNewActionItem() {
+  private formNewActionItem(): ActionItem {
     const projectNameValue = this.dialogForm.get('project').value;
     const dueDateValue = this.dialogForm.get('dueDate').value;
     const newItem: ActionItem = {

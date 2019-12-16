@@ -216,26 +216,23 @@
     background-color: #686868;
 }
 
-:host .itemsAndDetailsContainer {
-    height: 100%;
-}
-
 .itemsAndDetailsContainer {
     display: flex;
     width: 99%;
     margin: 0 auto;
     height: 100%;
+    height: calc(100% - 10px);
 }
 
 .innerContainer {
     padding: 0 10px;
+    height: calc(100% - 200px);
 }
 
 .detailsContainer {
     margin: 82px 0 0;
     margin-right: 10px;
     width: 35%;
-    height: calc(100% - 200px);
     background-color: white;
 }
 
@@ -249,5 +246,5 @@
     margin-top: 3px;
     overflow-y: auto;
     overflow-x: hidden;
-    height: calc(100% - 255px);
+    height: calc(100% - 55px);
 }
