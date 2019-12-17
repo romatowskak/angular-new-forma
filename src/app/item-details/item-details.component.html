@@ -20,14 +20,23 @@
             </div>
 
             <div class="circularDiagrams">
-                <div class="diagram">
+                <div class="diagram positionRelative">
                     <div class="detail">
+                        <round-progress [current]="30" [max]="60" [background]="'#eaeaea'" [radius]="35" [color]="'#AE1919'" [stroke]="2">30</round-progress>
+                        <div class="diagramValue daysLeft">
+                            50
+                        </div>
                         <div>Days Left</div>
                     </div>
                 </div>
-                <div class="diagram">
+                <div class="diagram positionRelative">
                     <div class="detail">
+                        <round-progress [current]="30" [max]="60" [background]="'#eaeaea'" [radius]="35" [color]="'#69A3B9'" [stroke]="2">30</round-progress>
+                        <div class="diagramValue complete">
+                            50
+                        </div>
                         <div>% Complete</div>
+
                     </div>
                 </div>
             </div>

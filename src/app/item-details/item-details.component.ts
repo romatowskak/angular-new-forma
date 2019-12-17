@@ -8,7 +8,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges } from '@a
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemDetailsComponent implements OnInit, OnChanges {
-  item: ActionItem;
+  item;
   @Input() id;
 
   constructor(private tasksService: TasksService) {}

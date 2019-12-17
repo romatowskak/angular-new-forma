@@ -12,6 +12,7 @@ import { AddItemComponent } from './add-item/add-item.component';
 import { ProjectsService } from './services/projects/projects.service';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { RouterModule } from '@angular/router';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { RouterModule } from '@angular/router';
     AppMaterialModule,
     BrowserModule,
     AppRoutingModule,
+    RoundProgressModule,
     RouterModule.forRoot([
       {
         path: 'items',
