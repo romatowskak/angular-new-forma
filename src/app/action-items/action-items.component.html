@@ -37,11 +37,13 @@
                 <div class="flexRow bodyCell inner" role="cell">{{ t.type }}</div>
                 <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
                 <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
-                <div class="flexRow bodyCell inner" role="cell">{{ t.dueDay }}</div>
+                <div class="flexRow bodyCell inner" role="cell">
+                    {{ t.dueDay }} <a [routerLink]="['items/', t.id]">View</a>
+                </div>
             </div>
         </div>
     </div>
     <div class="innerContainer detailsContainer">
-        <app-item-details></app-item-details>
+        <app-item-details [id]="actionItemId"></app-item-details>
     </div>
 </div>

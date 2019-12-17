@@ -1,2 +1,20 @@
 <p class="selectItemParagraph">
-    Select an Action Item to view details</p>
+    Action Item Details
+</p>
+<div class="details">
+    <div class="detail" *ngIf="item">
+        <div>Title: {{ item.title }}</div>
+    </div>
+    <div class="detail">
+        <div>Type:</div>
+    </div>
+    <div class="detail">
+        <div>Completed:</div>
+    </div>
+    <div class="detail">
+        <div>Due Date:</div>
+    </div>
+    <div class="detail">
+        <div>Days Left:</div>
+    </div>
+</div>

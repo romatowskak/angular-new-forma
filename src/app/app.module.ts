@@ -1,5 +1,4 @@
 import { AppMaterialModule } from './app-material/app-material.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +11,7 @@ import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
 import { AddItemComponent } from './add-item/add-item.component';
 import { ProjectsService } from './services/projects/projects.service';
 import { ItemDetailsComponent } from './item-details/item-details.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,25 @@ import { ItemDetailsComponent } from './item-details/item-details.component';
     AddItemComponent,
     ItemDetailsComponent
   ],
-  imports: [AppMaterialModule, BrowserModule, AppRoutingModule],
+  imports: [
+    AppMaterialModule,
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule.forRoot([
+      {
+        path: 'items',
+        component: ActionItemsComponent
+      },
+      {
+        path: 'items/:id',
+        component: ActionItemsComponent
+      },
+      {
+        path: 'details/:id',
+        component: ItemDetailsComponent
+      }
+    ])
+  ],
   providers: [TasksService, DaysLeftToDeadlineService, ProjectsService, CircleColorPipe],
   bootstrap: [AppComponent],
   entryComponents: [AddItemComponent]

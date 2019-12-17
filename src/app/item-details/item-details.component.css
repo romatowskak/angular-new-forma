@@ -1,5 +1,13 @@
 .selectItemParagraph {
     text-align: center;
-    font-size: 13px;
+    font-size: 14px;
     color: #979797;
+    margin-bottom: 50px;
+}
+
+.details {
+    text-align: left;
+    font-size: 14px;
+    color: #979797;
+    line-height: 2em;
 }
