@@ -18,6 +18,7 @@
                 <div class="flexRow bodyHeader" role="columnheader">Completed</div>
                 <div class="flexRow bodyHeader" role="columnheader">Due Date</div>
                 <div class="flexRow bodyHeader" role="columnheader">Days Left</div>
+                <div class="flexRow bodyHeader" role="columnheader"></div>
             </div>
         </div>
         <div *ngIf="isloadingActionItems" class="spinner">
@@ -38,8 +39,11 @@
                 <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
                 <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
                 <div class="flexRow bodyCell inner" role="cell">
-                    {{ t.dueDay }} <a [routerLink]="['items/', t.id]">View</a>
+                    {{ t.dueDay }}
+
+
                 </div>
+                <div class="flexRow bodyCell inner" role="cell"><a [routerLink]="['items/', t.id]"><i class="fa fa-edit"></i></a></div>
             </div>
         </div>
     </div>
