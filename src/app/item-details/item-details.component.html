@@ -1,20 +1,36 @@
-<p class="selectItemParagraph">
-    Action Item Details
-</p>
-<div class="details">
-    <div class="detail" *ngIf="item">
-        <div>Title: {{ item.title }}</div>
-    </div>
-    <div class="detail">
-        <div>Type:</div>
-    </div>
-    <div class="detail">
-        <div>Completed:</div>
-    </div>
-    <div class="detail">
-        <div>Due Date:</div>
-    </div>
-    <div class="detail">
-        <div>Days Left:</div>
+<div class="details-container">
+    <div class="details">
+        <div class="detailsTop">
+            <div class="detail title">
+                <div class="top">
+                    <div>Action Item Title</div>
+                </div>
+                <div class="top">
+                    <div class="detailIcon"><i class="fa fa-edit"></i></div>
+                    <div class="detailIcon"><i class="fa fa-check"></i></div>
+                </div>
+            </div>
+            <div class="detail projectName">
+                <div>Project Name</div>
+            </div>
+        </div>
+        <div class="center">
+            <div class="detail dueDate">
+                <div>Due Date:</div>
+            </div>
+
+            <div class="circularDiagrams">
+                <div class="diagram">
+                    <div class="detail">
+                        <div>Days Left</div>
+                    </div>
+                </div>
+                <div class="diagram">
+                    <div class="detail">
+                        <div>% Complete</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
