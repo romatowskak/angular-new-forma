@@ -60,7 +60,8 @@ export class AddItemComponent implements OnInit {
       projectName: projectNameValue.name,
       type: 'General',
       completed: '60',
-      dueDate: !!dueDateValue ? dueDateValue : undefined
+      dueDate: !!dueDateValue ? dueDateValue : undefined,
+      id: ''
     };
     return newItem;
   }

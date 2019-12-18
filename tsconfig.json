@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
