@@ -4,6 +4,7 @@
             <div class="detail title">
                 <div class="top">
                     <div>Action Item Title</div>
+                    <div *ngIf="item">{{item.title}}</div>
                 </div>
                 <div class="top">
                     <div class="detailIcon"><i class="fa fa-edit"></i></div>
@@ -18,7 +19,6 @@
             <div class="detail dueDate">
                 <div>Due Date:</div>
             </div>
-
             <div class="circularDiagrams">
                 <div class="diagram positionRelative">
                     <div class="detail">
@@ -36,7 +36,6 @@
                             50
                         </div>
                         <div>% Complete</div>
-
                     </div>
                 </div>
             </div>

@@ -98,7 +98,7 @@ export class TasksService {
     });
   }
 
-  getActionItem(itemId: string): ActionItem {
+  getActionItem(itemId: string): ActionItem | undefined {
     const actionItem = this.dataTable.find(({ id }) => id === itemId);
     return actionItem;
   }

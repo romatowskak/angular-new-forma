@@ -19,7 +19,8 @@ export class ActionItemsComponent implements OnInit {
   dataSource: ActionItemMapped[];
   isloadingActionItems = false;
   private currentDate: Date = new Date();
-  actionItemId;
+  actionItemId: string;
+  actionItem: ActionItem | undefined;
 
   constructor(
     private tasksService: TasksService,
@@ -33,8 +34,11 @@ export class ActionItemsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.actionItemId = params.id;
       console.log('ID ' + this.actionItemId);
+      this.getActionItem();
+      console.log(this.actionItem);
     });
   }
+
   retrieveActionItems(): void {
     this.isloadingActionItems = true;
     this.tasksService
@@ -67,5 +71,9 @@ export class ActionItemsComponent implements OnInit {
           this.retrieveActionItems();
         }
       });
+  }
+
+  private getActionItem(): void {
+    this.actionItem = this.tasksService.getActionItem(this.actionItemId);
   }
 }
