@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface ActionItem {
   title: string;
@@ -14,6 +15,7 @@ export interface ActionItem {
   providedIn: 'root'
 })
 export class TasksService {
+  constructor(private router: Router) {}
   private readonly dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
@@ -98,12 +100,21 @@ export class TasksService {
     });
   }
 
-  getActionItem(itemId: string): Observable<ActionItem> {
-    return new Observable(observer => {
-      const actionItem = this.dataTable.find(({ id }) => id === itemId);
-      setTimeout(() => {
-        observer.next(actionItem);
-      }, 1000);
-    });
+  getActionItem(itemId: string): Observable<ActionItem> | undefined {
+    const actionItem = this.dataTable.find(({ id }) => id === itemId);
+    if (actionItem) {
+      return new Observable(observer => {
+        setTimeout(() => {
+          observer.next(actionItem);
+        }, 1000);
+      });
+    } else {
+      this.router.navigateByUrl('/items');
+      return new Observable(observer => {
+        setTimeout(() => {
+          observer.next(undefined);
+        }, 1000);
+      });
+    }
   }
 }

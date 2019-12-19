@@ -36,7 +36,6 @@ export class ActionItemsComponent implements OnInit {
       this.getActionItem();
     });
   }
-
   retrieveActionItems(): void {
     this.isloadingActionItems = true;
     this.tasksService
@@ -70,7 +69,6 @@ export class ActionItemsComponent implements OnInit {
         }
       });
   }
-
   private getActionItem(): void {
     this.actionItem = this.tasksService.getActionItem(this.actionItemId);
   }

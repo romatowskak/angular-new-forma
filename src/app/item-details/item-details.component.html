@@ -1,6 +1,9 @@
 <div class="details-container">
-    <div *ngIf="!item" class="selectItem">
-        <p>Select an Action Item to view details<i class="fa fa-mouse-pointer"></i></p>
+    <div *ngIf="item === null" class="selectItem">
+        <p>Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
+    </div>
+    <div *ngIf="item === undefined" class="selectItem">
+        <p>No item found. Select another Action Item.<i class="fa fa-mouse-pointer"></i></p>
     </div>
     <div class="details" *ngIf="item">
         <div class="detailsTop">
