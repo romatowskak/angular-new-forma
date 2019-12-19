@@ -32,10 +32,9 @@ export class ActionItemsComponent implements OnInit {
   ngOnInit() {
     this.retrieveActionItems();
     this.route.params.subscribe(params => {
-      this.actionItemId = params.id;
-      console.log('ID ' + this.actionItemId);
+      const firstParam = this.route.snapshot.queryParamMap.get('id');
+      this.actionItemId = firstParam;
       this.getActionItem();
-      console.log(this.actionItem);
     });
   }
 
@@ -74,6 +73,6 @@ export class ActionItemsComponent implements OnInit {
   }
 
   private getActionItem(): void {
-    this.actionItem = this.tasksService.getActionItem(this.actionItemId);
+    this.tasksService.getActionItem(this.actionItemId).subscribe(item => (this.actionItem = item));
   }
 }

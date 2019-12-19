@@ -98,8 +98,12 @@ export class TasksService {
     });
   }
 
-  getActionItem(itemId: string): ActionItem | undefined {
-    const actionItem = this.dataTable.find(({ id }) => id === itemId);
-    return actionItem;
+  getActionItem(itemId: string): Observable<ActionItem> {
+    return new Observable(observer => {
+      const actionItem = this.dataTable.find(({ id }) => id === itemId);
+      setTimeout(() => {
+        observer.next(actionItem);
+      }, 1000);
+    });
   }
 }

@@ -40,11 +40,8 @@
                 <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
                 <div class="flexRow bodyCell inner" role="cell">
                     {{ t.dueDay }}
-
-
                 </div>
-                <div class="flexRow bodyCell inner" role="cell"><a [routerLink]="['items/', t.id]"><i class="fa fa-edit"></i></a></div>
-                <!-- [queryParams]="{ id: t.id }" -->
+                <div class="flexRow bodyCell inner" role="cell"><a [routerLink]="['/items']" [queryParams]="{ id: t.id }"><i class="fa fa-edit"></i></a></div>
             </div>
         </div>
     </div>
