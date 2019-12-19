@@ -4,7 +4,8 @@ import { map, first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -20,13 +21,12 @@ export class ActionItemsComponent implements OnInit {
   isloadingActionItems = false;
   private currentDate: Date = new Date();
   actionItemId: string;
-  actionItem: ActionItem | undefined;
+  actionItem: Observable<ActionItem>;
 
   constructor(
     private tasksService: TasksService,
     private daysCountService: DaysLeftToDeadlineService,
     private matDialog: MatDialog,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
@@ -36,6 +36,7 @@ export class ActionItemsComponent implements OnInit {
       this.actionItemId = firstParam;
       this.getActionItem();
     });
+    console.log(this.actionItem);
   }
 
   retrieveActionItems(): void {
@@ -73,9 +74,6 @@ export class ActionItemsComponent implements OnInit {
   }
 
   private getActionItem(): void {
-    this.tasksService
-      .getActionItem(this.actionItemId)
-      .pipe(first())
-      .subscribe(item => (this.actionItem = item));
+    this.actionItem = this.tasksService.getActionItem(this.actionItemId);
   }
 }

@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer">
-        <app-item-details [id]="actionItemId" [item]="actionItem">
+        <app-item-details [id]="actionItemId" [item]="actionItem | async">
         </app-item-details>
     </div>
 </div>
