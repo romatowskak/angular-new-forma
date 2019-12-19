@@ -11,7 +11,5 @@ export class ItemDetailsComponent implements OnChanges {
   @Input() item: ActionItem;
   @Input() id: string;
 
-  ngOnChanges() {
-    console.log(this.item);
-  }
+  ngOnChanges() {}
 }

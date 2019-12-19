@@ -103,6 +103,11 @@
     border-bottom: 2px solid #3d7dca;
 }
 
+.router-link-active {
+    background-color: #dde4ec !important;
+    outline: 0;
+}
+
 .projectName {
     font-size: 12px;
     color: #979797;

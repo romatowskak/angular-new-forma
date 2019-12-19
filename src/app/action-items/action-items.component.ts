@@ -31,12 +31,10 @@ export class ActionItemsComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.retrieveActionItems();
-    this.route.params.subscribe(params => {
-      const firstParam = this.route.snapshot.queryParamMap.get('id');
-      this.actionItemId = firstParam;
+    this.route.queryParams.subscribe(params => {
+      this.actionItemId = params.id;
       this.getActionItem();
     });
-    console.log(this.actionItem);
   }
 
   retrieveActionItems(): void {

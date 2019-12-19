@@ -1,4 +1,7 @@
 <div class="details-container">
+    <div *ngIf="!item" class="selectItem">
+        <p>Select an Action Item to view details<i class="fa fa-mouse-pointer"></i></p>
+    </div>
     <div class="details" *ngIf="item">
         <div class="detailsTop">
             <div class="detail title">
