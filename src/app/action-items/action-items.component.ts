@@ -73,6 +73,9 @@ export class ActionItemsComponent implements OnInit {
   }
 
   private getActionItem(): void {
-    this.tasksService.getActionItem(this.actionItemId).subscribe(item => (this.actionItem = item));
+    this.tasksService
+      .getActionItem(this.actionItemId)
+      .pipe(first())
+      .subscribe(item => (this.actionItem = item));
   }
 }
