@@ -1,10 +1,10 @@
-<div class="details-container">
-    <div *ngIf="item === null" class="selectItem">
-        <p>Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
-    </div>
-    <div *ngIf="item === undefined" class="selectItem">
-        <p>No item found. Select another Action Item.<i class="fa fa-mouse-pointer"></i></p>
-    </div>
+<div *ngIf="isLoadingActionItem && !item" class="spinner">
+    <i class="fa fa-spinner fa-spin"></i>
+</div>
+<div *ngIf="!item" class="selectItem">
+    <p>No existing item selected. Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
+</div>
+<div class="details-container" *ngIf="!isLoadingActionItem">
     <div class="details" *ngIf="item">
         <div class="detailsTop">
             <div class="detail title">
@@ -27,7 +27,7 @@
             <div class="circularDiagrams">
                 <div class="diagram positionRelative">
                     <div class="detail">
-                        <round-progress [current]="30" [max]="60" [background]="'#eaeaea'" [radius]="35" [color]="'#AE1919'" [stroke]="2">30</round-progress>
+                        <round-progress [current]="60" [max]="60" [background]="'#eaeaea'" [radius]="35" [color]="'#AE1919'" [stroke]="2">30</round-progress>
                         <div class="diagramValue daysLeft">
                             {{item.dueDay}}
                         </div>

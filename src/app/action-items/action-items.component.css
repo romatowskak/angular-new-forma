@@ -104,7 +104,7 @@
 }
 
 .router-link-active {
-    background-color: #dde4ec !important;
+    background-color: rgb(200, 224, 233) !important;
     outline: 0;
 }
 

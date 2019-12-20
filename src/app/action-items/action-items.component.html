@@ -21,10 +21,10 @@
                 <div class="flexRow bodyHeader" role="columnheader"></div>
             </div>
         </div>
-        <div *ngIf="isloadingActionItems" class="spinner">
+        <div *ngIf="isLoadingActionItems" class="spinner">
             <i class="fa fa-spinner fa-spin"></i>
         </div>
-        <div class="tBody" *ngIf="!isloadingActionItems">
+        <div class="tBody" *ngIf="!isLoadingActionItems">
             <div [routerLink]="['/items']" [queryParams]="{ id: t.id }" routerLinkActive="router-link-active" class="flexTable row singleItem" role="rowgroup" *ngFor="let t of dataSource">
                 <div class="flexRow bodyCell first" role="cell">
                     <div class="titleContainer" id="circleContainer">
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer ">
-        <app-item-details [id]="actionItemId " [item]="actionItem | async">
+        <app-item-details [id]="actionItemId " [item]="actionItem | async" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate">
         </app-item-details>
     </div>
 </div>

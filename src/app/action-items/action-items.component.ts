@@ -18,8 +18,9 @@ export interface ActionItemMapped extends ActionItem {
 })
 export class ActionItemsComponent implements OnInit {
   dataSource: ActionItemMapped[];
-  isloadingActionItems = false;
-  private currentDate: Date = new Date();
+  isLoadingActionItems = false;
+  isLoadingActionItem = false;
+  currentDate: Date = new Date();
   actionItemId: string;
   actionItem: Observable<ActionItem>;
 
@@ -37,7 +38,7 @@ export class ActionItemsComponent implements OnInit {
     });
   }
   retrieveActionItems(): void {
-    this.isloadingActionItems = true;
+    this.isLoadingActionItems = true;
     this.tasksService
       .getAllItems()
       .pipe(
@@ -54,7 +55,7 @@ export class ActionItemsComponent implements OnInit {
       )
       .subscribe(tasks => {
         this.dataSource = tasks;
-        this.isloadingActionItems = false;
+        this.isLoadingActionItems = false;
       });
   }
   openDialog(): void {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 
 export interface ActionItem {
   title: string;
@@ -8,6 +7,7 @@ export interface ActionItem {
   type?: string;
   completed?: string;
   dueDate?: Date;
+  dueDay?: number;
   id: string;
 }
 
@@ -15,7 +15,6 @@ export interface ActionItem {
   providedIn: 'root'
 })
 export class TasksService {
-  constructor(private router: Router) {}
   private readonly dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
@@ -109,7 +108,6 @@ export class TasksService {
         }, 1000);
       });
     } else {
-      this.router.navigateByUrl('/items');
       return new Observable(observer => {
         setTimeout(() => {
           observer.next(undefined);

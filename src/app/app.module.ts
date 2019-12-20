@@ -32,6 +32,10 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
       {
         path: 'items',
         component: ActionItemsComponent
+      },
+      {
+        path: '**',
+        component: ActionItemsComponent
       }
     ])
   ],
