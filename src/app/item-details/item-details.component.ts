@@ -1,8 +1,6 @@
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem } from './../services/tasksService/tasks.service';
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
-import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
+import { Component, Input, OnChanges, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-item-details',
@@ -11,11 +9,12 @@ import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemDetailsComponent implements OnChanges {
+  @Output() changePath = new EventEmitter();
   @Input() item: ActionItem;
   @Input() id: string;
   @Input() isLoadingActionItem: boolean;
   @Input() currentDate: Date;
-  constructor(private router: Router, private daysLeftPipe: DaysLeftCountedPipe) {}
+  constructor(private daysLeftPipe: DaysLeftCountedPipe) {}
   ngOnChanges() {
     this.isLoadingActionItem = !this.isLoadingActionItem;
     if (this.item) {
@@ -23,7 +22,7 @@ export class ItemDetailsComponent implements OnChanges {
       this.item = this.daysLeftPipe.transform(this.item, this.item.dueDate, this.currentDate);
     }
     if (this.item === undefined) {
-      this.router.navigateByUrl('/items');
+      this.changePath.emit();
     }
   }
 }

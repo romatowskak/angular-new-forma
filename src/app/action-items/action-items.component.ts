@@ -4,7 +4,7 @@ import { map, first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DaysLeftCountedPipe } from '../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 
@@ -30,6 +30,7 @@ export class ActionItemsComponent implements OnInit {
     private daysCountService: DaysLeftToDeadlineService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
+    private router: Router,
     private daysLeftPipe: DaysLeftCountedPipe
   ) {}
   ngOnInit() {
@@ -71,5 +72,9 @@ export class ActionItemsComponent implements OnInit {
   }
   private getActionItem(): void {
     this.actionItem = this.tasksService.getActionItem(this.actionItemId);
+  }
+
+  changePath() {
+    this.router.navigateByUrl('/items');
   }
 }

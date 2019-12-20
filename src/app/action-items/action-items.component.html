@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer ">
-        <app-item-details [id]="actionItemId " [item]="actionItem | async" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate">
+        <app-item-details [id]="actionItemId " [item]="actionItem | async" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate" (changePath)="changePath($event)">
         </app-item-details>
     </div>
 </div>
