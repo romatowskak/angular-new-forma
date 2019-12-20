@@ -13,6 +13,7 @@ import { ProjectsService } from './services/projects/projects.service';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { RouterModule } from '@angular/router';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
+import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-counted.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
     ActionItemsComponent,
     CircleColorPipe,
     AddItemComponent,
-    ItemDetailsComponent
+    ItemDetailsComponent,
+    DaysLeftCountedPipe
   ],
   imports: [
     AppMaterialModule,
@@ -39,7 +41,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
       }
     ])
   ],
-  providers: [TasksService, DaysLeftToDeadlineService, ProjectsService, CircleColorPipe],
+  providers: [TasksService, DaysLeftToDeadlineService, ProjectsService, CircleColorPipe, DaysLeftCountedPipe],
   bootstrap: [AppComponent],
   entryComponents: [AddItemComponent]
 })

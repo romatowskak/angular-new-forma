@@ -1,7 +1,7 @@
+import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem } from './../services/tasksService/tasks.service';
 import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
 import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 
 @Component({
@@ -15,15 +15,12 @@ export class ItemDetailsComponent implements OnChanges {
   @Input() id: string;
   @Input() isLoadingActionItem: boolean;
   @Input() currentDate: Date;
-  constructor(private router: Router, private daysCountService: DaysLeftToDeadlineService) {}
+  constructor(private router: Router, private daysLeftPipe: DaysLeftCountedPipe) {}
   ngOnChanges() {
     this.isLoadingActionItem = !this.isLoadingActionItem;
     if (this.item) {
       this.isLoadingActionItem = false;
-      const dueDayCounted = this.item.dueDate
-        ? this.daysCountService.daysLeftToDeadline(this.item.dueDate, this.currentDate)
-        : undefined;
-      this.item = { ...this.item, dueDay: dueDayCounted };
+      this.item = this.daysLeftPipe.transform(this.item, this.item.dueDate, this.currentDate);
     }
     if (this.item === undefined) {
       this.router.navigateByUrl('/items');
