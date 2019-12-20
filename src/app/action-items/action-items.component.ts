@@ -6,6 +6,7 @@ import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { DaysLeftCountedPipe } from '../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -28,7 +29,8 @@ export class ActionItemsComponent implements OnInit {
     private tasksService: TasksService,
     private daysCountService: DaysLeftToDeadlineService,
     private matDialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private daysLeftPipe: DaysLeftCountedPipe
   ) {}
   ngOnInit() {
     this.retrieveActionItems();
@@ -45,10 +47,7 @@ export class ActionItemsComponent implements OnInit {
         first(),
         map(items => {
           const mappedActionItems: ActionItemMapped[] = items.map(item => {
-            const dueDayCounted = item.dueDate
-              ? this.daysCountService.daysLeftToDeadline(item.dueDate, this.currentDate)
-              : undefined;
-            return { ...item, dueDay: dueDayCounted };
+            return this.daysLeftPipe.transform(item, item.dueDate, this.currentDate);
           });
           return mappedActionItems;
         })
