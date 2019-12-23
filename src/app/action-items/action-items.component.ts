@@ -74,7 +74,7 @@ export class ActionItemsComponent implements OnInit {
     this.actionItem = this.tasksService.getActionItem(this.actionItemId);
   }
 
-  changePath() {
+  changePath(): void {
     this.router.navigateByUrl('/items');
   }
 }
