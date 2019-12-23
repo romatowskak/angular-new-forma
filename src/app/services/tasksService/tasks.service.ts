@@ -115,4 +115,9 @@ export class TasksService {
       });
     }
   }
+
+  getLastItemId(): string {
+    const lastItem = this.dataTable[this.dataTable.length - 1];
+    return lastItem.id;
+  }
 }

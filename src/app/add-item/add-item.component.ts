@@ -55,13 +55,14 @@ export class AddItemComponent implements OnInit {
   private formNewActionItem(): ActionItem {
     const projectNameValue = this.dialogForm.get('project').value;
     const dueDateValue = this.dialogForm.get('dueDate').value;
+    const itemId = parseInt(this.tasksService.getLastItemId()) + 1;
     const newItem: ActionItem = {
       title: this.dialogForm.get('name').value,
       projectName: projectNameValue.name,
       type: 'General',
       completed: '60',
       dueDate: !!dueDateValue ? dueDateValue : undefined,
-      id: ''
+      id: JSON.stringify(itemId)
     };
     return newItem;
   }

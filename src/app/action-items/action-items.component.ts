@@ -34,6 +34,7 @@ export class ActionItemsComponent implements OnInit {
     private daysLeftPipe: DaysLeftCountedPipe
   ) {}
   ngOnInit() {
+    console.log(this.tasksService.getLastItemId());
     this.retrieveActionItems();
     this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
