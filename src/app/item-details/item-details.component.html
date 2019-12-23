@@ -29,7 +29,7 @@
                     <div class="detail">
                         <round-progress [current]="60" [max]="60" [background]="'#eaeaea'" [radius]="35" [color]="'#AE1919'" [stroke]="2">30</round-progress>
                         <div class="diagramValue daysLeft">
-                            {{item.dueDay}}
+                            {{item | daysLeftCounted}}
                         </div>
                         <div>Days Left</div>
                     </div>

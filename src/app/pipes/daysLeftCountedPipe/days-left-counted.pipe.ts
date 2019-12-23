@@ -1,16 +1,17 @@
+import { ActionItem } from 'src/app/services/tasksService/tasks.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DaysLeftToDeadlineService } from 'src/app/services/daysLeftToDeadlineService/days-left-to-deadline.service';
-import { ActionItem } from 'src/app/services/tasksService/tasks.service';
 
 @Pipe({
   name: 'daysLeftCounted'
 })
 export class DaysLeftCountedPipe implements PipeTransform {
+  private currentDate: Date = new Date();
   constructor(private daysCountService: DaysLeftToDeadlineService) {}
-  transform(value: any, dueDate: Date, currentDate: Date): ActionItem {
+  transform(value: ActionItem): number {
     const dueDayCounted = value.dueDate
-      ? this.daysCountService.daysLeftToDeadline(value.dueDate, currentDate)
+      ? this.daysCountService.daysLeftToDeadline(value.dueDate, this.currentDate)
       : undefined;
-    return { ...value, dueDay: dueDayCounted };
+    return dueDayCounted;
   }
 }

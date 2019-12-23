@@ -1,12 +1,10 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit } from '@angular/core';
-import { map, first } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
-import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { DaysLeftCountedPipe } from '../pipes/daysLeftCountedPipe/days-left-counted.pipe';
+import { Observable, Subscription } from 'rxjs';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -17,42 +15,29 @@ export interface ActionItemMapped extends ActionItem {
   templateUrl: './action-items.component.html',
   styleUrls: ['./action-items.component.css']
 })
-export class ActionItemsComponent implements OnInit {
+export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
   isLoadingActionItems = false;
   isLoadingActionItem = false;
-  currentDate: Date = new Date();
   actionItemId: string;
   actionItem: Observable<ActionItem>;
+  private subscription: Subscription;
 
   constructor(
     private tasksService: TasksService,
-    private daysCountService: DaysLeftToDeadlineService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-    private daysLeftPipe: DaysLeftCountedPipe
+    private router: Router
   ) {}
   ngOnInit() {
     this.retrieveActionItems();
-    this.route.queryParams.subscribe(params => {
-      this.actionItemId = params.id;
-      this.getActionItem();
-    });
+    this.getQueryParams();
   }
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
     this.tasksService
       .getAllItems()
-      .pipe(
-        first(),
-        map(items => {
-          const mappedActionItems: ActionItemMapped[] = items.map(item => {
-            return this.daysLeftPipe.transform(item, item.dueDate, this.currentDate);
-          });
-          return mappedActionItems;
-        })
-      )
+      .pipe(first())
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
@@ -74,7 +59,20 @@ export class ActionItemsComponent implements OnInit {
     this.actionItem = this.tasksService.getActionItem(this.actionItemId);
   }
 
+  getQueryParams(): void {
+    this.subscription = this.route.queryParams.subscribe(params => {
+      this.actionItemId = params.id;
+      this.getActionItem();
+    });
+  }
   changePath(): void {
     this.router.navigateByUrl('/items');
+  }
+  changeSpinnerValue(): void {
+    this.isLoadingActionItem = !this.isLoadingActionItem;
+    console.log('change spinner');
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

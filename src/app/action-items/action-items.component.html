@@ -39,7 +39,7 @@
                 <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
                 <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
                 <div class="flexRow bodyCell inner" role="cell">
-                    {{ t.dueDay }}
+                    {{ t | daysLeftCounted}}
                 </div>
                 <div class="flexRow bodyCell inner" role="cell">
                     <a><i class=" fa fa-edit"></i></a>

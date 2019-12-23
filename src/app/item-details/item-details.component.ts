@@ -19,7 +19,6 @@ export class ItemDetailsComponent implements OnChanges {
     this.isLoadingActionItem = !this.isLoadingActionItem;
     if (this.item) {
       this.isLoadingActionItem = false;
-      this.item = this.daysLeftPipe.transform(this.item, this.item.dueDate, this.currentDate);
     }
     if (this.item === undefined) {
       this.changePath.emit();
