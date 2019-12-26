@@ -81,7 +81,6 @@ export class TasksService {
       id: '8'
     }
   ];
-
   add(item: ActionItem): Observable<ActionItem> {
     return new Observable(observer => {
       setTimeout(() => {
@@ -90,7 +89,6 @@ export class TasksService {
       }, 1000);
     });
   }
-
   getAllItems(): Observable<ActionItem[]> {
     return new Observable(observer => {
       setTimeout(() => {
@@ -98,7 +96,6 @@ export class TasksService {
       }, 1000);
     });
   }
-
   getActionItem(itemId: string): Observable<ActionItem> | undefined {
     const actionItem = this.dataTable.find(({ id }) => id === itemId);
     if (actionItem) {
@@ -115,7 +112,6 @@ export class TasksService {
       });
     }
   }
-
   getLastItemId(): string {
     const lastItem = this.dataTable[this.dataTable.length - 1];
     return lastItem.id;

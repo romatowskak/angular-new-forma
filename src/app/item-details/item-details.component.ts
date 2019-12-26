@@ -10,16 +10,14 @@ import { Component, Input, OnChanges, ChangeDetectionStrategy, EventEmitter, Out
 })
 export class ItemDetailsComponent implements OnChanges {
   @Output() changePath = new EventEmitter();
+  @Output() changeSpinnerValue = new EventEmitter();
   @Input() item: ActionItem;
   @Input() id: string;
   @Input() isLoadingActionItem: boolean;
   @Input() currentDate: Date;
   constructor(private daysLeftPipe: DaysLeftCountedPipe) {}
   ngOnChanges() {
-    this.isLoadingActionItem = !this.isLoadingActionItem;
-    if (this.item) {
-      this.isLoadingActionItem = false;
-    }
+    this.changeSpinnerValue.emit();
     if (this.item === undefined) {
       this.changePath.emit();
     }

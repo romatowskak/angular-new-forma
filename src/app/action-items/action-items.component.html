@@ -28,7 +28,7 @@
             <div [routerLink]="['/items']" [queryParams]="{ id: t.id }" routerLinkActive="router-link-active" class="flexTable row singleItem" role="rowgroup" *ngFor="let t of dataSource">
                 <div class="flexRow bodyCell first" role="cell">
                     <div class="titleContainer" id="circleContainer">
-                        <i class="fa fa-circle" [ngClass]="t.dueDay | circleColor"></i>
+                        <i class="fa fa-circle" [ngClass]="(t | daysLeftCounted)| circleColor"></i>
                     </div>
                     <div class="titleContainer">
                         <p class="actionItemName title">{{ t.title }}</p>
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer ">
-        <app-item-details [id]="actionItemId " [item]="actionItem | async" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate" (changePath)="changePath($event)">
+        <app-item-details [id]="actionItemId " [item]="actionItem | async" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate" (changePath)="changePath($event)" (changeSpinnerValue)="changeSpinnerValue($event)">
         </app-item-details>
     </div>
 </div>

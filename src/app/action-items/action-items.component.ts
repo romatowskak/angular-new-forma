@@ -1,5 +1,5 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -13,7 +13,8 @@ export interface ActionItemMapped extends ActionItem {
 @Component({
   selector: 'app-action-items',
   templateUrl: './action-items.component.html',
-  styleUrls: ['./action-items.component.css']
+  styleUrls: ['./action-items.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
@@ -58,8 +59,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   private getActionItem(): void {
     this.actionItem = this.tasksService.getActionItem(this.actionItemId);
   }
-
   getQueryParams(): void {
+    this.isLoadingActionItem = true;
     this.subscription = this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
       this.getActionItem();
@@ -70,7 +71,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
   changeSpinnerValue(): void {
     this.isLoadingActionItem = !this.isLoadingActionItem;
-    console.log('change spinner');
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
