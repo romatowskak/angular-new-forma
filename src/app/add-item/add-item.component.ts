@@ -29,7 +29,6 @@ export class AddItemComponent implements OnInit {
       .subscribe(projects => (this.projects = projects));
     this.createForm();
   }
-
   private createForm(): void {
     this.dialogForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -38,7 +37,6 @@ export class AddItemComponent implements OnInit {
       description: ''
     });
   }
-
   createActionItem(): void {
     const newItem = this.formNewActionItem();
     this.isCreatingActionItem = true;
@@ -51,13 +49,12 @@ export class AddItemComponent implements OnInit {
         this.isCreatingActionItem = false;
       });
   }
-
   private formNewActionItem(): ActionItem {
-    const projectNameValue = this.dialogForm.get('project').value;
-    const dueDateValue = this.dialogForm.get('dueDate').value;
+    const projectNameValue = this.dialogForm.get('project')!.value;
+    const dueDateValue = this.dialogForm.get('dueDate')!.value;
     const itemId = parseInt(this.tasksService.getLastItemId()) + 1;
     const newItem: ActionItem = {
-      title: this.dialogForm.get('name').value,
+      title: this.dialogForm.get('name')!.value,
       projectName: projectNameValue.name,
       type: 'General',
       completed: '60',

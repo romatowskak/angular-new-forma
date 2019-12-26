@@ -21,7 +21,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   isLoadingActionItems = false;
   isLoadingActionItem = false;
   actionItemId: string;
-  actionItem: Observable<ActionItem>;
+  actionItem: Observable<ActionItem> | undefined;
   private subscription: Subscription;
 
   constructor(
