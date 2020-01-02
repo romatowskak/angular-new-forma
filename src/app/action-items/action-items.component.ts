@@ -1,5 +1,5 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -28,7 +28,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     private tasksService: TasksService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
   ngOnInit() {
     this.retrieveActionItems();
@@ -52,6 +53,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(item => {
         if (!!item) {
+          this.cd.detectChanges();
           this.retrieveActionItems();
         }
       });

@@ -49,6 +49,7 @@ export class AddItemComponent implements OnInit {
         this.isCreatingActionItem = false;
       });
   }
+
   private formNewActionItem(): ActionItem {
     const projectNameValue = this.dialogForm.get('project')!.value;
     const dueDateValue = this.dialogForm.get('dueDate')!.value;
