@@ -75,4 +75,8 @@ export class AppPage {
   getNewItem(itemName): ElementFinder {
     return element(by.cssContainingText('.title', itemName));
   }
+
+  getItemDetailsContainer() {
+    return element(by.css('.details-container'));
+  }
 }

@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -20,9 +20,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
   isLoadingActionItems = false;
   isLoadingActionItem = false;
-  actionItemId: string;
-  actionItem: Observable<ActionItem> | undefined;
-  private subscription: Subscription;
+  actionItemId: string | undefined;
+  actionItem: ActionItem;
+  private querySubscription: Subscription;
 
   constructor(
     private tasksService: TasksService,
@@ -43,6 +43,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
+        if (!this.cd['destroyed']) {
+          this.cd.detectChanges();
+        }
       });
   }
   openDialog(): void {
@@ -58,23 +61,41 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         }
       });
   }
-  private getActionItem(): void {
-    this.actionItem = this.tasksService.getActionItem(this.actionItemId);
+  private getActionItem(itemId): void {
+    this.tasksService
+      .getActionItem(itemId)!
+      .pipe(first())
+      .subscribe(item => {
+        if (!!item) {
+          this.changeSpinnerValue();
+          this.actionItem = item;
+          this.cd.detectChanges();
+        } else {
+          this.changePath();
+        }
+        this.changeSpinnerValue();
+      });
   }
   getQueryParams(): void {
     this.isLoadingActionItem = true;
-    this.subscription = this.route.queryParams.subscribe(params => {
+    this.querySubscription = this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
-      this.getActionItem();
+      if (this.actionItemId === undefined) {
+        this.changePath();
+        this.changeSpinnerValue();
+        this.cd.detectChanges();
+      }
+      this.getActionItem(this.actionItemId);
     });
   }
   changePath(): void {
     this.router.navigateByUrl('/items');
+    this.changeSpinnerValue();
   }
   changeSpinnerValue(): void {
     this.isLoadingActionItem = !this.isLoadingActionItem;
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.querySubscription.unsubscribe();
   }
 }

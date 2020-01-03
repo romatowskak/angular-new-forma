@@ -1,10 +1,10 @@
-<div *ngIf="isLoadingActionItem" class="spinner">
+<div *ngIf="item !== undefined && isLoadingActionItem" class="spinner">
     <i class="fa fa-spinner fa-spin"></i>
 </div>
 <div *ngIf="item === undefined" class="selectItem">
     <p>No existing item selected. Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
 </div>
-<div class="details-container" *ngIf="!isLoadingActionItem">
+<div class="details-container" *ngIf="!isLoadingActionItem && item !== undefined">
     <div class="details" *ngIf="item">
         <div class="detailsTop">
             <div class="detail title">

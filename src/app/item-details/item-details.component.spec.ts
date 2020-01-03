@@ -4,7 +4,6 @@ import { CircleColorPipe } from './../pipes/circleColorPipe/circle-color.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ItemDetailsComponent } from './item-details.component';
 import { TasksService } from '../services/tasksService/tasks.service';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 describe('ItemDetailsComponent', () => {
@@ -27,22 +26,9 @@ describe('ItemDetailsComponent', () => {
     tasksService = TestBed.get(TasksService);
   });
 
-  it('should change path if no item found', () => {
-    spyOn(component.changePath, 'emit');
-    spyOn(tasksService, 'getActionItem').and.returnValue(of(undefined));
-    component.ngOnChanges();
-    expect(component.changePath.emit).toHaveBeenCalled();
-  });
-
   it('should not diplay spinner if item was not clicked', () => {
     fixture.detectChanges();
     const spinner = fixture.debugElement.query(By.css('.fa-spin'));
     expect(spinner).toBeFalsy();
-  });
-
-  it('should display item details when item was clicked', () => {
-    component.ngOnChanges();
-    const itemDetails = fixture.debugElement.query(By.css('.details-container'));
-    expect(itemDetails).toBeTruthy();
   });
 });

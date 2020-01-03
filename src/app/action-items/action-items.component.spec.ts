@@ -67,13 +67,6 @@ describe('ActionItemsComponent', () => {
     expect(actionItems).toBeFalsy();
   });
 
-  it('should display action items when spinner stops loading', () => {
-    component.isLoadingActionItems = false;
-    fixture.detectChanges();
-    const actionItems = fixture.debugElement.query(By.css('.tBody'));
-    expect(actionItems).toBeTruthy();
-  });
-
   it('should change the value of "loading" to "false"', () => {
     const emptyTasks: ActionItem[] = [];
     spyOn(tasksService, 'getAllItems').and.returnValue(of(emptyTasks));
