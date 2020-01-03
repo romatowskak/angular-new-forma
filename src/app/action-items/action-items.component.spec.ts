@@ -1,4 +1,5 @@
 import { ItemDetailsComponent } from './../item-details/item-details.component';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AppMaterialModule } from './../app-material/app-material.module';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AddItemComponent } from './../add-item/add-item.component';
@@ -9,20 +10,31 @@ import { TasksService, ActionItem } from '../services/tasksService/tasks.service
 import { ActionItemsComponent, ActionItemMapped } from './action-items.component';
 import { CircleColorPipe } from '../pipes/circleColorPipe/circle-color.pipe';
 import { By } from '@angular/platform-browser';
+import { DaysLeftCountedPipe } from '../pipes/daysLeftCountedPipe/days-left-counted.pipe';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
+import { Router } from '@angular/router';
 
 describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
   let fixture: ComponentFixture<ActionItemsComponent>;
   let tasksService: TasksService;
   let daysLeftToDeadlineService: DaysLeftToDeadlineService;
+  let router: Router;
   let element;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ActionItemsComponent, CircleColorPipe, AddItemComponent, ItemDetailsComponent],
-      imports: [AppMaterialModule],
+      declarations: [
+        ActionItemsComponent,
+        CircleColorPipe,
+        AddItemComponent,
+        DaysLeftCountedPipe,
+        ItemDetailsComponent
+      ],
+      imports: [AppMaterialModule, RouterTestingModule, RoundProgressModule],
       providers: [
         TasksService,
+        DaysLeftCountedPipe,
         {
           provide: MatDialogRef,
           useValue: {}
@@ -33,6 +45,7 @@ describe('ActionItemsComponent', () => {
 
   beforeEach(() => {
     tasksService = TestBed.get(TasksService);
+    router = TestBed.get(Router);
     daysLeftToDeadlineService = TestBed.get(DaysLeftToDeadlineService);
     fixture = TestBed.createComponent(ActionItemsComponent);
     component = fixture.componentInstance;
@@ -45,17 +58,17 @@ describe('ActionItemsComponent', () => {
   });
 
   it('should have the initial value of loading=true;', () => {
-    expect(component.isloadingActionItems).toBe(true);
+    expect(component.isLoadingActionItems).toBe(true);
   });
 
   it('should not display action items when spinner is loading', () => {
-    component.isloadingActionItems = true;
+    component.isLoadingActionItems = true;
     const actionItems = fixture.debugElement.query(By.css('.tBody'));
     expect(actionItems).toBeFalsy();
   });
 
   it('should display action items when spinner stops loading', () => {
-    component.isloadingActionItems = false;
+    component.isLoadingActionItems = false;
     fixture.detectChanges();
     const actionItems = fixture.debugElement.query(By.css('.tBody'));
     expect(actionItems).toBeTruthy();
@@ -65,7 +78,7 @@ describe('ActionItemsComponent', () => {
     const emptyTasks: ActionItem[] = [];
     spyOn(tasksService, 'getAllItems').and.returnValue(of(emptyTasks));
     component.ngOnInit();
-    expect(component.isloadingActionItems).toBe(false);
+    expect(component.isLoadingActionItems).toBe(false);
   });
 
   it('for an empty array passed it should return an empty array as well', () => {
@@ -87,18 +100,29 @@ describe('ActionItemsComponent', () => {
       }
     ];
     spyOn(tasksService, 'getAllItems').and.returnValue(of(actionItemsBeforeMapping));
-    spyOn(daysLeftToDeadlineService, 'daysLeftToDeadline').and.returnValue(3);
+
     component.ngOnInit();
     expect(component.dataSource.length).toBe(1);
-    expect(component.dataSource[0].dueDay).toEqual(3);
   });
 
   it('dialog should be opened', () => {
     spyOn(component, 'openDialog');
-    component.isloadingActionItems = false;
+    component.isLoadingActionItems = false;
     fixture.detectChanges();
     const btn = fixture.debugElement.query(By.css('.addItem')).nativeElement;
     btn.click();
     expect(component.openDialog).toHaveBeenCalled();
+  });
+
+  it('should change the path', () => {
+    const navigateSpy = spyOn(router, 'navigateByUrl');
+    component.changePath();
+    expect(navigateSpy).toHaveBeenCalledWith('/items');
+  });
+
+  it('should change spinner value', () => {
+    component.isLoadingActionItem = true;
+    component.changeSpinnerValue();
+    expect(component.isLoadingActionItem).toBe(false);
   });
 });

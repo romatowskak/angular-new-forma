@@ -6,6 +6,7 @@ import { Component, Input, OnChanges, ChangeDetectionStrategy, EventEmitter, Out
   selector: 'app-item-details',
   templateUrl: './item-details.component.html',
   styleUrls: ['./item-details.component.css'],
+  providers: [DaysLeftCountedPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemDetailsComponent implements OnChanges {

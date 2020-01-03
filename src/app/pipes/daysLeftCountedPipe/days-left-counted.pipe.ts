@@ -6,12 +6,11 @@ import { DaysLeftToDeadlineService } from 'src/app/services/daysLeftToDeadlineSe
   name: 'daysLeftCounted'
 })
 export class DaysLeftCountedPipe implements PipeTransform {
-  private currentDate: Date = new Date();
   constructor(private daysCountService: DaysLeftToDeadlineService) {}
-  transform(value: ActionItem): number | undefined {
+  transform(value: ActionItem, currentDate: Date = new Date()): number | undefined {
     if (value) {
       const dueDayCounted = value.dueDate
-        ? this.daysCountService.daysLeftToDeadline(value.dueDate, this.currentDate)
+        ? this.daysCountService.daysLeftToDeadline(value.dueDate, currentDate)
         : undefined;
       return dueDayCounted;
     }

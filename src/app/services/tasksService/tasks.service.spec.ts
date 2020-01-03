@@ -24,10 +24,25 @@ describe('TasksService', () => {
       projectName: 'CASD Wilson & Lamberton Middle Schools',
       type: 'General',
       completed: '80',
-      dueDate: new Date('2019/11/17')
+      dueDate: new Date('2019/11/17'),
+      id: '1'
     };
     tasksService.getAllItems().subscribe(res => {
       expect(res[0]).toEqual(tableItem);
+      done();
+    });
+  });
+
+  it('getActionItem() should return an item if the id matches', done => {
+    const itemId = '2';
+    tasksService.getActionItem(itemId).subscribe(res => {
+      expect(res.id).toEqual('2');
+      done();
+    });
+  });
+  it('getActionItem() should return undefined if the id does not match', done => {
+    tasksService.getActionItem(undefined).subscribe(res => {
+      expect(res).toEqual(undefined);
       done();
     });
   });
