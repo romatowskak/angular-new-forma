@@ -1,20 +1,19 @@
-import { AppPage } from './app.po';
-import { browser, by, element } from 'protractor';
+import { CreateItemPage } from './createItem.po';
 
 describe('workspace-project App', () => {
-  let page: AppPage;
+  let page: CreateItemPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new CreateItemPage();
   });
 
   it('should display table with 8 action items', () => {
-    page.navigateTo();
+    page.navigateToAllActionItems();
     expect(page.getAllActionItems().count()).toBe(8);
   });
 
   it('should open and close dialog modal', () => {
-    page.navigateTo();
+    page.navigateToAllActionItems();
     page.openDialog();
     page.getCloseDialogButton().click();
     expect(page.getModalDialog().isPresent()).toEqual(false);

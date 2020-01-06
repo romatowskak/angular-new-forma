@@ -1,7 +1,7 @@
 import { browser, by, element, promise, ElementFinder, ElementArrayFinder } from 'protractor';
 
-export class AppPage {
-  navigateTo() {
+export class CreateItemPage {
+  navigateToAllActionItems(): promise.Promise<string> {
     return browser.get('/');
   }
 
@@ -74,9 +74,5 @@ export class AppPage {
 
   getNewItem(itemName): ElementFinder {
     return element(by.cssContainingText('.title', itemName));
-  }
-
-  getItemDetailsContainer() {
-    return element(by.css('.details-container'));
   }
 }
