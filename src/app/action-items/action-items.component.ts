@@ -1,5 +1,5 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -13,8 +13,7 @@ export interface ActionItemMapped extends ActionItem {
 @Component({
   selector: 'app-action-items',
   templateUrl: './action-items.component.html',
-  styleUrls: ['./action-items.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
@@ -61,20 +60,21 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         }
       });
   }
-  private getActionItem(itemId): void {
+  private getActionItem(itemId: string | undefined): void {
+    this.isLoadingActionItem = true;
     this.tasksService
-      .getActionItem(itemId)!
+      .getActionItem(itemId)
       .pipe(first())
-      .subscribe(item => {
-        if (!!item) {
-          this.changeSpinnerValue();
+      .subscribe(
+        item => {
+          this.isLoadingActionItem = false;
           this.actionItem = item;
           this.cd.detectChanges();
-        } else {
+        },
+        err => {
           this.changePath();
         }
-        this.changeSpinnerValue();
-      });
+      );
   }
   getQueryParams(): void {
     this.isLoadingActionItem = true;
@@ -82,7 +82,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       this.actionItemId = params.id;
       if (this.actionItemId === undefined) {
         this.changePath();
-        this.changeSpinnerValue();
         this.cd.detectChanges();
       }
       this.getActionItem(this.actionItemId);
@@ -90,10 +89,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
   changePath(): void {
     this.router.navigateByUrl('/items');
-    this.changeSpinnerValue();
-  }
-  changeSpinnerValue(): void {
-    this.isLoadingActionItem = !this.isLoadingActionItem;
+    this.isLoadingActionItem = false;
   }
   ngOnDestroy() {
     this.querySubscription.unsubscribe();

@@ -112,10 +112,4 @@ describe('ActionItemsComponent', () => {
     component.changePath();
     expect(navigateSpy).toHaveBeenCalledWith('/items');
   });
-
-  it('should change spinner value', () => {
-    component.isLoadingActionItem = true;
-    component.changeSpinnerValue();
-    expect(component.isLoadingActionItem).toBe(false);
-  });
 });

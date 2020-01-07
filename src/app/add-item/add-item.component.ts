@@ -1,4 +1,4 @@
-import { TasksService, ActionItem } from './../services/tasksService/tasks.service';
+import { TasksService, ActionItem, AddActionItem } from './../services/tasksService/tasks.service';
 import { Project, ProjectsService } from '../services/projects/projects.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -50,17 +50,21 @@ export class AddItemComponent implements OnInit {
       });
   }
 
-  private formNewActionItem(): ActionItem {
+  private formNewActionItem(): AddActionItem {
+    const title = this.dialogForm.get('name');
     const projectName = this.dialogForm.get('project');
     const dueDate = this.dialogForm.get('dueDate');
-    const itemId = this.tasksService.getLastItemId();
-    const newItem: ActionItem = {
-      title: this.dialogForm.get('name')!.value,
-      projectName: !!projectName ? projectName.value.name : undefined,
+
+    if (!title || !projectName || !dueDate) {
+      throw 'Invalid Action Item data';
+    }
+
+    const newItem: AddActionItem = {
+      title: title.value,
+      projectName: projectName.value.name,
       type: 'General',
       completed: '60',
-      dueDate: !!dueDate ? dueDate.value : undefined,
-      id: JSON.stringify(itemId)
+      dueDate: dueDate.value
     };
     return newItem;
   }

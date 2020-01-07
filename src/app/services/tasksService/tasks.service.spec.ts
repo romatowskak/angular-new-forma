@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TasksService } from './tasks.service';
+import { Observable, throwError } from 'rxjs';
+import { error } from 'util';
 
 describe('TasksService', () => {
   let tasksService;
@@ -37,12 +39,6 @@ describe('TasksService', () => {
     const itemId = '2';
     tasksService.getActionItem(itemId).subscribe(res => {
       expect(res.id).toEqual('2');
-      done();
-    });
-  });
-  it('getActionItem() should return undefined if the id does not match', done => {
-    tasksService.getActionItem(undefined).subscribe(res => {
-      expect(res).toEqual(undefined);
       done();
     });
   });

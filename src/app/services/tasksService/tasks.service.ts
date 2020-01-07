@@ -7,8 +7,15 @@ export interface ActionItem {
   type?: string;
   completed?: string;
   dueDate?: Date;
-  dueDay?: number;
   id: string;
+}
+
+export interface AddActionItem {
+  title: string;
+  projectName: string;
+  type?: string;
+  completed?: string;
+  dueDate?: Date;
 }
 
 @Injectable({
@@ -81,11 +88,15 @@ export class TasksService {
       id: '8'
     }
   ];
-  add(item: ActionItem): Observable<ActionItem> {
+  add(item: AddActionItem): Observable<ActionItem> {
     return new Observable(observer => {
       setTimeout(() => {
-        this.dataTable.push(item);
-        observer.next(item);
+        const newActionItem = {
+          ...item,
+          id: this.getLastItemId()
+        };
+        this.dataTable.push(newActionItem);
+        observer.next(newActionItem);
       }, 1000);
     });
   }
@@ -96,7 +107,7 @@ export class TasksService {
       }, 1000);
     });
   }
-  getActionItem(itemId: string): Observable<ActionItem> | undefined {
+  getActionItem(itemId: string | undefined): Observable<ActionItem> {
     const actionItem = this.dataTable.find(({ id }) => id === itemId);
     if (actionItem) {
       return new Observable(observer => {
@@ -107,14 +118,14 @@ export class TasksService {
     } else {
       return new Observable(observer => {
         setTimeout(() => {
-          observer.next(undefined);
+          observer.error(new Error('No item found!'));
         }, 1000);
       });
     }
   }
-  getLastItemId(): number {
+  private getLastItemId(): string {
     const lastItem = this.dataTable[this.dataTable.length - 1];
     const newItemId = parseInt(lastItem.id) + 1;
-    return newItemId;
+    return newItemId.toString();
   }
 }
