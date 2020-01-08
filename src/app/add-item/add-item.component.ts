@@ -63,7 +63,7 @@ export class AddItemComponent implements OnInit {
       title: title.value,
       projectName: projectName.value.name,
       type: 'General',
-      completed: '60',
+      completed: '0',
       dueDate: dueDate.value
     };
     return newItem;

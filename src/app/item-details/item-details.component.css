@@ -113,3 +113,11 @@
     margin-top: 150px;
     color: #003c4d;
 }
+
+.underText {
+    text-align: center;
+}
+
+.diagramsHidden {
+    display: none;
+}

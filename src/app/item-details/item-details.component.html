@@ -1,8 +1,8 @@
 <div *ngIf="item !== undefined && isLoadingActionItem" class="spinner">
     <i class="fa fa-spinner fa-spin"></i>
 </div>
-<div *ngIf="item === undefined" class="selectItem">
-    <p>No existing item selected. Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
+<div *ngIf="item === undefined && errorMessage" class="selectItem">
+    <p>{{errorMessage}}</p>
 </div>
 <div class="details-container" *ngIf="!isLoadingActionItem && item !== undefined">
     <div class="details" *ngIf="item">
@@ -22,16 +22,16 @@
         </div>
         <div class="center">
             <div class="detail dueDate">
-                <div>Due Date: {{(item.dueDate | date: 'dd/MM/yyyy') || '-'}}</div>
+                <div>Due Date: {{(item.dueDate | date: 'MM/dd/yyyy') || '-' }}</div>
             </div>
             <div class="circularDiagrams">
-                <div class="diagram positionRelative">
+                <div class="diagram positionRelative" [class.diagramsHidden]="!itemVisibility">
                     <div class="detail">
                         <round-progress [current]="60" [max]="60" [background]="'#eaeaea'" [radius]="35" [color]="'#AE1919'" [stroke]="2">30</round-progress>
                         <div class="diagramValue daysLeft">
                             {{item | daysLeftCounted}}
                         </div>
-                        <div>Days Left</div>
+                        <div class="underText">Days Left</div>
                     </div>
                 </div>
                 <div class="diagram positionRelative">
@@ -40,7 +40,7 @@
                         <div class="diagramValue complete">
                             {{item.completed}}
                         </div>
-                        <div>% Complete</div>
+                        <div class="underText">% Complete</div>
                     </div>
                 </div>
             </div>

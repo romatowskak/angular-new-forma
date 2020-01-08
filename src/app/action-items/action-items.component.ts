@@ -1,5 +1,5 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer, ElementRef } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -21,6 +21,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   isLoadingActionItem = false;
   actionItemId: string | undefined;
   actionItem: ActionItem;
+  errorMessage: string | undefined;
+  justAddedItem: ActionItem;
   private querySubscription: Subscription;
 
   constructor(
@@ -28,7 +30,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private renderer: Renderer,
+    private elem: ElementRef
   ) {}
   ngOnInit() {
     this.retrieveActionItems();
@@ -42,6 +45,11 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
+        this.justAddedItem = this.tasksService.justAddedItem;
+        if (this.justAddedItem) {
+          this.getActionItem(this.justAddedItem.id);
+          this.router.navigate(['/items'], { queryParams: { id: this.justAddedItem.id } });
+        }
       });
   }
   openDialog(): void {
@@ -67,7 +75,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.actionItem = item;
         },
         err => {
-          this.changePath();
+          this.errorMessage = err ? `Error Code: ${404} \n Message: ${err.message}` : undefined;
         }
       );
   }
@@ -77,10 +85,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       this.actionItemId = params.id;
       this.getActionItem(this.actionItemId);
     });
-  }
-  changePath(): void {
-    this.router.navigateByUrl('/items');
-    this.isLoadingActionItem = false;
   }
   ngOnDestroy() {
     this.querySubscription.unsubscribe();

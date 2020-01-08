@@ -1,6 +1,6 @@
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem } from './../services/tasksService/tasks.service';
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-item-details',
@@ -9,9 +9,18 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   providers: [DaysLeftCountedPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemDetailsComponent {
+export class ItemDetailsComponent implements OnChanges {
   @Input() item: ActionItem;
   @Input() id: string;
+  @Input() errorMessage: string | undefined;
   @Input() isLoadingActionItem: boolean;
   @Input() currentDate: Date;
+  itemVisibility: boolean;
+
+  ngOnChanges() {
+    if (this.item) {
+      const itemDueDate = this.item.dueDate;
+      this.itemVisibility = typeof itemDueDate === 'string' ? false : true;
+    }
+  }
 }

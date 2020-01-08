@@ -37,7 +37,7 @@ import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-count
       },
       {
         path: '**',
-        component: ActionItemsComponent
+        redirectTo: '/items'
       }
     ])
   ],

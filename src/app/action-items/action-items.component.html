@@ -37,7 +37,7 @@
                 </div>
                 <div class="flexRow bodyCell inner" role="cell">{{ t.type }}</div>
                 <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
-                <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'dd/MM/yyyy') || '-' }}</div>
+                <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'MM/dd/yyyy') || '-' }}</div>
                 <div class="flexRow bodyCell inner" role="cell">
                     {{ t | daysLeftCounted}}
                 </div>
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer ">
-        <app-item-details [id]="actionItemId" [item]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate">
+        <app-item-details [id]="actionItemId" [item]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate" [errorMessage]="errorMessage">
         </app-item-details>
     </div>
 </div>

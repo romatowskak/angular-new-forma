@@ -22,6 +22,7 @@ export interface AddActionItem {
   providedIn: 'root'
 })
 export class TasksService {
+  justAddedItem: ActionItem;
   private readonly dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
@@ -97,6 +98,7 @@ export class TasksService {
         };
         this.dataTable.push(newActionItem);
         observer.next(newActionItem);
+        this.justAddedItem = this.getLastItem();
       }, 1000);
     });
   }
@@ -123,9 +125,14 @@ export class TasksService {
       });
     }
   }
-  private getLastItemId(): string {
+  getLastItemId(): string {
     const lastItem = this.dataTable[this.dataTable.length - 1];
     const newItemId = parseInt(lastItem.id) + 1;
     return newItemId.toString();
+  }
+
+  getLastItem(): ActionItem {
+    const lastItem = this.dataTable[this.dataTable.length - 1];
+    return lastItem;
   }
 }
