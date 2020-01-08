@@ -42,9 +42,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
-        if (!this.cd['destroyed']) {
-          this.cd.detectChanges();
-        }
       });
   }
   openDialog(): void {
@@ -55,7 +52,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(item => {
         if (!!item) {
-          this.cd.detectChanges();
           this.retrieveActionItems();
         }
       });
@@ -69,7 +65,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
-          this.cd.detectChanges();
         },
         err => {
           this.changePath();
@@ -82,7 +77,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       this.actionItemId = params.id;
       if (this.actionItemId === undefined) {
         this.changePath();
-        this.cd.detectChanges();
       }
       this.getActionItem(this.actionItemId);
     });

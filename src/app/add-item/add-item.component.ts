@@ -1,4 +1,4 @@
-import { TasksService, ActionItem, AddActionItem } from './../services/tasksService/tasks.service';
+import { TasksService, AddActionItem } from './../services/tasksService/tasks.service';
 import { Project, ProjectsService } from '../services/projects/projects.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
