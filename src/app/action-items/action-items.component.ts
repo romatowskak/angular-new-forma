@@ -75,9 +75,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.isLoadingActionItem = true;
     this.querySubscription = this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
-      if (this.actionItemId === undefined) {
-        this.changePath();
-      }
       this.getActionItem(this.actionItemId);
     });
   }
