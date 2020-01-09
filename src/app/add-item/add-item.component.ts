@@ -49,16 +49,13 @@ export class AddItemComponent implements OnInit {
         this.isCreatingActionItem = false;
       });
   }
-
   private formNewActionItem(): AddActionItem {
     const title = this.dialogForm.get('name');
     const projectName = this.dialogForm.get('project');
     const dueDate = this.dialogForm.get('dueDate');
-
     if (!title || !projectName || !dueDate) {
       throw 'Invalid Action Item data';
     }
-
     const newItem: AddActionItem = {
       title: title.value,
       projectName: projectName.value.name,

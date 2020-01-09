@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
 export interface ActionItem {
   title: string;
@@ -22,7 +23,6 @@ export interface AddActionItem {
   providedIn: 'root'
 })
 export class TasksService {
-  justAddedItem: ActionItem;
   private readonly dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
@@ -98,7 +98,6 @@ export class TasksService {
         };
         this.dataTable.push(newActionItem);
         observer.next(newActionItem);
-        this.justAddedItem = this.getLastItem();
       }, 1000);
     });
   }
@@ -111,28 +110,19 @@ export class TasksService {
   }
   getActionItem(itemId: string | undefined): Observable<ActionItem> {
     const actionItem = this.dataTable.find(({ id }) => id === itemId);
-    if (actionItem) {
-      return new Observable(observer => {
-        setTimeout(() => {
+    return new Observable(observer => {
+      setTimeout(() => {
+        if (actionItem) {
           observer.next(actionItem);
-        }, 1000);
-      });
-    } else {
-      return new Observable(observer => {
-        setTimeout(() => {
-          observer.error(new Error('No item found!'));
-        }, 1000);
-      });
-    }
+        } else {
+          observer.error(new HttpResponse({ status: 404, statusText: 'No item with such ID found!' }));
+        }
+      }, 1000);
+    });
   }
   getLastItemId(): string {
     const lastItem = this.dataTable[this.dataTable.length - 1];
     const newItemId = parseInt(lastItem.id) + 1;
     return newItemId.toString();
-  }
-
-  getLastItem(): ActionItem {
-    const lastItem = this.dataTable[this.dataTable.length - 1];
-    return lastItem;
   }
 }

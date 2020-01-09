@@ -1,5 +1,5 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy, Renderer, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -29,27 +29,24 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     private tasksService: TasksService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-    private renderer: Renderer,
-    private elem: ElementRef
+    private router: Router
   ) {}
   ngOnInit() {
     this.retrieveActionItems();
     this.getQueryParams();
   }
+
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
+    this.isLoadingActionItem = true;
     this.tasksService
       .getAllItems()
       .pipe(first())
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
-        this.justAddedItem = this.tasksService.justAddedItem;
-        if (this.justAddedItem) {
-          this.getActionItem(this.justAddedItem.id);
-          this.router.navigate(['/items'], { queryParams: { id: this.justAddedItem.id } });
-        }
+        this.isLoadingActionItem = false;
+        this.justAddedItem = tasks[tasks.length - 1];
       });
   }
   openDialog(): void {
@@ -61,6 +58,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
+          const justAddedItemId = parseInt(this.justAddedItem.id) + 1;
+          this.router.navigate(['/items'], { queryParams: { id: justAddedItemId } });
         }
       });
   }
@@ -75,7 +74,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.actionItem = item;
         },
         err => {
-          this.errorMessage = err ? `Error Code: ${404} \n Message: ${err.message}` : undefined;
+          if (err.status === 404) this.errorMessage = err.statusText;
         }
       );
   }
@@ -83,7 +82,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.isLoadingActionItem = true;
     this.querySubscription = this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
-      this.getActionItem(this.actionItemId);
+      if (this.actionItemId) {
+        this.getActionItem(this.actionItemId);
+      }
     });
   }
   ngOnDestroy() {

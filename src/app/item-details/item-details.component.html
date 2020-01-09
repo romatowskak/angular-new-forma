@@ -1,8 +1,11 @@
-<div *ngIf="item !== undefined && isLoadingActionItem" class="spinner">
+<div *ngIf="isLoadingActionItem" class="spinner">
     <i class="fa fa-spinner fa-spin"></i>
 </div>
-<div *ngIf="item === undefined && errorMessage" class="selectItem">
+<div *ngIf="item === undefined && errorMessage && !isLoadingActionItem" class="selectItem errorMessage">
     <p>{{errorMessage}}</p>
+</div>
+<div *ngIf="item === undefined && !errorMessage && !isLoadingActionItem" class="selectItem">
+    <p>Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
 </div>
 <div class="details-container" *ngIf="!isLoadingActionItem && item !== undefined">
     <div class="details" *ngIf="item">
