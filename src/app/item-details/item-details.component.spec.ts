@@ -1,7 +1,7 @@
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { CircleColorPipe } from './../pipes/circleColorPipe/circle-color.pipe';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ItemDetailsComponent } from './item-details.component';
 import { TasksService } from '../services/tasksService/tasks.service';
 import { By } from '@angular/platform-browser';
@@ -30,5 +30,24 @@ describe('ItemDetailsComponent', () => {
     fixture.detectChanges();
     const spinner = fixture.debugElement.query(By.css('.fa-spin'));
     expect(spinner).toBeFalsy();
+  });
+
+  it('should display days-left only if dueDate declared', () => {
+    component.item = {
+      title: 'title',
+      projectName: 'projectName',
+      type: 'type',
+      completed: 'completed',
+      dueDate: new Date('2019/11/17'),
+      id: 'id'
+    };
+    component.ngOnChanges();
+    expect(component.itemVisibility).toEqual(true);
+  });
+
+  it('should not display error message if there is an item found', () => {
+    fixture.detectChanges();
+    const errorMessage = fixture.debugElement.query(By.css('.selectedItem.errorMessage'));
+    expect(errorMessage).toBeFalsy();
   });
 });

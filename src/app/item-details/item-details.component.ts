@@ -10,7 +10,7 @@ import { Component, Input, ChangeDetectionStrategy, OnChanges } from '@angular/c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemDetailsComponent implements OnChanges {
-  @Input() item: ActionItem;
+  @Input() item: ActionItem | undefined;
   @Input() id: string;
   @Input() errorMessage: string | undefined;
   @Input() isLoadingActionItem: boolean;

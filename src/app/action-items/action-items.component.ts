@@ -1,5 +1,5 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -22,20 +22,21 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItemId: string | undefined;
   actionItem: ActionItem;
   errorMessage: string | undefined;
-  justAddedItem: ActionItem;
   private querySubscription: Subscription;
+  private itemRequest: Subscription;
 
   constructor(
     private tasksService: TasksService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private elRef: ElementRef
   ) {}
+
   ngOnInit() {
     this.retrieveActionItems();
     this.getQueryParams();
   }
-
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
     this.isLoadingActionItem = true;
@@ -46,7 +47,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
         this.isLoadingActionItem = false;
-        this.justAddedItem = tasks[tasks.length - 1];
       });
   }
   openDialog(): void {
@@ -58,14 +58,19 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
-          const justAddedItemId = parseInt(this.justAddedItem.id) + 1;
+          const justAddedItemId = this.dataSource[this.dataSource.length - 1].id;
           this.router.navigate(['/items'], { queryParams: { id: justAddedItemId } });
+          // const item = this.elRef.nativeElement.querySelector();
+          // console.log(item);
         }
       });
   }
   private getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;
-    this.tasksService
+    if (this.itemRequest) {
+      this.itemRequest.unsubscribe();
+    }
+    this.itemRequest = this.tasksService
       .getActionItem(itemId)
       .pipe(first())
       .subscribe(

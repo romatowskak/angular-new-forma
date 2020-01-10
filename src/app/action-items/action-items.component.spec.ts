@@ -106,10 +106,4 @@ describe('ActionItemsComponent', () => {
     btn.click();
     expect(component.openDialog).toHaveBeenCalled();
   });
-
-  it('should change the path and navigate to all action items', () => {
-    const navigateSpy = spyOn(router, 'navigateByUrl');
-    component.changePath();
-    expect(navigateSpy).toHaveBeenCalledWith('/items');
-  });
 });

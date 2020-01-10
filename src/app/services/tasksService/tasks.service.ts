@@ -30,7 +30,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '1'
+      id: this.itemId()
     },
     {
       title: 'The Flash Tutorial',
@@ -38,7 +38,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/12/29'),
-      id: '2'
+      id: this.itemId()
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -46,7 +46,7 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2019/11/15'),
-      id: '3'
+      id: this.itemId()
     },
     {
       title: 'Android - UI Automation Test',
@@ -54,7 +54,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '4'
+      id: this.itemId()
     },
     {
       title: 'The Flash Tutorial',
@@ -62,7 +62,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: '5'
+      id: this.itemId()
     },
     {
       title: 'Android - UI Automation Test',
@@ -70,7 +70,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '6'
+      id: this.itemId()
     },
     {
       title: 'The Flash Tutorial',
@@ -78,7 +78,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: '7'
+      id: this.itemId()
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -86,7 +86,7 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2020/01/05'),
-      id: '8'
+      id: this.itemId()
     }
   ];
   add(item: AddActionItem): Observable<ActionItem> {
@@ -94,7 +94,7 @@ export class TasksService {
       setTimeout(() => {
         const newActionItem = {
           ...item,
-          id: this.getLastItemId()
+          id: this.itemId()
         };
         this.dataTable.push(newActionItem);
         observer.next(newActionItem);
@@ -120,9 +120,11 @@ export class TasksService {
       }, 1000);
     });
   }
-  getLastItemId(): string {
-    const lastItem = this.dataTable[this.dataTable.length - 1];
-    const newItemId = parseInt(lastItem.id) + 1;
-    return newItemId.toString();
+  itemId(): string {
+    return (
+      Math.random()
+        .toString(36)
+        .substring(2) + Date.now().toString(36)
+    );
   }
 }
