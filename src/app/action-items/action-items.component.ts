@@ -60,8 +60,10 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.retrieveActionItems();
           const justAddedItemId = this.dataSource[this.dataSource.length - 1].id;
           this.router.navigate(['/items'], { queryParams: { id: justAddedItemId } });
-          // const item = this.elRef.nativeElement.querySelector();
-          // console.log(item);
+          setTimeout(() => {
+            console.log(justAddedItemId);
+            const item = this.elRef.nativeElement.querySelector('[id=' + justAddedItemId + ']');
+          }, 1000);
         }
       });
   }
