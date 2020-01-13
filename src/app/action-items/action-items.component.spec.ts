@@ -22,6 +22,7 @@ describe('ActionItemsComponent', () => {
   let daysLeftToDeadlineService: DaysLeftToDeadlineService;
   let router: Router;
   let element;
+  let actionItem: ActionItem;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,6 +54,14 @@ describe('ActionItemsComponent', () => {
     component = fixture.componentInstance;
     element = fixture.nativeElement;
     fixture.detectChanges();
+    actionItem = {
+      title: 'itemTitle',
+      projectName: 'itemProjectName',
+      type: 'itemType',
+      completed: 'itemCompletion',
+      dueDate: new Date('2019/11/17'),
+      id: 'itemId'
+    };
   });
 
   it('should create', () => {
@@ -107,5 +116,23 @@ describe('ActionItemsComponent', () => {
     const btn = fixture.debugElement.query(By.css('.addItem')).nativeElement;
     btn.click();
     expect(component.openDialog).toHaveBeenCalled();
+  });
+
+  it('should call getQueryParams()', () => {
+    component.actionItem = actionItem;
+    const getParamsSpy = spyOn(component, 'getQueryParams').and.callThrough();
+    component.ngOnInit();
+    expect(getParamsSpy).toHaveBeenCalled();
+  });
+
+  it('should get action item', done => {
+    spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
+    tasksService.getActionItem('itemId').subscribe(res => {
+      component.actionItem = res;
+      component.actionItemId = res.id;
+      done();
+      expect(component.actionItem).toEqual(actionItem);
+      expect(component.actionItemId).toEqual(actionItem.id);
+    });
   });
 });

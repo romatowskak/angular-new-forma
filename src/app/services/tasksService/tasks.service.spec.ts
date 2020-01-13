@@ -1,12 +1,25 @@
 import { TestBed } from '@angular/core/testing';
 import { TasksService } from './tasks.service';
-import { Observable, throwError, of } from 'rxjs';
-import { error } from 'util';
+import { of } from 'rxjs';
 
 describe('TasksService', () => {
   let tasksService;
+  let dataTable;
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: []
+    });
     tasksService = TestBed.get(TasksService);
+    dataTable = [
+      {
+        title: 'itemTitle',
+        projectName: 'itemProjectName',
+        type: 'itemType',
+        completed: 'itemCompletion',
+        dueDate: new Date('2019/11/17'),
+        id: 'itemId'
+      }
+    ];
   });
 
   it('should be created', () => {
@@ -21,21 +34,29 @@ describe('TasksService', () => {
   });
 
   it('should return tableDataItem', done => {
-    const tableItem = [
-      {
-        title: 'itemTitle',
-        projectName: 'itemProjectName',
-        type: 'itemType',
-        completed: 'itemCompletion',
-        dueDate: new Date('2019/11/17'),
-        id: 'itemId'
-      }
-    ];
-    spyOn(tasksService, 'getAllItems').and.returnValue(of(tableItem));
+    spyOn(tasksService, 'getAllItems').and.returnValue(of(dataTable));
     tasksService.getAllItems().subscribe(res => {
-      expect(res).toEqual(tableItem);
-      expect(res[0]).toEqual(tableItem[0]);
+      expect(res).toEqual(dataTable);
+      expect(res[0]).toEqual(dataTable[0]);
       done();
     });
+  });
+
+  it('should return item with a given id', done => {
+    tasksService.dataTable = dataTable;
+    tasksService.getActionItem('itemId').subscribe(res => {
+      expect(res).toEqual(dataTable[0]);
+      done();
+    });
+  });
+  it('should throw an error message if no item found', done => {
+    tasksService.dataTable = dataTable;
+    tasksService.getActionItem('anyId').subscribe(
+      item => {},
+      err => {
+        expect(err).toBeDefined();
+        done();
+      }
+    );
   });
 });

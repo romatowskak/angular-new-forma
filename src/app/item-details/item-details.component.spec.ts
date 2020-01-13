@@ -50,4 +50,14 @@ describe('ItemDetailsComponent', () => {
     const errorMessage = fixture.debugElement.query(By.css('.selectedItem.errorMessage'));
     expect(errorMessage).toBeFalsy();
   });
+
+  it('should display error message if there is no item found', done => {
+    component.item = undefined;
+    component.errorMessage = 'No item found!';
+    component.isLoadingActionItem = false;
+    component.ngOnChanges();
+    const errorMessage = fixture.debugElement.query(By.css('.selectedItem.errorMessage'));
+    done();
+    expect(errorMessage).toBeTruthy();
+  });
 });

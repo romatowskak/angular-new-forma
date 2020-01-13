@@ -77,7 +77,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     };
     this.scrollToService.scrollTo(config);
   }
-  private getActionItem(itemId: string | undefined): void {
+  getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;
     if (this.itemRequest) {
       this.itemRequest.unsubscribe();
