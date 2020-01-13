@@ -5,6 +5,7 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { ItemDetailsComponent } from './item-details.component';
 import { TasksService } from '../services/tasksService/tasks.service';
 import { By } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 describe('ItemDetailsComponent', () => {
   let component: ItemDetailsComponent;
@@ -16,7 +17,9 @@ describe('ItemDetailsComponent', () => {
       imports: [RoundProgressModule],
       declarations: [ItemDetailsComponent, CircleColorPipe, DaysLeftCountedPipe],
       providers: [TasksService]
-    }).compileComponents();
+    })
+      .overrideComponent(ItemDetailsComponent, { set: { changeDetection: ChangeDetectionStrategy.Default } })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -51,13 +54,12 @@ describe('ItemDetailsComponent', () => {
     expect(errorMessage).toBeFalsy();
   });
 
-  it('should display error message if there is no item found', done => {
+  it('should display error message if there is no item found', () => {
     component.item = undefined;
     component.errorMessage = 'No item found!';
     component.isLoadingActionItem = false;
-    component.ngOnChanges();
+    fixture.detectChanges();
     const errorMessage = fixture.debugElement.query(By.css('.selectedItem.errorMessage'));
-    done();
     expect(errorMessage).toBeTruthy();
   });
 });
