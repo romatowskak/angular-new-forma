@@ -7,7 +7,7 @@
 <div *ngIf="item === undefined && !errorMessage && !isLoadingActionItem" class="selectItem viewDetails">
     <p>Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
 </div>
-<div class="details-container" *ngIf="!isLoadingActionItem && item !== u; ndefined">
+<div class="details-container" *ngIf="!isLoadingActionItem && item !== undefined">
     <div class="details" *ngIf="item">
         <div class="detailsTop">
             <div class="detail title">
