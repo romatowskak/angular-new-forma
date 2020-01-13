@@ -5,6 +5,10 @@
     margin-bottom: 50px;
 }
 
+.detailsContainer {
+    height: 100%;
+}
+
 .details {
     font-size: 14px;
     color: #979797;
@@ -13,7 +17,7 @@
 }
 
 .title {
-    color: #69A3B9;
+    color: #69a3b9;
     font-size: 22px;
     font-weight: 300;
     margin-bottom: 10px;
@@ -92,7 +96,7 @@
 }
 
 .daysLeft {
-    color: #AE1919;
+    color: #ae1919;
 }
 
 .complete {

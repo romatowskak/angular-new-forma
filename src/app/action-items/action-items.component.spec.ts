@@ -1,3 +1,4 @@
+import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { ItemDetailsComponent } from './../item-details/item-details.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppMaterialModule } from './../app-material/app-material.module';
@@ -34,6 +35,7 @@ describe('ActionItemsComponent', () => {
       imports: [AppMaterialModule, RouterTestingModule, RoundProgressModule],
       providers: [
         TasksService,
+        ScrollToService,
         DaysLeftCountedPipe,
         {
           provide: MatDialogRef,

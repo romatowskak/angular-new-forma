@@ -5,6 +5,7 @@ import { TasksService, ActionItem } from '../services/tasksService/tasks.service
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -22,15 +23,18 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItemId: string | undefined;
   actionItem: ActionItem;
   errorMessage: string | undefined;
+  justAddedItemId: string;
   private querySubscription: Subscription;
   private itemRequest: Subscription;
+  public ngxScrollToDestination: string;
 
   constructor(
     private tasksService: TasksService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private elRef: ElementRef
+    private elRef: ElementRef,
+    private scrollToService: ScrollToService
   ) {}
 
   ngOnInit() {
@@ -58,14 +62,20 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
-          const justAddedItemId = this.dataSource[this.dataSource.length - 1].id;
-          this.router.navigate(['/items'], { queryParams: { id: justAddedItemId } });
+          this.justAddedItemId = this.dataSource[this.dataSource.length - 1].id;
+          this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
           setTimeout(() => {
-            console.log(justAddedItemId);
-            const item = this.elRef.nativeElement.querySelector('[id=' + justAddedItemId + ']');
+            item = this.elRef.nativeElement.querySelector(`[data-id="${this.justAddedItemId}"]`);
+            this.triggerScrollTo();
           }, 1000);
         }
       });
+  }
+  private triggerScrollTo() {
+    const config: ScrollToConfigOptions = {
+      target: this.justAddedItemId
+    };
+    this.scrollToService.scrollTo(config);
   }
   private getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;

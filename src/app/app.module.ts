@@ -14,6 +14,7 @@ import { ItemDetailsComponent } from './item-details/item-details.component';
 import { RouterModule } from '@angular/router';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-counted.pipe';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-count
     BrowserModule,
     AppRoutingModule,
     RoundProgressModule,
+    ScrollToModule.forRoot(),
     RouterModule.forRoot([
       {
         path: 'items',
@@ -41,7 +43,14 @@ import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-count
       }
     ])
   ],
-  providers: [TasksService, DaysLeftToDeadlineService, ProjectsService, CircleColorPipe, DaysLeftCountedPipe],
+  providers: [
+    TasksService,
+    DaysLeftToDeadlineService,
+    ProjectsService,
+    CircleColorPipe,
+    DaysLeftCountedPipe,
+    ScrollToModule
+  ],
   bootstrap: [AppComponent],
   entryComponents: [AddItemComponent]
 })

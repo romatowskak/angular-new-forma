@@ -2,46 +2,46 @@
     <i class="fa fa-spinner fa-spin"></i>
 </div>
 <div *ngIf="item === undefined && errorMessage && !isLoadingActionItem" class="selectItem errorMessage">
-    <p>{{errorMessage}}</p>
+    <p>{{ errorMessage }}</p>
 </div>
 <div *ngIf="item === undefined && !errorMessage && !isLoadingActionItem" class="selectItem viewDetails">
     <p>Select an Action Item to view details.<i class="fa fa-mouse-pointer"></i></p>
 </div>
-<div class="details-container" *ngIf="!isLoadingActionItem && item !== undefined">
+<div class="details-container" *ngIf="!isLoadingActionItem && item !== u; ndefined">
     <div class="details" *ngIf="item">
         <div class="detailsTop">
             <div class="detail title">
                 <div class="top title">
-                    <div class="itemTitle">{{item.title}}</div>
+                    <div class="itemTitle">{{ item.title }}</div>
                 </div>
-                <div class="top">
+                <div class="top ">
                     <div class="detailIcon"><i class="fa fa-edit"></i></div>
                     <div class="detailIcon"><i class="fa fa-check"></i></div>
                 </div>
             </div>
             <div class="detail projectName">
-                <div>{{item.projectName}}</div>
+                <div>{{ item.projectName }}</div>
             </div>
         </div>
         <div class="center">
             <div class="detail dueDate">
-                <div>Due Date: {{(item.dueDate | date: 'MM/dd/yyyy') || '-' }}</div>
+                <div>Due Date: {{ (item.dueDate | date: 'MM/dd/yyyy') || '-' }}</div>
             </div>
             <div class="circularDiagrams">
                 <div class="diagram positionRelative" [class.diagramsHidden]="!itemVisibility">
                     <div class="detail">
                         <round-progress [current]="60" [max]="60" [background]="'#eaeaea'" [radius]="35" [color]="'#AE1919'" [stroke]="2">30</round-progress>
                         <div class="diagramValue daysLeft">
-                            {{item | daysLeftCounted}}
+                            {{ item | daysLeftCounted }}
                         </div>
                         <div class="underText">Days Left</div>
                     </div>
                 </div>
                 <div class="diagram positionRelative">
-                    <div class="detail">
+                    <div class="detail ">
                         <round-progress [current]="item.completed" [max]="100" [background]="'#eaeaea'" [radius]="35" [color]="'#69A3B9'" [stroke]="2">30</round-progress>
-                        <div class="diagramValue complete">
-                            {{item.completed}}
+                        <div class="diagramValue complete ">
+                            {{ item.completed }}
                         </div>
                         <div class="underText">% Complete</div>
                     </div>
