@@ -2,7 +2,7 @@ import { ActionItem } from 'src/app/services/tasksService/tasks.service';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { CircleColorPipe } from './../pipes/circleColorPipe/circle-color.pipe';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ItemDetailsComponent } from './item-details.component';
 import { TasksService } from '../services/tasksService/tasks.service';
 import { By } from '@angular/platform-browser';
@@ -53,7 +53,7 @@ describe('ItemDetailsComponent', () => {
   it('should display days-left only if dueDate declared', () => {
     component.item = actionItem;
     component.ngOnChanges();
-    expect(component.itemVisibility).toEqual(true);
+    expect(component.daysLeftVisibility).toEqual(true);
   });
 
   it('should not display error message if there is an item found', () => {

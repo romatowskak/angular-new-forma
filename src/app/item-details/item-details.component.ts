@@ -14,13 +14,12 @@ export class ItemDetailsComponent implements OnChanges {
   @Input() id: string;
   @Input() errorMessage: string | undefined;
   @Input() isLoadingActionItem: boolean;
-  @Input() currentDate: Date;
-  itemVisibility: boolean;
+  daysLeftVisibility: boolean;
 
   ngOnChanges() {
     if (this.item) {
       const itemDueDate = this.item.dueDate;
-      this.itemVisibility = typeof itemDueDate === 'string' ? false : true;
+      this.daysLeftVisibility = !!itemDueDate;
     }
   }
 }

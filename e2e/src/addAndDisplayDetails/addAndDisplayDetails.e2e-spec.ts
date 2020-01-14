@@ -1,4 +1,3 @@
-import { browser } from 'protractor';
 import { AppPage } from '../app.po';
 
 describe('workspace-project App', () => {
