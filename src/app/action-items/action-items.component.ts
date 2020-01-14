@@ -1,5 +1,5 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -24,23 +24,22 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItem: ActionItem;
   errorMessage: string | undefined;
   justAddedItemId: string;
-  private querySubscription: Subscription;
-  private itemRequest: Subscription;
-  public ngxScrollToDestination: string;
+  private queryParamsSubscription: Subscription;
+  private getActionItemSubscription: Subscription;
 
   constructor(
     private tasksService: TasksService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private elRef: ElementRef,
     private scrollToService: ScrollToService
   ) {}
 
   ngOnInit() {
     this.retrieveActionItems();
-    this.getQueryParams();
+    this.subscribeToQueryParams();
   }
+
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
     this.isLoadingActionItem = true;
@@ -62,12 +61,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
-          this.justAddedItemId = this.dataSource[this.dataSource.length - 1].id;
+          this.justAddedItemId = item.id;
           this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
-          setTimeout(() => {
-            item = this.elRef.nativeElement.querySelector(`[data-id="${this.justAddedItemId}"]`);
-            this.triggerScrollTo();
-          }, 1000);
         }
       });
   }
@@ -79,25 +74,26 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
   private getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;
-    if (this.itemRequest) {
-      this.itemRequest.unsubscribe();
+    if (this.getActionItemSubscription) {
+      this.getActionItemSubscription.unsubscribe();
     }
-    this.itemRequest = this.tasksService
+    this.getActionItemSubscription = this.tasksService
       .getActionItem(itemId)
       .pipe(first())
       .subscribe(
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
+          this.triggerScrollTo();
         },
         err => {
           if (err.status === 404) this.errorMessage = err.statusText;
         }
       );
   }
-  getQueryParams(): void {
+  subscribeToQueryParams(): void {
     this.isLoadingActionItem = true;
-    this.querySubscription = this.route.queryParams.subscribe(params => {
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
       if (this.actionItemId) {
         this.getActionItem(this.actionItemId);
@@ -105,6 +101,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    this.querySubscription.unsubscribe();
+    this.queryParamsSubscription.unsubscribe();
   }
 }

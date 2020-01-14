@@ -76,14 +76,6 @@ export class AppPage {
     return element(by.cssContainingText('.title', itemName));
   }
 
-  navigateToTheFirstActionItem(): promise.Promise<string> {
-    return browser.get('/items?id=1');
-  }
-
-  navigateToTheSecondActionItem(): promise.Promise<string> {
-    return browser.get('/items?id=2');
-  }
-
   navigateToNonExistingActionItem(): promise.Promise<string> {
     return browser.get('/items?id=wrongPath');
   }

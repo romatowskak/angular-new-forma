@@ -25,21 +25,21 @@
             <i class="fa fa-spinner fa-spin"></i>
         </div>
         <div class="tBody" *ngIf="!isLoadingActionItems">
-            <div *ngFor="let t of dataSource" id="{{ t.id }}" [routerLink]="['/items']" [queryParams]="{ id: t.id }" routerLinkActive="router-link-active" class="flexTable row singleItem" role="rowgroup">
+            <div #item *ngFor="let actionItem of dataSource" id="{{ actionItem.id }}" [routerLink]="['/items']" [queryParams]="{ id: actionItem.id }" routerLinkActive="router-link-active" class="flexTable row singleItem" role="rowgroup">
                 <div class="flexRow bodyCell first" role="cell">
                     <div class="titleContainer" id="circleContainer">
-                        <i class="fa fa-circle" [ngClass]="t | daysLeftCounted | circleColor"></i>
+                        <i class="fa fa-circle" [ngClass]="actionItem | daysLeftCounted | circleColor"></i>
                     </div>
                     <div class="titleContainer">
-                        <p class="actionItemName title">{{ t.title }}</p>
-                        <p class="actionItemName projectName">{{ t.projectName }}</p>
+                        <p class="actionItemName title">{{ actionItem.title }}</p>
+                        <p class="actionItemName projectName">{{ actionItem.projectName }}</p>
                     </div>
                 </div>
-                <div class="flexRow bodyCell inner" role="cell">{{ t.type }}</div>
-                <div class="flexRow bodyCell inner" role="cell">{{ t.completed }}%</div>
-                <div class="flexRow bodyCell inner" role="cell">{{ (t.dueDate | date: 'MM/dd/yyyy') || '-' }}</div>
+                <div class="flexRow bodyCell inner" role="cell">{{ actionItem.type }}</div>
+                <div class="flexRow bodyCell inner" role="cell">{{ actionItem.completed }}%</div>
+                <div class="flexRow bodyCell inner" role="cell">{{ (actionItem.dueDate | date: 'MM/dd/yyyy') || '-' }}</div>
                 <div class="flexRow bodyCell inner" role="cell">
-                    {{ t | daysLeftCounted }}
+                    {{ actionItem | daysLeftCounted }}
                 </div>
                 <div class="flexRow bodyCell inner" role="cell">
                     <a><i class="fa fa-edit"></i></a>
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer ">
-        <app-item-details [id]="actionItemId" [item]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [currentDate]="currentDate" [errorMessage]="errorMessage">
+        <app-item-details [id]="actionItemId" [item]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [errorMessage]="errorMessage">
         </app-item-details>
     </div>
 </div>

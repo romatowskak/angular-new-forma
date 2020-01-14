@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppMaterialModule } from './../app-material/app-material.module';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AddItemComponent } from './../add-item/add-item.component';
-import { DaysLeftToDeadlineService } from './../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
@@ -13,12 +12,13 @@ import { CircleColorPipe } from '../pipes/circleColorPipe/circle-color.pipe';
 import { By } from '@angular/platform-browser';
 import { DaysLeftCountedPipe } from '../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
   let fixture: ComponentFixture<ActionItemsComponent>;
   let tasksService: TasksService;
+
   let actionItem: ActionItem;
 
   beforeEach(async(() => {
@@ -38,6 +38,14 @@ describe('ActionItemsComponent', () => {
         {
           provide: MatDialogRef,
           useValue: {}
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              id: 'itemId'
+            })
+          }
         }
       ]
     }).compileComponents();
@@ -114,9 +122,20 @@ describe('ActionItemsComponent', () => {
 
   it('should call getQueryParams()', () => {
     component.actionItem = actionItem;
-    const getParamsSpy = spyOn(component, 'getQueryParams').and.callThrough();
+    const getParamsSpy = spyOn(component, 'subscribeToQueryParams').and.callThrough();
     component.ngOnInit();
     expect(getParamsSpy).toHaveBeenCalled();
+  });
+
+  it('should get action item', done => {
+    spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
+    tasksService.getActionItem('itemId').subscribe(res => {
+      component.actionItem = res;
+      component.actionItemId = res.id;
+      done();
+      expect(component.actionItem).toEqual(actionItem);
+      expect(component.actionItemId).toEqual(actionItem.id);
+    });
   });
 
   it('should get action item', done => {
