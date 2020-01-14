@@ -125,3 +125,7 @@
 .diagramsHidden {
     display: none;
 }
+
+.confirmationDialog {
+    cursor: pointer;
+}

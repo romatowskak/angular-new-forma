@@ -50,6 +50,7 @@
         border-radius: 1px;
         font-size: 10px;
         margin: 2px;
+        cursor: pointer;
     }
     
     .matRaisedButton:hover:enabled {

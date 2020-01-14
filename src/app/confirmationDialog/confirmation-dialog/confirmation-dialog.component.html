@@ -1,0 +1,9 @@
+<div class="container">
+    <div mat-dialog-content class="confirmationMessage">
+        Do you confirm the deletion of this Action Item?
+    </div>
+    <div mat-dialog-actions class="buttons">
+        <button class="dialogButton" mat-button (click)="onNoClick()">No</button>
+        <button class="dialogButton" mat-button [mat-dialog-close]="true">Yes</button>
+    </div>
+</div>
