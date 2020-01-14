@@ -19,9 +19,6 @@ describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
   let fixture: ComponentFixture<ActionItemsComponent>;
   let tasksService: TasksService;
-  let daysLeftToDeadlineService: DaysLeftToDeadlineService;
-  let router: Router;
-  let element;
   let actionItem: ActionItem;
 
   beforeEach(async(() => {
@@ -48,11 +45,8 @@ describe('ActionItemsComponent', () => {
 
   beforeEach(() => {
     tasksService = TestBed.get(TasksService);
-    router = TestBed.get(Router);
-    daysLeftToDeadlineService = TestBed.get(DaysLeftToDeadlineService);
     fixture = TestBed.createComponent(ActionItemsComponent);
     component = fixture.componentInstance;
-    element = fixture.nativeElement;
     fixture.detectChanges();
     actionItem = {
       title: 'itemTitle',
