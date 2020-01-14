@@ -162,6 +162,10 @@
     padding: 0;
 }
 
+.singleItem {
+    cursor: pointer;
+}
+
 .bodyCell {
     padding: 30px 7px;
     color: #4e5860;

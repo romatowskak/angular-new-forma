@@ -120,6 +120,13 @@ export class TasksService {
       }, 1000);
     });
   }
+  deteleActionItem(itemId: string): void {
+    this.dataTable.filter(item => {
+      if (item.id === itemId) {
+        this.dataTable.splice(this.dataTable.indexOf(item), 1);
+      }
+    });
+  }
   itemId(): string {
     return (
       Math.random()
