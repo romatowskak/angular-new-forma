@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem, TasksService } from './../services/tasksService/tasks.service';
-import { Component, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ConfirmationDialogComponent } from '../confirmationDialog/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
 
@@ -17,6 +17,7 @@ export class ItemDetailsComponent implements OnChanges {
   @Input() id: string;
   @Input() errorMessage: string | undefined;
   @Input() isLoadingActionItem: boolean;
+  @Output() refreshView = new EventEmitter();
   daysLeftVisibility: boolean;
 
   constructor(private dialog: MatDialog, private tasksService: TasksService, private router: Router) {}
@@ -32,14 +33,11 @@ export class ItemDetailsComponent implements OnChanges {
       width: '380px',
       autoFocus: false
     });
+
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.tasksService.deteleActionItem(this.id);
-        this.item = undefined;
-        this.isLoadingActionItem = false;
-        this.errorMessage = undefined;
-        this.router.navigate(['/items']);
-        this.ngOnChanges();
+        this.refreshView.emit();
       }
     });
   }

@@ -24,6 +24,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItem: ActionItem;
   errorMessage: string | undefined;
   justAddedItemId: string;
+  scrollToLastItem: boolean;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -63,6 +64,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.retrieveActionItems();
           this.justAddedItemId = item.id;
           this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
+          this.scrollToLastItem = true;
         }
       });
   }
@@ -71,6 +73,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       target: this.justAddedItemId
     };
     this.scrollToService.scrollTo(config);
+    this.scrollToLastItem = false;
   }
   private getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;
@@ -84,7 +87,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
-          this.triggerScrollTo();
+          if (this.scrollToLastItem) {
+            this.triggerScrollTo();
+          }
         },
         err => {
           if (err.status === 404) this.errorMessage = err.statusText;
@@ -99,6 +104,10 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         this.getActionItem(this.actionItemId);
       }
     });
+  }
+  refreshView() {
+    this.router.navigate(['/items']);
+    this.subscribeToQueryParams();
   }
   ngOnDestroy() {
     this.queryParamsSubscription.unsubscribe();

@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer ">
-        <app-item-details [id]="actionItemId" [item]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [errorMessage]="errorMessage">
+        <app-item-details [id]="actionItemId" [item]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [errorMessage]="errorMessage" (refreshView)="refreshView($event)">
         </app-item-details>
     </div>
 </div>

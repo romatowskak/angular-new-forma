@@ -121,10 +121,12 @@ export class TasksService {
     });
   }
   deteleActionItem(itemId: string): void {
-    this.dataTable.filter(item => {
-      if (item.id === itemId) {
-        this.dataTable.splice(this.dataTable.indexOf(item), 1);
-      }
+    setTimeout(() => {
+      this.dataTable.filter(item => {
+        if (item.id === itemId) {
+          this.dataTable.splice(this.dataTable.indexOf(item), 1);
+        }
+      }, 1000);
     });
   }
   itemId(): string {
