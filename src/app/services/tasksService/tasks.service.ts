@@ -120,7 +120,7 @@ export class TasksService {
       }, 1000);
     });
   }
-  deteleActionItem(itemId: string): void {
+  deleteActionItem(itemId: string): void {
     setTimeout(() => {
       this.dataTable.filter(item => {
         if (item.id === itemId) {

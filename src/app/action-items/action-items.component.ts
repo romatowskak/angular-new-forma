@@ -21,7 +21,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   isLoadingActionItems = false;
   isLoadingActionItem = false;
   actionItemId: string | undefined;
-  actionItem: ActionItem;
+  actionItem: ActionItem | undefined;
   errorMessage: string | undefined;
   justAddedItemId: string;
   scrollToLastItem: boolean;
@@ -107,7 +107,12 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
   refreshView() {
     this.router.navigate(['/items']);
-    this.subscribeToQueryParams();
+    this.isLoadingActionItem = true;
+    this.tasksService.getAllItems().subscribe(() => {
+      this.isLoadingActionItem = false;
+      this.actionItem = undefined;
+      this.errorMessage = undefined;
+    });
   }
   ngOnDestroy() {
     this.queryParamsSubscription.unsubscribe();

@@ -3,7 +3,6 @@ import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-co
 import { ActionItem, TasksService } from './../services/tasksService/tasks.service';
 import { Component, Input, ChangeDetectionStrategy, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ConfirmationDialogComponent } from '../confirmationDialog/confirmation-dialog/confirmation-dialog.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-details',
@@ -20,7 +19,7 @@ export class ItemDetailsComponent implements OnChanges {
   @Output() refreshView = new EventEmitter();
   daysLeftVisibility: boolean;
 
-  constructor(private dialog: MatDialog, private tasksService: TasksService, private router: Router) {}
+  constructor(private dialog: MatDialog, private tasksService: TasksService) {}
 
   ngOnChanges() {
     if (this.item) {
@@ -36,7 +35,7 @@ export class ItemDetailsComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.tasksService.deteleActionItem(this.id);
+        this.tasksService.deleteActionItem(this.id);
         this.refreshView.emit();
       }
     });
