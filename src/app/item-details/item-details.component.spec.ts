@@ -1,3 +1,6 @@
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppMaterialModule } from './../app-material/app-material.module';
+import { ConfirmationDialogComponent } from './../confirmationDialog/confirmation-dialog/confirmation-dialog.component';
 import { ActionItem } from 'src/app/services/tasksService/tasks.service';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
@@ -7,17 +10,31 @@ import { ItemDetailsComponent } from './item-details.component';
 import { TasksService } from '../services/tasksService/tasks.service';
 import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { MatDialog } from '@angular/material';
 
 describe('ItemDetailsComponent', () => {
   let component: ItemDetailsComponent;
   let fixture: ComponentFixture<ItemDetailsComponent>;
   let actionItem: ActionItem;
+  let dialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RoundProgressModule],
-      declarations: [ItemDetailsComponent, CircleColorPipe, DaysLeftCountedPipe],
-      providers: [TasksService]
+      imports: [RoundProgressModule, AppMaterialModule, RouterTestingModule],
+      declarations: [ItemDetailsComponent, ConfirmationDialogComponent, CircleColorPipe, DaysLeftCountedPipe],
+      providers: [
+        TasksService,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              id: 'itemId'
+            })
+          }
+        }
+      ]
     })
       .overrideComponent(ItemDetailsComponent, { set: { changeDetection: ChangeDetectionStrategy.Default } })
       .compileComponents();
@@ -27,6 +44,7 @@ describe('ItemDetailsComponent', () => {
     fixture = TestBed.createComponent(ItemDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    dialog = TestBed.get(MatDialog);
     actionItem = {
       title: 'title',
       projectName: 'projectName',
@@ -87,5 +105,15 @@ describe('ItemDetailsComponent', () => {
     fixture.detectChanges();
     const actionItemDetails = fixture.debugElement.query(By.css('.details-container'));
     expect(actionItemDetails).toBeTruthy();
+  });
+
+  it('should open a confirmation dialog', () => {
+    spyOn(component, 'openConfirmationDialog');
+    component.isLoadingActionItem = false;
+    component.item = actionItem;
+    fixture.detectChanges();
+    const btn = fixture.debugElement.query(By.css('.confirmationDialog')).nativeElement;
+    btn.click();
+    expect(component.openConfirmationDialog).toHaveBeenCalled();
   });
 });

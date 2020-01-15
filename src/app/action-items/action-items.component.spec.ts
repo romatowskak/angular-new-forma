@@ -111,7 +111,7 @@ describe('ActionItemsComponent', () => {
     expect(component.dataSource.length).toBe(1);
   });
 
-  it('dialog should be opened', () => {
+  it('should open a dialog', () => {
     spyOn(component, 'openDialog');
     component.isLoadingActionItems = false;
     fixture.detectChanges();
