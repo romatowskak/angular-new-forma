@@ -18,7 +18,6 @@ describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
   let fixture: ComponentFixture<ActionItemsComponent>;
   let tasksService: TasksService;
-
   let actionItem: ActionItem;
 
   beforeEach(async(() => {

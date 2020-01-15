@@ -105,10 +105,14 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       }
     });
   }
-  refreshView() {
+  refreshViewAfterDeletion() {
     this.router.navigate(['/items']);
     this.retrieveActionItems();
     this.actionItem = undefined;
+  }
+
+  refreshViewAfterEditing() {
+    this.retrieveActionItems();
   }
   ngOnDestroy() {
     this.queryParamsSubscription.unsubscribe();

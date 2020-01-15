@@ -129,6 +129,13 @@ export class TasksService {
       }, 1000);
     });
   }
+  editActionItem(itemId: string, itemTitle: string): void {
+    this.dataTable.filter(item => {
+      if (item.id === itemId) {
+        item.title = itemTitle;
+      }
+    });
+  }
   itemId(): string {
     return (
       Math.random()

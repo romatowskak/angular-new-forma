@@ -126,6 +126,7 @@
     display: none;
 }
 
-.confirmationDialog {
+.confirmationDialog,
+.editDialog {
     cursor: pointer;
 }
