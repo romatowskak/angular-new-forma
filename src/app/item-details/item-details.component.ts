@@ -1,9 +1,10 @@
 import { EditItemComponent } from './../edit-item/edit-item/edit-item.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem, TasksService } from './../services/tasksService/tasks.service';
 import { Component, Input, ChangeDetectionStrategy, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ConfirmationDialogComponent } from '../confirmationDialog/confirmation-dialog/confirmation-dialog.component';
+import { AddItemComponent } from '../add-item/add-item.component';
 
 @Component({
   selector: 'app-item-details',
@@ -13,15 +14,15 @@ import { ConfirmationDialogComponent } from '../confirmationDialog/confirmation-
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemDetailsComponent implements OnChanges {
-  @Input() item: ActionItem | undefined;
+  @Input() item?: ActionItem;
   @Input() id: string;
-  @Input() errorMessage: string | undefined;
+  @Input() errorMessage?: string;
   @Input() isLoadingActionItem: boolean;
   @Output() refreshViewAfterDeletion = new EventEmitter();
   @Output() refreshViewAfterEditing = new EventEmitter();
   daysLeftVisibility: boolean;
 
-  constructor(private dialog: MatDialog, private tasksService: TasksService) {}
+  constructor(private matDialog: MatDialog, private tasksService: TasksService) {}
 
   ngOnChanges() {
     if (this.item) {
@@ -30,7 +31,7 @@ export class ItemDetailsComponent implements OnChanges {
     }
   }
   openConfirmationDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
       width: '380px',
       autoFocus: false
     });
@@ -43,10 +44,10 @@ export class ItemDetailsComponent implements OnChanges {
     });
   }
   openEditDialog(): void {
-    const dialogRef = this.dialog.open(EditItemComponent, {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
       width: '470px',
       height: 'auto',
-      autoFocus: false,
       disableClose: true,
       data: {
         title: !!this.item ? this.item.title : '',
@@ -54,9 +55,12 @@ export class ItemDetailsComponent implements OnChanges {
         dueDate: !!this.item ? this.item.dueDate : '',
         id: this.id
       }
-    });
-    dialogRef.afterClosed().subscribe(res => {
-      this.refreshViewAfterEditing.emit();
-    });
+    };
+    this.matDialog
+      .open(AddItemComponent, dialogConfig.data)
+      .afterClosed()
+      .subscribe(editedItem => {
+        this.refreshViewAfterEditing.emit(editedItem.id);
+      });
   }
 }

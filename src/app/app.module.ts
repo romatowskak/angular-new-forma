@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { AppMaterialModule } from './app-material/app-material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -35,6 +36,7 @@ import { EditItemComponent } from './edit-item/edit-item/edit-item.component';
     BrowserModule,
     AppRoutingModule,
     RoundProgressModule,
+    FormsModule,
     ScrollToModule.forRoot(),
     RouterModule.forRoot([
       {

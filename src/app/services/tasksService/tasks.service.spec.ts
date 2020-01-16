@@ -1,10 +1,11 @@
+import { ActionItem } from 'src/app/services/tasksService/tasks.service';
 import { TestBed } from '@angular/core/testing';
 import { TasksService } from './tasks.service';
 import { of } from 'rxjs';
 
 describe('TasksService', () => {
-  let tasksService;
-  let dataTable;
+  let tasksService: TasksService;
+  let dataTable: ActionItem[];
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: []
@@ -43,14 +44,15 @@ describe('TasksService', () => {
   });
 
   it('should return item with a given id', done => {
-    tasksService.dataTable = dataTable;
+    spyOn(tasksService, 'getActionItem').and.returnValue(of(dataTable[0]));
+
     tasksService.getActionItem('itemId').subscribe(res => {
       expect(res).toEqual(dataTable[0]);
       done();
     });
   });
+
   it('should throw an error message if no item found', done => {
-    tasksService.dataTable = dataTable;
     tasksService.getActionItem('anyId').subscribe(
       item => {},
       err => {

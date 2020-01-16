@@ -25,8 +25,7 @@ export class EditItemComponent implements OnInit {
     this.dueDate = this.data.dueDate;
     this.id = this.data.id;
   }
-
-  editData() {
+  editData(): void {
     this.tasksService.editActionItem(this.id, this.title);
     this.dialogRef.close();
   }

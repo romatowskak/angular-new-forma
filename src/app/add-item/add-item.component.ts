@@ -1,7 +1,7 @@
 import { TasksService, AddActionItem } from './../services/tasksService/tasks.service';
 import { Project, ProjectsService } from '../services/projects/projects.service';
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
@@ -12,22 +12,35 @@ import { first } from 'rxjs/operators';
 })
 export class AddItemComponent implements OnInit {
   dialogForm: FormGroup;
-  title = 'Create Action Item';
+  dialogTitle: string = 'Create Action Item';
   projects: Project[];
-  isCreatingActionItem = false;
+  isCreatingActionItem: boolean = false;
+  title: string;
+  projectName: string;
+  dueDate: string;
+  id: string;
 
   constructor(
     public dialogRef: MatDialogRef<AddItemComponent>,
     private formBuilder: FormBuilder,
     private dialogProjects: ProjectsService,
-    private tasksService: TasksService
+    private tasksService: TasksService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
   ngOnInit() {
     this.dialogProjects
       .getProjectsNames()
       .pipe(first())
       .subscribe(projects => (this.projects = projects));
     this.createForm();
+
+    if (this.data) {
+      this.title = this.data.title;
+      this.projectName = this.data.projectName;
+      this.dueDate = this.data.dueDate;
+      this.id = this.data.id;
+    }
   }
   private createForm(): void {
     this.dialogForm = this.formBuilder.group({
@@ -64,5 +77,10 @@ export class AddItemComponent implements OnInit {
       dueDate: dueDate.value
     };
     return newItem;
+  }
+  editItem(): void {
+    this.tasksService.editActionItem(this.id, this.title).subscribe(editedItem => {
+      this.dialogRef.close(editedItem);
+    });
   }
 }

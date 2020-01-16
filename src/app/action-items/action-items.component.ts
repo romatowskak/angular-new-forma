@@ -20,11 +20,11 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
   isLoadingActionItems = false;
   isLoadingActionItem = false;
-  actionItemId: string | undefined;
-  actionItem: ActionItem | undefined;
-  errorMessage: string | undefined;
+  actionItemId?: string;
+  actionItem?: ActionItem;
+  errorMessage?: string;
   justAddedItemId: string;
-  scrollToLastItem: boolean;
+  scrollToJustAddedItem: boolean;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -40,7 +40,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.retrieveActionItems();
     this.subscribeToQueryParams();
   }
-
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
     this.isLoadingActionItem = true;
@@ -64,16 +63,16 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.retrieveActionItems();
           this.justAddedItemId = item.id;
           this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
-          this.scrollToLastItem = true;
+          this.scrollToJustAddedItem = true;
         }
       });
   }
-  private triggerScrollTo() {
+  private triggerScrollTo(itemId: string): void {
     const config: ScrollToConfigOptions = {
-      target: this.justAddedItemId
+      target: itemId
     };
     this.scrollToService.scrollTo(config);
-    this.scrollToLastItem = false;
+    this.scrollToJustAddedItem = false;
   }
   private getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;
@@ -87,8 +86,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
-          if (this.scrollToLastItem) {
-            this.triggerScrollTo();
+          if (this.scrollToJustAddedItem) {
+            this.triggerScrollTo(this.justAddedItemId);
           }
         },
         err => {
@@ -105,14 +104,14 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       }
     });
   }
-  refreshViewAfterDeletion() {
+  refreshViewAfterDeletion(): void {
     this.router.navigate(['/items']);
     this.retrieveActionItems();
     this.actionItem = undefined;
   }
-
-  refreshViewAfterEditing() {
+  refreshViewAfterEditing(editedItemId): void {
     this.retrieveActionItems();
+    this.scrollToJustAddedItem = true;
   }
   ngOnDestroy() {
     this.queryParamsSubscription.unsubscribe();

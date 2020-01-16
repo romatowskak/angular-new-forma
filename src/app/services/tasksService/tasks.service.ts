@@ -129,11 +129,20 @@ export class TasksService {
       }, 1000);
     });
   }
-  editActionItem(itemId: string, itemTitle: string): void {
-    this.dataTable.filter(item => {
-      if (item.id === itemId) {
-        item.title = itemTitle;
-      }
+  editActionItem(itemId: string, itemTitle: string): Observable<ActionItem> {
+    let editedItem;
+    setTimeout(() => {
+      this.dataTable.filter(item => {
+        if (item.id === itemId) {
+          item.title = itemTitle;
+          editedItem = item;
+        }
+      });
+    }, 1000);
+    return new Observable(observer => {
+      setTimeout(() => {
+        observer.next(editedItem);
+      }, 1000);
     });
   }
   itemId(): string {

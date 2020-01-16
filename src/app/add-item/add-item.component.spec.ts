@@ -9,7 +9,7 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { AddItemComponent } from './add-item.component';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 const dialogMock = {
@@ -39,6 +39,10 @@ describe('AddItemComponent', () => {
         {
           provide: MatDialogRef,
           useValue: dialogMock
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {}
         }
       ]
     }).compileComponents();
@@ -67,7 +71,7 @@ describe('AddItemComponent', () => {
     expect(nameField.valid).toBeFalsy();
   });
 
-  it('name field validity', () => {
+  it('name should be required', () => {
     let errors = {};
     errors = nameField.errors || {};
     nameField.setValue('');
@@ -78,7 +82,7 @@ describe('AddItemComponent', () => {
     expect(projectField.valid).toBeFalsy();
   });
 
-  it('projectName field validity', () => {
+  it('projectName should be required', () => {
     let errors = {};
     errors = projectField.errors || {};
     projectField.setValue('');
@@ -113,7 +117,7 @@ describe('AddItemComponent', () => {
     expect(createButton.nativeElement.disabled).toBeFalsy();
   });
 
-  it('on createActionItem() form disabled', () => {
+  it('should disable form when an item is being created', () => {
     expect(component.dialogForm.valid).toBeFalsy();
     nameField.setValue('test name');
     projectField.setValue('test project');
@@ -125,7 +129,7 @@ describe('AddItemComponent', () => {
     expect(descriptionField.enabled).toBe(false);
   });
 
-  it('spinner displayed on "createActionItem()"', fakeAsync(() => {
+  it('should dispplay the spinner on the create-button when item is being created', fakeAsync(() => {
     component.isCreatingActionItem = false;
     component.createActionItem();
     tick();
@@ -136,7 +140,7 @@ describe('AddItemComponent', () => {
     expect(component.isCreatingActionItem).toBe(false);
   }));
 
-  it('should retrieve projects names from projectsService', () => {
+  it('should retrieve the projects names from projectsService', () => {
     const projectsNames: Project[] = [{ name: 'CASD Wilson & Lamberton Middle Schools' }];
     spyOn(projectsService, 'getProjectsNames').and.returnValue(of(projectsNames));
     component.ngOnInit();
@@ -151,7 +155,7 @@ describe('AddItemComponent', () => {
     expect(createButton.nativeElement.disabled).toBeFalsy();
   });
 
-  it('"createActionItem()" should call "close()"', fakeAsync(() => {
+  it('should close the dialog when item created', fakeAsync(() => {
     const spyObj = spyOn(component.dialogRef, 'close');
     component.createActionItem();
     tick(1000);
@@ -159,7 +163,7 @@ describe('AddItemComponent', () => {
     expect(spyObj).toHaveBeenCalled();
   }));
 
-  it('should not show any error message', () => {
+  it('should not show any error message if no item was selected', () => {
     const nameError = fixture.debugElement.query(By.css('.nameError'));
     const projectError = fixture.debugElement.query(By.css('.projectError'));
     expect(nameError).toBeFalsy();

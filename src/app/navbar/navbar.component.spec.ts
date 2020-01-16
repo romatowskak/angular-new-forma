@@ -29,7 +29,7 @@ describe('NavbarComponent', () => {
     expect(titleParagraph.textContent).toContain(title);
   });
 
-  it('contains 3 menu links', () => {
+  it('should contain 3 menu links', () => {
     expect(fixture.debugElement.queryAll(By.css('.menuLink')).length).toBe(3);
   });
 });

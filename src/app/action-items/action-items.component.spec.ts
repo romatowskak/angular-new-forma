@@ -79,7 +79,7 @@ describe('ActionItemsComponent', () => {
     expect(actionItems).toBeFalsy();
   });
 
-  it('should change the value of "loading" to "false"', () => {
+  it('should change the value of "loading" to "false" when action items retrieved', () => {
     const emptyTasks: ActionItem[] = [];
     spyOn(tasksService, 'getAllItems').and.returnValue(of(emptyTasks));
     component.ngOnInit();
@@ -110,7 +110,7 @@ describe('ActionItemsComponent', () => {
     expect(component.dataSource.length).toBe(1);
   });
 
-  it('should open a dialog', () => {
+  it('should open a dialog when button clicked', () => {
     spyOn(component, 'openDialog');
     component.isLoadingActionItems = false;
     fixture.detectChanges();
@@ -126,18 +126,7 @@ describe('ActionItemsComponent', () => {
     expect(getParamsSpy).toHaveBeenCalled();
   });
 
-  it('should get action item', done => {
-    spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
-    tasksService.getActionItem('itemId').subscribe(res => {
-      component.actionItem = res;
-      component.actionItemId = res.id;
-      done();
-      expect(component.actionItem).toEqual(actionItem);
-      expect(component.actionItemId).toEqual(actionItem.id);
-    });
-  });
-
-  it('should get action item', done => {
+  it('should get action item with corresponding id', done => {
     spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
     tasksService.getActionItem('itemId').subscribe(res => {
       component.actionItem = res;

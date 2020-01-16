@@ -7,7 +7,7 @@ describe('DaysLeftCountedPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('create an instance', () => {
+  it('should create an instance', () => {
     const pipe = new DaysLeftCountedPipe(new DaysLeftToDeadlineService());
     const item = {
       title: 'Android - UI Automation Test',
@@ -17,6 +17,6 @@ describe('DaysLeftCountedPipe', () => {
       dueDate: new Date('2020/01/03'),
       id: '1'
     };
-    expect(pipe.transform(item, new Date('2020/01/03'))).toBe(0);
+    expect(pipe.transform(item.dueDate, new Date('2020/01/03'))).toBe(0);
   });
 });

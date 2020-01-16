@@ -89,7 +89,7 @@ describe('ItemDetailsComponent', () => {
     expect(errorMessage).toBeTruthy();
   });
 
-  it('should display "Select Action Item.." message', () => {
+  it('should display "Select Action Item.." message if no action ite was selected', () => {
     component.item = undefined;
     component.errorMessage = undefined;
     component.isLoadingActionItem = false;
@@ -98,7 +98,7 @@ describe('ItemDetailsComponent', () => {
     expect(selectItemMessage).toBeTruthy();
   });
 
-  it('should display action item details', () => {
+  it('should display action item details if item selected and clicked', () => {
     component.item = actionItem;
     component.errorMessage = undefined;
     component.isLoadingActionItem = false;
@@ -107,7 +107,7 @@ describe('ItemDetailsComponent', () => {
     expect(actionItemDetails).toBeTruthy();
   });
 
-  it('should open a confirmation dialog', () => {
+  it('should open a confirmation dialog when button clicked', () => {
     spyOn(component, 'openConfirmationDialog');
     component.isLoadingActionItem = false;
     component.item = actionItem;
