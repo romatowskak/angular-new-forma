@@ -59,7 +59,9 @@ export class ItemDetailsComponent implements OnChanges {
       .open(AddItemComponent, dialogConfig.data)
       .afterClosed()
       .subscribe(editedItem => {
-        this.refreshViewAfterEditing.emit(editedItem.id);
+        if (editedItem) {
+          this.refreshViewAfterEditing.emit(editedItem.id);
+        }
       });
   }
 }

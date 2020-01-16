@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { TasksService, AddActionItem } from './../services/tasksService/tasks.service';
 import { Project, ProjectsService } from '../services/projects/projects.service';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -28,6 +29,7 @@ export class AddItemComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialogProjects: ProjectsService,
     private tasksService: TasksService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 

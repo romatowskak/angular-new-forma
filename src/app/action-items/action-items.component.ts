@@ -24,8 +24,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItem?: ActionItem;
   errorMessage?: string;
   justAddedItemId: string;
-  scrollToJustAddedItem: boolean;
+  scrollToActionItem: boolean;
   createDialog: boolean;
+  editedItemId: string;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -72,7 +73,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.retrieveActionItems();
           this.justAddedItemId = item.id;
           this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
-          this.scrollToJustAddedItem = true;
+          this.scrollToActionItem = true;
         }
       });
   }
@@ -81,7 +82,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       target: itemId
     };
     this.scrollToService.scrollTo(config);
-    this.scrollToJustAddedItem = false;
+    this.scrollToActionItem = false;
   }
   private getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;
@@ -95,7 +96,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
-          if (this.scrollToJustAddedItem) {
+          if (this.scrollToActionItem) {
             this.triggerScrollTo(this.justAddedItemId);
           }
         },
@@ -119,8 +120,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.actionItem = undefined;
   }
   refreshViewAfterEditing(editedItemId): void {
-    this.retrieveActionItems();
-    this.scrollToJustAddedItem = true;
+    this.justAddedItemId = editedItemId;
+    this.scrollToActionItem = true;
+    this.subscribeToQueryParams();
   }
   ngOnDestroy() {
     this.queryParamsSubscription.unsubscribe();
