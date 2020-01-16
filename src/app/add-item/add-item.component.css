@@ -2,6 +2,7 @@
         font-size: 14px;
         font-weight: normal;
         color: #979797;
+        outline: none;
     }
     
     mat-form-field {

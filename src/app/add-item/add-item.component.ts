@@ -17,6 +17,7 @@ export class AddItemComponent implements OnInit {
   dialogTitleForEditingItems: string = 'Edit Action Item';
   projects: Project[];
   isCreatingActionItem: boolean = false;
+  isEditingActionItem: boolean = false;
   title: string;
   projectName: string;
   dueDate: string;
@@ -82,6 +83,7 @@ export class AddItemComponent implements OnInit {
     return newItem;
   }
   editItem(): void {
+    this.isEditingActionItem = true;
     this.tasksService.editActionItem(this.id, this.title).subscribe(editedItem => {
       this.dialogRef.close(editedItem);
     });

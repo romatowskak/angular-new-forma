@@ -35,5 +35,5 @@
 
 <mat-dialog-actions class="buttons" *ngIf="!createDialog">
     <button class="matRaisedButton close" type="button" mat-button mat-dialog-close>Close</button>
-    <button class="matRaisedButton create" (click)="editItem()">Edit</button>
+    <button class="matRaisedButton create" (click)="editItem()">Edit<span class="faButton" *ngIf="isEditingActionItem"><i class="fa fa-spinner fa-spin"></i></span></button>
 </mat-dialog-actions>
