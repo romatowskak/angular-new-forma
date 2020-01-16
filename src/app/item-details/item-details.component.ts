@@ -1,4 +1,3 @@
-import { EditItemComponent } from './../edit-item/edit-item/edit-item.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem, TasksService } from './../services/tasksService/tasks.service';

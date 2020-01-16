@@ -12,7 +12,9 @@ import { first } from 'rxjs/operators';
 })
 export class AddItemComponent implements OnInit {
   dialogForm: FormGroup;
-  dialogTitle: string = 'Create Action Item';
+  createDialog: boolean;
+  dialogTitleForAddingItems: string = 'Create Action Item';
+  dialogTitleForEditingItems: string = 'Edit Action Item';
   projects: Project[];
   isCreatingActionItem: boolean = false;
   title: string;
@@ -40,6 +42,7 @@ export class AddItemComponent implements OnInit {
       this.projectName = this.data.projectName;
       this.dueDate = this.data.dueDate;
       this.id = this.data.id;
+      this.createDialog = this.data.createDialog;
     }
   }
   private createForm(): void {

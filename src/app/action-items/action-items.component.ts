@@ -25,6 +25,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   errorMessage?: string;
   justAddedItemId: string;
   scrollToJustAddedItem: boolean;
+  createDialog: boolean;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -53,8 +54,16 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       });
   }
   openDialog(): void {
+    this.createDialog = true;
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = { width: '470px', height: 'auto', disableClose: true };
+    dialogConfig.data = {
+      width: '470px',
+      height: 'auto',
+      disableClose: true,
+      data: {
+        createDialog: this.createDialog
+      }
+    };
     this.matDialog
       .open(AddItemComponent, dialogConfig.data)
       .afterClosed()
