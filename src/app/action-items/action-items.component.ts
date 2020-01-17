@@ -23,7 +23,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItemId?: string;
   actionItem?: ActionItem;
   errorMessage?: string;
-  justAddedItemId: string;
+  itemIdForScroll: string;
   scrollToActionItem: boolean;
   createDialog: boolean;
   editedItemId: string;
@@ -51,7 +51,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
-        this.isLoadingActionItem = false;
       });
   }
   openDialog(): void {
@@ -71,8 +70,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
-          this.justAddedItemId = item.id;
-          this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
+          this.itemIdForScroll = item.id;
+          this.router.navigate(['/items'], { queryParams: { id: this.itemIdForScroll } });
           this.scrollToActionItem = true;
         }
       });
@@ -96,21 +95,26 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
+          this.itemIdForScroll = item.id;
           if (this.scrollToActionItem) {
-            this.triggerScrollTo(this.justAddedItemId);
+            this.triggerScrollTo(this.itemIdForScroll);
           }
         },
         err => {
           if (err.status === 404) this.errorMessage = err.statusText;
+          this.isLoadingActionItem = false;
         }
       );
   }
   subscribeToQueryParams(): void {
+    this.scrollToActionItem = true;
     this.isLoadingActionItem = true;
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
       if (this.actionItemId) {
         this.getActionItem(this.actionItemId);
+      } else {
+        this.isLoadingActionItem = false;
       }
     });
   }
@@ -120,7 +124,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.actionItem = undefined;
   }
   refreshViewAfterEditing(editedItemId): void {
-    this.justAddedItemId = editedItemId;
+    this.itemIdForScroll = editedItemId;
     this.scrollToActionItem = true;
     this.subscribeToQueryParams();
   }

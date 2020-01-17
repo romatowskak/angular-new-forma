@@ -30,7 +30,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: this.itemId()
+      id: '1'
     },
     {
       title: 'The Flash Tutorial',
@@ -38,7 +38,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/12/29'),
-      id: this.itemId()
+      id: '2'
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -46,7 +46,7 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2019/11/15'),
-      id: this.itemId()
+      id: '3'
     },
     {
       title: 'Android - UI Automation Test',
@@ -54,7 +54,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: this.itemId()
+      id: '4'
     },
     {
       title: 'The Flash Tutorial',
@@ -62,7 +62,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: this.itemId()
+      id: '5'
     },
     {
       title: 'Android - UI Automation Test',
@@ -70,7 +70,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: this.itemId()
+      id: '6'
     },
     {
       title: 'The Flash Tutorial',
@@ -78,7 +78,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: this.itemId()
+      id: '7'
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -86,7 +86,7 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2020/01/05'),
-      id: this.itemId()
+      id: '8'
     }
   ];
   add(item: AddActionItem): Observable<ActionItem> {
@@ -117,7 +117,7 @@ export class TasksService {
         } else {
           observer.error(new HttpResponse({ status: 404, statusText: 'No item with such ID found!' }));
         }
-      }, 1000);
+      }, 2000);
     });
   }
   deleteActionItem(itemId: string): void {
