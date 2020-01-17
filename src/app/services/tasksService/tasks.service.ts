@@ -30,7 +30,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: this.itemId()
+      id: 'this.itemId()'
     },
     {
       title: 'The Flash Tutorial',
@@ -129,12 +129,19 @@ export class TasksService {
       }, 1000);
     });
   }
-  editActionItem(itemId: string, itemTitle: string): Observable<ActionItem> {
+  editActionItem(
+    itemId: string,
+    itemTitle: string,
+    itemProjectName: string,
+    itemDueDate: Date
+  ): Observable<ActionItem> {
     let editedItem;
     setTimeout(() => {
       this.dataTable.filter(item => {
         if (item.id === itemId) {
           item.title = itemTitle;
+          item.projectName = itemProjectName;
+          item.dueDate = itemDueDate;
           editedItem = item;
         }
       });

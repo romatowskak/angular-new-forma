@@ -3,7 +3,7 @@
     <h2 *ngIf="!createDialog" class="dialogTitle" mat-dialog-title>{{ dialogTitleForEditingItems }}</h2>
     <mat-dialog-content [formGroup]="dialogForm">
         <mat-form-field>
-            <input matInput class="typedValueColor nameInput" placeholder="Action Item Name" formControlName="name" [(ngModel)]="title" />
+            <input matInput class="typedValueColor nameInput" placeholder="Action Item Name" formControlName="name" />
             <mat-error class="invalidFeedback nameError">
                 Name is required.
             </mat-error>
