@@ -1,6 +1,5 @@
-import { Router } from '@angular/router';
+import { Project, ProjectsService } from './../services/projects/projects.service';
 import { TasksService, AddActionItem } from './../services/tasksService/tasks.service';
-import { Project, ProjectsService } from '../services/projects/projects.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -29,7 +28,6 @@ export class AddItemComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialogProjects: ProjectsService,
     private tasksService: TasksService,
-    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 

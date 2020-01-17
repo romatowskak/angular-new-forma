@@ -17,7 +17,6 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-dialog/confirmation-dialog.component';
-import { EditItemComponent } from './edit-item/edit-item/edit-item.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +27,7 @@ import { EditItemComponent } from './edit-item/edit-item/edit-item.component';
     AddItemComponent,
     ItemDetailsComponent,
     DaysLeftCountedPipe,
-    ConfirmationDialogComponent,
-    EditItemComponent
+    ConfirmationDialogComponent
   ],
   imports: [
     AppMaterialModule,
@@ -58,6 +56,6 @@ import { EditItemComponent } from './edit-item/edit-item/edit-item.component';
     ScrollToModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AddItemComponent, ConfirmationDialogComponent, EditItemComponent]
+  entryComponents: [AddItemComponent, ConfirmationDialogComponent]
 })
 export class AppModule {}
