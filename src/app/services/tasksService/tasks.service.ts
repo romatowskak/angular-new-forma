@@ -30,7 +30,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: 'this.itemId()'
+      id: this.itemId()
     },
     {
       title: 'The Flash Tutorial',
