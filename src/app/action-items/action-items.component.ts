@@ -122,6 +122,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/items']);
     this.retrieveActionItems();
     this.actionItem = undefined;
+    this.errorMessage = undefined;
   }
   refreshViewAfterEditing(editedItemId): void {
     this.itemIdForScroll = editedItemId;
