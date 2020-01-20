@@ -15,7 +15,7 @@ export class AddItemComponent implements OnInit {
   createDialog: boolean;
   dialogTitleForAddingItems: string = 'Create Action Item';
   dialogTitleForEditingItems: string = 'Edit Action Item';
-  projects: Project[];
+  projects?: Project[];
   isCreatingActionItem: boolean = false;
   isEditingActionItem: boolean = false;
   id: string;
@@ -32,7 +32,10 @@ export class AddItemComponent implements OnInit {
     this.dialogProjects
       .getProjectsNames()
       .pipe(first())
-      .subscribe(projects => (this.projects = projects));
+      .subscribe(projects => {
+        this.projects = projects;
+      });
+
     this.createForm();
     if (this.data) {
       this.dialogForm.patchValue({ name: this.data.title, project: this.data.projectName, dueDate: this.data.dueDate });
@@ -69,7 +72,7 @@ export class AddItemComponent implements OnInit {
     }
     const newItem: AddActionItem = {
       title: title.value,
-      projectName: projectName.value.name,
+      projectName: projectName.value,
       type: 'General',
       completed: '0',
       dueDate: dueDate.value
@@ -82,7 +85,7 @@ export class AddItemComponent implements OnInit {
     const editedItemProject = this.dialogForm.get('project')!.value;
     const editedItemDueDate = this.dialogForm.get('dueDate')!.value;
     this.tasksService
-      .editActionItem(this.id, editedItemTitle, editedItemProject.name, editedItemDueDate)
+      .editActionItem(this.id, editedItemTitle, editedItemProject, editedItemDueDate)
       .subscribe(editedItem => {
         this.dialogRef.close(editedItem);
       });

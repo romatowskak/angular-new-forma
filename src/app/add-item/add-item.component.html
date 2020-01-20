@@ -10,7 +10,7 @@
         </mat-form-field>
         <mat-form-field>
             <mat-select class="projectInput" formControlName="project" placeholder="Project">
-                <mat-option *ngFor="let project of projects" [value]="project">
+                <mat-option *ngFor="let project of projects" [value]="project.name">
                     {{ project.name }}
                 </mat-option>
             </mat-select>
@@ -35,5 +35,5 @@
 
 <mat-dialog-actions class="buttons" *ngIf="!createDialog">
     <button class="matRaisedButton close" type="button" mat-button mat-dialog-close>Close</button>
-    <button class="matRaisedButton create" (click)="editItem()">Edit<span class="faButton" *ngIf="isEditingActionItem"><i class="fa fa-spinner fa-spin"></i></span></button>
+    <button class="matRaisedButton create" [disabled]="projects === undefined || dialogForm.invalid" (click)="editItem()">Edit<span class="faButton" *ngIf="isEditingActionItem"><i class="fa fa-spinner fa-spin"></i></span></button>
 </mat-dialog-actions>
