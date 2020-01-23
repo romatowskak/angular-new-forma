@@ -1,4 +1,3 @@
-import { AddOrUpdateActionItemComponent } from './../add-item/add-item.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
@@ -6,6 +5,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
+import { AddOrUpdateActionItemComponent } from '../add-item/add-item.component';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;

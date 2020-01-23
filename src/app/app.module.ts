@@ -9,7 +9,6 @@ import { ActionItemsComponent } from './action-items/action-items.component';
 import { DaysLeftToDeadlineService } from './services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { TasksService } from './services/tasksService/tasks.service';
 import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
-import { AddOrUpdateActionItemComponent } from './add-item/add-item.component';
 import { ProjectsService } from './services/projects/projects.service';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { RouterModule } from '@angular/router';
@@ -18,6 +17,7 @@ import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-count
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-dialog/confirmation-dialog.component';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { AddOrUpdateActionItemComponent } from './add-item/add-item.component';
 
 @NgModule({
   declarations: [

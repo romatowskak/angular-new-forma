@@ -130,21 +130,21 @@ describe('AddItemComponent', () => {
   });
 
   it('should dispplay the spinner on the create-button when item is being created', fakeAsync(() => {
-    component.isCreatingActionItem = false;
+    component.isSavingDialogData = false;
     component.createActionItem();
     tick();
     fixture.detectChanges();
-    expect(component.isCreatingActionItem).toBe(true);
+    expect(component.isSavingDialogData).toBe(true);
     tick(1000);
     fixture.detectChanges();
-    expect(component.isCreatingActionItem).toBe(false);
+    expect(component.isSavingDialogData).toBe(false);
   }));
 
   it('should retrieve the projects names from projectsService', () => {
     const projectsNames: Project[] = [{ name: 'CASD Wilson & Lamberton Middle Schools' }];
     spyOn(projectsService, 'getProjectsNames').and.returnValue(of(projectsNames));
     component.ngOnInit();
-    expect(component.projects.length).toEqual(projectsNames.length);
+    expect(component.projects!.length).toEqual(projectsNames.length);
   });
 
   it('button active when nameField and projectField filled', () => {

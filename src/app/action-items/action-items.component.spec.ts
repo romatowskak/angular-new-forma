@@ -1,9 +1,9 @@
+import { AddOrUpdateActionItemComponent } from './../add-item/add-item.component';
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { ItemDetailsComponent } from './../item-details/item-details.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppMaterialModule } from './../app-material/app-material.module';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AddItemComponent } from './../add-item/add-item.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
@@ -25,7 +25,7 @@ describe('ActionItemsComponent', () => {
       declarations: [
         ActionItemsComponent,
         CircleColorPipe,
-        AddItemComponent,
+        AddOrUpdateActionItemComponent,
         DaysLeftCountedPipe,
         ItemDetailsComponent
       ],
