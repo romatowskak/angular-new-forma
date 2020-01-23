@@ -6,7 +6,8 @@ import {
   MatInputModule,
   MatSelectModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatIconModule
 } from '@angular/material';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [],
   imports: [
+    MatIconModule,
     CommonModule,
     MatDialogModule,
     NoopAnimationsModule,
@@ -27,6 +29,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     FormsModule
   ],
   exports: [
+    MatIconModule,
     MatDialogModule,
     NoopAnimationsModule,
     MatFormFieldModule,

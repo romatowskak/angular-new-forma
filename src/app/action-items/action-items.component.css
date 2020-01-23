@@ -121,7 +121,7 @@
     padding: 0 15px;
 }
 
-.arrow {
+.filter .filterList .arrow {
     margin: 0 10px;
     padding-bottom: 5px;
 }
@@ -150,7 +150,7 @@
     justify-content: center;
 }
 
-.fa-edit {
+.singleItem .flexRow .fa-edit {
     font-size: 13px;
     color: #4e5860;
 }
@@ -208,7 +208,7 @@
     font-size: 100px;
 }
 
-.fa-circle {
+.flexRow .titleContainer .fa-circle {
     font-size: 10px;
 }
 
@@ -261,4 +261,16 @@
     overflow-x: hidden;
     height: calc(100% - 55px);
     background-color: #ffffff;
+}
+
+.listEmpty {
+    text-align: center;
+    font-size: 14px;
+    color: #979797;
+    margin-bottom: 50px;
+}
+
+.emptyListOfItem {
+    text-align: center;
+    margin-top: 10%;
 }

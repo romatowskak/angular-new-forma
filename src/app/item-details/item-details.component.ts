@@ -1,9 +1,10 @@
+import { DialogData } from './../action-items/action-items.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem, TasksService } from './../services/tasksService/tasks.service';
 import { Component, Input, ChangeDetectionStrategy, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ConfirmationDialogComponent } from '../confirmationDialog/confirmation-dialog/confirmation-dialog.component';
-import { AddItemComponent } from '../add-item/add-item.component';
+import { AddOrUpdateActionItemComponent } from '../add-item/add-item.component';
 
 @Component({
   selector: 'app-item-details',
@@ -17,6 +18,8 @@ export class ItemDetailsComponent implements OnChanges {
   @Input() id: string;
   @Input() errorMessage?: string;
   @Input() isLoadingActionItem: boolean;
+  @Input() dialogData: DialogData;
+  @Input() showImageWhenNoItem: boolean;
   @Output() refreshViewAfterDeletion = new EventEmitter();
   @Output() refreshViewAfterEditing = new EventEmitter();
   daysLeftVisibility: boolean;
@@ -37,26 +40,23 @@ export class ItemDetailsComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.tasksService.deleteActionItem(this.id);
-        this.refreshViewAfterDeletion.emit();
+        this.tasksService.deleteActionItem(this.id).subscribe(items => {
+          this.refreshViewAfterDeletion.emit();
+        });
       }
     });
   }
   openEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      width: '470px',
-      height: 'auto',
-      disableClose: true,
+      ...this.dialogData,
       data: {
-        title: !!this.item ? this.item.title : '',
-        projectName: !!this.item ? this.item.projectName : '',
-        dueDate: !!this.item ? this.item.dueDate : '',
+        item: this.item,
         id: this.id
       }
     };
     this.matDialog
-      .open(AddItemComponent, dialogConfig.data)
+      .open(AddOrUpdateActionItemComponent, dialogConfig.data)
       .afterClosed()
       .subscribe(editedItem => {
         if (editedItem) {

@@ -1,4 +1,4 @@
-import { AddItemComponent } from './../add-item/add-item.component';
+import { AddOrUpdateActionItemComponent } from './../add-item/add-item.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
@@ -9,6 +9,12 @@ import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scrol
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
+}
+
+export interface DialogData {
+  width: string;
+  height: string;
+  disableClose: boolean;
 }
 
 @Component({
@@ -27,6 +33,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   scrollToActionItem: boolean;
   createDialog: boolean;
   editedItemId: string;
+  dialogData: DialogData;
+  showImageWhenNoItem: boolean;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -41,6 +49,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.retrieveActionItems();
     this.subscribeToQueryParams();
+    this.dialogData = { width: '470px', height: 'auto', disableClose: true };
   }
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
@@ -51,21 +60,21 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
+        this.showImageWhenNoItem = false;
+        if (tasks.length === 0) this.showImageWhenNoItem = true;
       });
   }
   openDialog(): void {
     this.createDialog = true;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      width: '470px',
-      height: 'auto',
-      disableClose: true,
+      ...this.dialogData,
       data: {
         createDialog: this.createDialog
       }
     };
     this.matDialog
-      .open(AddItemComponent, dialogConfig.data)
+      .open(AddOrUpdateActionItemComponent, dialogConfig.data)
       .afterClosed()
       .subscribe(item => {
         if (!!item) {
@@ -101,12 +110,12 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          if (err.status === 404) this.errorMessage = err.statusText;
+          err.status === 404 ? (this.errorMessage = err.statusText) : 'Oops! Something went wrong!';
           this.isLoadingActionItem = false;
         }
       );
   }
-  subscribeToQueryParams(): void {
+  private subscribeToQueryParams(): void {
     this.scrollToActionItem = true;
     this.isLoadingActionItem = true;
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {

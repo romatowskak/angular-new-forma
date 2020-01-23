@@ -6,7 +6,7 @@ import { ActionItemsComponent } from './../action-items/action-items.component';
 import { AppMaterialModule } from './../app-material/app-material.module';
 import { Project, ProjectsService } from './../services/projects/projects.service';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { AddItemComponent } from './add-item.component';
+import { AddOrUpdateActionItemComponent } from './add-item.component';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -17,8 +17,8 @@ const dialogMock = {
 };
 
 describe('AddItemComponent', () => {
-  let component: AddItemComponent;
-  let fixture: ComponentFixture<AddItemComponent>;
+  let component: AddOrUpdateActionItemComponent;
+  let fixture: ComponentFixture<AddOrUpdateActionItemComponent>;
   let projectsService: ProjectsService;
   let nameField;
   let projectField;
@@ -28,7 +28,7 @@ describe('AddItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AddItemComponent,
+        AddOrUpdateActionItemComponent,
         ActionItemsComponent,
         ItemDetailsComponent,
         CircleColorPipe,
@@ -50,7 +50,7 @@ describe('AddItemComponent', () => {
 
   beforeEach(() => {
     projectsService = TestBed.get(ProjectsService);
-    fixture = TestBed.createComponent(AddItemComponent);
+    fixture = TestBed.createComponent(AddOrUpdateActionItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     nameField = component.dialogForm.controls.name;

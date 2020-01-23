@@ -10,18 +10,18 @@ import { first } from 'rxjs/operators';
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.css']
 })
-export class AddItemComponent implements OnInit {
+export class AddOrUpdateActionItemComponent implements OnInit {
   dialogForm: FormGroup;
   createDialog: boolean;
-  dialogTitleForAddingItems: string = 'Create Action Item';
-  dialogTitleForEditingItems: string = 'Edit Action Item';
+  dialogTitle: string;
+  dialogActionButton: string;
   projects?: Project[];
-  isCreatingActionItem: boolean = false;
-  isEditingActionItem: boolean = false;
+  isSavingDialogData: boolean = false;
   id: string;
+  loaderVisible: boolean = true;
 
   constructor(
-    public dialogRef: MatDialogRef<AddItemComponent>,
+    public dialogRef: MatDialogRef<AddOrUpdateActionItemComponent>,
     private formBuilder: FormBuilder,
     private dialogProjects: ProjectsService,
     private tasksService: TasksService,
@@ -29,43 +29,55 @@ export class AddItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.data.createDialog === true) {
+      this.dialogTitle = 'Create Action Item';
+      this.dialogActionButton = 'Create';
+    } else {
+      this.dialogTitle = 'Edit Action Item';
+      this.dialogActionButton = 'Edit';
+    }
     this.dialogProjects
       .getProjectsNames()
       .pipe(first())
       .subscribe(projects => {
         this.projects = projects;
+        this.loaderVisible = false;
       });
-
     this.createForm();
-    if (this.data) {
-      this.dialogForm.patchValue({ name: this.data.title, project: this.data.projectName, dueDate: this.data.dueDate });
-      this.id = this.data.id;
-      this.createDialog = this.data.createDialog;
-    }
+    this.dialogForm.patchValue({
+      title: this.data.item ? this.data.item.title : '',
+      projectName: this.data.item ? this.data.item.projectName : '',
+      dueDate: this.data.item ? this.data.item.dueDate : '',
+      description: this.data.item ? this.data.item.description : ''
+    });
+    this.id = this.data.id;
+    return this.dialogForm.value;
   }
   private createForm(): void {
     this.dialogForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      project: ['', Validators.required],
+      title: ['', Validators.required],
+      projectName: ['', Validators.required],
       dueDate: '',
       description: ''
     });
   }
+  saveForm(): void {
+    this.isSavingDialogData = true;
+    this.id ? this.editItem() : this.createActionItem();
+  }
   createActionItem(): void {
     const newItem = this.formNewActionItem();
-    this.isCreatingActionItem = true;
     this.dialogForm.disable();
     this.tasksService
       .add(newItem)
       .pipe(first())
       .subscribe(actionItem => {
         this.dialogRef.close(actionItem);
-        this.isCreatingActionItem = false;
       });
   }
   private formNewActionItem(): AddActionItem {
-    const title = this.dialogForm.get('name');
-    const projectName = this.dialogForm.get('project');
+    const title = this.dialogForm.get('title');
+    const projectName = this.dialogForm.get('projectName');
     const dueDate = this.dialogForm.get('dueDate');
     if (!title || !projectName || !dueDate) {
       throw 'Invalid Action Item data';
@@ -80,14 +92,9 @@ export class AddItemComponent implements OnInit {
     return newItem;
   }
   editItem(): void {
-    this.isEditingActionItem = true;
-    const editedItemTitle = this.dialogForm.get('name')!.value;
-    const editedItemProject = this.dialogForm.get('project')!.value;
-    const editedItemDueDate = this.dialogForm.get('dueDate')!.value;
-    this.tasksService
-      .editActionItem(this.id, editedItemTitle, editedItemProject, editedItemDueDate)
-      .subscribe(editedItem => {
-        this.dialogRef.close(editedItem);
-      });
+    const editedItem = this.dialogForm.value;
+    this.tasksService.editActionItem(this.id, editedItem).subscribe(editedItem => {
+      this.dialogRef.close(editedItem);
+    });
   }
 }

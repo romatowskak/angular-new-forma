@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
@@ -8,6 +8,7 @@ export interface ActionItem {
   type?: string;
   completed?: string;
   dueDate?: Date;
+  description?: string;
   id: string;
 }
 
@@ -17,7 +18,10 @@ export interface AddActionItem {
   type?: string;
   completed?: string;
   dueDate?: Date;
+  description?: string;
 }
+
+const STORAGE_KEY = 'local_dataTable';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +34,8 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '1'
+      id: '1',
+      description: ''
     },
     {
       title: 'The Flash Tutorial',
@@ -38,7 +43,8 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/12/29'),
-      id: '2'
+      id: '2',
+      description: ''
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -46,7 +52,8 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2019/11/15'),
-      id: '3'
+      id: '3',
+      description: ''
     },
     {
       title: 'Android - UI Automation Test',
@@ -54,7 +61,8 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '4'
+      id: '4',
+      description: ''
     },
     {
       title: 'The Flash Tutorial',
@@ -62,7 +70,8 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: '5'
+      id: '5',
+      description: ''
     },
     {
       title: 'Android - UI Automation Test',
@@ -70,7 +79,8 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '6'
+      id: '6',
+      description: ''
     },
     {
       title: 'The Flash Tutorial',
@@ -78,7 +88,8 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: '7'
+      id: '7',
+      description: ''
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -86,9 +97,11 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2020/01/05'),
-      id: '8'
+      id: '8',
+      description: ''
     }
   ];
+
   add(item: AddActionItem): Observable<ActionItem> {
     return new Observable(observer => {
       setTimeout(() => {
@@ -120,35 +133,30 @@ export class TasksService {
       }, 2000);
     });
   }
-  deleteActionItem(itemId: string): void {
-    setTimeout(() => {
-      this.dataTable.filter(item => {
-        if (item.id === itemId) {
-          this.dataTable.splice(this.dataTable.indexOf(item), 1);
-        }
-      }, 1000);
-    });
-  }
-  editActionItem(
-    itemId: string,
-    itemTitle: string,
-    itemProjectName: string,
-    itemDueDate: Date
-  ): Observable<ActionItem> {
-    let editedItem;
-    setTimeout(() => {
-      this.dataTable.filter(item => {
-        if (item.id === itemId) {
-          item.title = itemTitle;
-          item.projectName = itemProjectName;
-          item.dueDate = itemDueDate;
-          editedItem = item;
-        }
-      });
-    }, 1000);
+  deleteActionItem(itemId: string): Observable<ActionItem[]> {
     return new Observable(observer => {
       setTimeout(() => {
-        observer.next(editedItem);
+        this.dataTable.filter(item => {
+          if (item.id === itemId) {
+            this.dataTable.splice(this.dataTable.indexOf(item), 1);
+            observer.next(this.dataTable);
+          }
+        }, 1000);
+      });
+    });
+  }
+  editActionItem(editedItemId: string, editedItem: ActionItem): Observable<ActionItem> {
+    return new Observable(observer => {
+      setTimeout(() => {
+        this.dataTable.filter(item => {
+          if (item.id === editedItemId) {
+            item.title = editedItem.title;
+            item.projectName = editedItem.projectName;
+            item.dueDate = editedItem.dueDate;
+            item.description = editedItem.description;
+            observer.next(item);
+          }
+        });
       }, 1000);
     });
   }

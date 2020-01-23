@@ -9,7 +9,7 @@ import { ActionItemsComponent } from './action-items/action-items.component';
 import { DaysLeftToDeadlineService } from './services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { TasksService } from './services/tasksService/tasks.service';
 import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
-import { AddItemComponent } from './add-item/add-item.component';
+import { AddOrUpdateActionItemComponent } from './add-item/add-item.component';
 import { ProjectsService } from './services/projects/projects.service';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { RouterModule } from '@angular/router';
@@ -17,6 +17,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-dialog/confirmation-dialog.component';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-d
     NavbarComponent,
     ActionItemsComponent,
     CircleColorPipe,
-    AddItemComponent,
+    AddOrUpdateActionItemComponent,
     ItemDetailsComponent,
     DaysLeftCountedPipe,
     ConfirmationDialogComponent
@@ -35,6 +36,7 @@ import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-d
     AppRoutingModule,
     RoundProgressModule,
     FormsModule,
+    StorageServiceModule,
     ScrollToModule.forRoot(),
     RouterModule.forRoot([
       {
@@ -56,6 +58,6 @@ import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-d
     ScrollToModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AddItemComponent, ConfirmationDialogComponent]
+  entryComponents: [AddOrUpdateActionItemComponent, ConfirmationDialogComponent]
 })
 export class AppModule {}
