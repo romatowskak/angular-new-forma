@@ -145,11 +145,11 @@ export class TasksService {
       });
     });
   }
-  editActionItem(editedItemId: string, editedItem: ActionItem): Observable<ActionItem> {
+  editActionItem(editedItem: ActionItem): Observable<ActionItem> {
     return new Observable(observer => {
       setTimeout(() => {
         this.dataTable.filter(item => {
-          if (item.id === editedItemId) {
+          if (item.id === editedItem.id) {
             item.title = editedItem.title;
             item.projectName = editedItem.projectName;
             item.dueDate = editedItem.dueDate;

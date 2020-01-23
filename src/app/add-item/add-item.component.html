@@ -10,7 +10,7 @@
         <mat-form-field>
             <mat-icon matSuffix *ngIf="loaderVisible" class="projectsLoader"><i class="fa fa-circle-o-notch fa-spin"></i>
             </mat-icon>
-            <mat-select class="projectInput" formControlName="projectName" placeholder="Project">
+            <mat-select [class.loader]="loaderVisible" class="projectInput" formControlName="projectName" placeholder="Project">
                 <mat-option *ngFor="let project of projects" [value]="project.name">
                     {{ project.name }}
                 </mat-option>

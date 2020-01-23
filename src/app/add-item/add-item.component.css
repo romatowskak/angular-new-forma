@@ -77,3 +77,7 @@
         font-size: 15px;
         color: #979797;
     }
+    
+     ::ng-deep .loader .mat-select-arrow-wrapper {
+        display: none;
+    }

@@ -48,7 +48,8 @@ export class AddOrUpdateActionItemComponent implements OnInit {
       title: this.data.item ? this.data.item.title : '',
       projectName: this.data.item ? this.data.item.projectName : '',
       dueDate: this.data.item ? this.data.item.dueDate : '',
-      description: this.data.item ? this.data.item.description : ''
+      description: this.data.item ? this.data.item.description : '',
+      id: this.data.item ? this.data.item.id : ''
     });
     this.id = this.data.id;
     return this.dialogForm.value;
@@ -58,7 +59,8 @@ export class AddOrUpdateActionItemComponent implements OnInit {
       title: ['', Validators.required],
       projectName: ['', Validators.required],
       dueDate: '',
-      description: ''
+      description: '',
+      id: ''
     });
   }
   saveForm(): void {
@@ -93,7 +95,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   }
   editItem(): void {
     const editedItem = this.dialogForm.value;
-    this.tasksService.editActionItem(this.id, editedItem).subscribe(editedItem => {
+    this.tasksService.editActionItem(editedItem).subscribe(editedItem => {
       this.dialogRef.close(editedItem);
     });
   }
