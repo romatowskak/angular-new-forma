@@ -63,7 +63,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   }
   saveForm(): void {
     this.isSavingDialogData = true;
-    this.id ? this.editItem() : this.createActionItem();
+    this.dialogForm.value.id ? this.editItem() : this.createActionItem();
   }
   createActionItem(): void {
     const newItem = this.formNewActionItem();
