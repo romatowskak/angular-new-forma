@@ -25,7 +25,7 @@
             <i class="fa fa-spinner fa-spin"></i>
         </div>
         <div class="tBody" *ngIf="!isLoadingActionItems">
-            <div *ngIf="showImageWhenNoItem" class="emptyListOfItem">
+            <div *ngIf="showImageWhenNoActionItem" class="emptyListOfItem">
                 <img class="noItem" src="/assets/empty-inbox.svg">
                 <p class="listEmpty noItem">The list of Action Items is empty.</p>
             </div>
@@ -52,7 +52,7 @@
         </div>
     </div>
     <div class="innerContainer detailsContainer ">
-        <app-item-details [showImageWhenNoItem]="showImageWhenNoItem" [id]="actionItemId" [item]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [errorMessage]="errorMessage" [dialogData]="dialogData" (refreshViewAfterDeletion)="refreshViewAfterDeletion($event)"
+        <app-item-details [showImageWhenNoActionItem]="showImageWhenNoActionItem" [actionItemId]="actionItemId" [actionItem]="actionItem" [isLoadingActionItem]="isLoadingActionItem" [errorMessage]="errorMessage" [dialogData]="dialogData" (refreshViewAfterDeletion)="refreshViewAfterDeletion($event)"
             (refreshViewAfterEditing)="refreshViewAfterEditing($event)">
         </app-item-details>
     </div>

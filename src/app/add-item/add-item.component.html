@@ -1,5 +1,5 @@
 <div class="container dialogModal">
-    <h2 class="dialogTitle" mat-dialog-title>{{ dialogTitle }}</h2>
+    <h2 class="dialogTitle" mat-dialog-title>{{ dialogMode }} Action Item</h2>
     <mat-dialog-content [formGroup]="dialogForm">
         <mat-form-field>
             <input matInput class="typedValueColor nameInput" placeholder="Action Item Name" formControlName="title" />
@@ -30,9 +30,8 @@
     </mat-dialog-content>
 </div>
 <mat-dialog-actions class="buttons">
-    <button class="matRaisedButton close" type="button" mat-button mat-dialog-close>Close</button>
-    <button class="matRaisedButton create" [disabled]="dialogForm.invalid" (click)="saveForm()">
-    {{ dialogActionButton
-    }}<span class="faButton" *ngIf="isSavingDialogData"><i class="fa fa-spinner fa-spin"></i></span>
+    <button class="matRaisedButton close" type="button" mat-dialog-close>Close</button>
+    <button class="matRaisedButton create saveButton" [disabled]="dialogForm.invalid" (click)="saveForm()">
+        {{ dialogMode }}<span class="faButton" *ngIf="isSavingDialogData"><i class="fa fa-spinner fa-spin"></i></span>
   </button>
 </mat-dialog-actions>

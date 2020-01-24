@@ -14,12 +14,12 @@ import { AddOrUpdateActionItemComponent } from '../add-item/add-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemDetailsComponent implements OnChanges {
-  @Input() item?: ActionItem;
-  @Input() id: string;
+  @Input() actionItem?: ActionItem;
+  @Input() actionItemId: string;
   @Input() errorMessage?: string;
   @Input() isLoadingActionItem: boolean;
   @Input() dialogData: DialogData;
-  @Input() showImageWhenNoItem: boolean;
+  @Input() showImageWhenNoActionItem: boolean;
   @Output() refreshViewAfterDeletion = new EventEmitter();
   @Output() refreshViewAfterEditing = new EventEmitter();
   daysLeftVisibility: boolean;
@@ -27,8 +27,8 @@ export class ItemDetailsComponent implements OnChanges {
   constructor(private matDialog: MatDialog, private tasksService: TasksService) {}
 
   ngOnChanges() {
-    if (this.item) {
-      const itemDueDate = this.item.dueDate;
+    if (this.actionItem) {
+      const itemDueDate = this.actionItem.dueDate;
       this.daysLeftVisibility = !!itemDueDate;
     }
   }
@@ -40,8 +40,8 @@ export class ItemDetailsComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.tasksService.deleteActionItem(this.id).subscribe(items => {
-          this.refreshViewAfterDeletion.emit();
+        this.tasksService.deleteActionItem(this.actionItemId).subscribe(actionItems => {
+          this.refreshViewAfterDeletion.emit(actionItems);
         });
       }
     });
@@ -51,16 +51,16 @@ export class ItemDetailsComponent implements OnChanges {
     dialogConfig.data = {
       ...this.dialogData,
       data: {
-        item: this.item,
-        id: this.id
+        item: this.actionItem,
+        id: this.actionItemId
       }
     };
     this.matDialog
       .open(AddOrUpdateActionItemComponent, dialogConfig.data)
       .afterClosed()
-      .subscribe(editedItem => {
-        if (editedItem) {
-          this.refreshViewAfterEditing.emit(editedItem.id);
+      .subscribe(editedActionItemId => {
+        if (editedActionItemId) {
+          this.refreshViewAfterEditing.emit(editedActionItemId);
         }
       });
   }

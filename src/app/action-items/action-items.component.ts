@@ -29,12 +29,11 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItemId?: string;
   actionItem?: ActionItem;
   errorMessage?: string;
-  itemIdForScroll: string;
+  actionItemIdForScroll: string;
   scrollToActionItem: boolean;
   createDialog: boolean;
-  editedItemId: string;
   dialogData: DialogData;
-  showImageWhenNoItem: boolean;
+  showImageWhenNoActionItem: boolean;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -60,8 +59,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
-        this.showImageWhenNoItem = false;
-        if (tasks.length === 0) this.showImageWhenNoItem = true;
+        this.showImageWhenNoActionItem = false;
+        if (tasks.length === 0) this.showImageWhenNoActionItem = true;
       });
   }
   openDialog(): void {
@@ -79,8 +78,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
-          this.itemIdForScroll = item.id;
-          this.router.navigate(['/items'], { queryParams: { id: this.itemIdForScroll } });
+          this.actionItemIdForScroll = item.id;
+          this.router.navigate(['/items'], { queryParams: { id: this.actionItemIdForScroll } });
           this.scrollToActionItem = true;
         }
       });
@@ -104,9 +103,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
-          this.itemIdForScroll = item.id;
+          this.actionItemIdForScroll = item.id;
           if (this.scrollToActionItem) {
-            this.triggerScrollTo(this.itemIdForScroll);
+            this.triggerScrollTo(this.actionItemIdForScroll);
           }
         },
         err => {
@@ -134,7 +133,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.errorMessage = undefined;
   }
   refreshViewAfterEditing(editedItemId): void {
-    this.itemIdForScroll = editedItemId;
+    this.actionItemIdForScroll = editedItemId;
     this.scrollToActionItem = true;
     this.subscribeToQueryParams();
   }

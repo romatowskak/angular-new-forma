@@ -5,6 +5,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
+enum dialogMode {
+  create = 'Create',
+  edit = 'Edit'
+}
+
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
@@ -13,7 +18,7 @@ import { first } from 'rxjs/operators';
 export class AddOrUpdateActionItemComponent implements OnInit {
   dialogForm: FormGroup;
   createDialog: boolean;
-  dialogTitle: string;
+  dialogMode: string;
   dialogActionButton: string;
   projects?: Project[];
   isSavingDialogData: boolean = false;
@@ -28,13 +33,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.data.createDialog === true) {
-      this.dialogTitle = 'Create Action Item';
-      this.dialogActionButton = 'Create';
-    } else {
-      this.dialogTitle = 'Edit Action Item';
-      this.dialogActionButton = 'Edit';
-    }
+    this.data.createDialog === true ? (this.dialogMode = dialogMode.create) : (this.dialogMode = dialogMode.edit);
     this.dialogProjects
       .getProjectsNames()
       .pipe(first())
@@ -43,13 +42,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
         this.loaderVisible = false;
       });
     this.createForm();
-    this.dialogForm.patchValue({
-      title: this.data.item ? this.data.item.title : '',
-      projectName: this.data.item ? this.data.item.projectName : '',
-      dueDate: this.data.item ? this.data.item.dueDate : '',
-      description: this.data.item ? this.data.item.description : '',
-      id: this.data.item ? this.data.item.id : ''
-    });
+    this.dialogForm.patchValue(this.data.item || {});
     return this.dialogForm.value;
   }
   private createForm(): void {
@@ -63,13 +56,13 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   }
   saveForm(): void {
     this.isSavingDialogData = true;
-    this.dialogForm.value.id ? this.editItem() : this.createActionItem();
+    this.dialogMode === dialogMode.edit ? this.editItem() : this.createActionItem();
   }
   createActionItem(): void {
-    const newItem = this.formNewActionItem();
+    const newActionItem = this.formNewActionItem();
     this.dialogForm.disable();
     this.tasksService
-      .add(newItem)
+      .add(newActionItem)
       .pipe(first())
       .subscribe(actionItem => {
         this.dialogRef.close(actionItem);
@@ -82,19 +75,19 @@ export class AddOrUpdateActionItemComponent implements OnInit {
     if (!title || !projectName || !dueDate) {
       throw 'Invalid Action Item data';
     }
-    const newItem: AddActionItem = {
+    const newActionItem: AddActionItem = {
       title: title.value,
       projectName: projectName.value,
       type: 'General',
       completed: '0',
       dueDate: dueDate.value
     };
-    return newItem;
+    return newActionItem;
   }
   editItem(): void {
-    const editedItem = this.dialogForm.value;
-    this.tasksService.editActionItem(editedItem).subscribe(editedItem => {
-      this.dialogRef.close(editedItem);
+    const editedActionItem = this.dialogForm.value;
+    this.tasksService.editActionItem(editedActionItem).subscribe(editedActionItemId => {
+      this.dialogRef.close(editedActionItemId);
     });
   }
 }

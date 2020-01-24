@@ -49,18 +49,24 @@
         width: 75px;
         line-height: 25px;
         border-radius: 1px;
+        font-weight: bold;
         font-size: 10px;
         margin: 2px;
         cursor: pointer;
+        background-color: white;
+        color: #686868;
     }
     
     .matRaisedButton:hover:enabled {
-        background-color: #ddd4d4;
-        color: white;
+        background-color: #f5f0f0;
     }
     
     .matRaisedButton:disabled {
         opacity: 0.5;
+    }
+    
+    .saveButton:enabled {
+        color: #e14504;
     }
     
     .matRaisedButton span {

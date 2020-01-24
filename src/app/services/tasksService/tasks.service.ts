@@ -21,13 +21,11 @@ export interface AddActionItem {
   description?: string;
 }
 
-const STORAGE_KEY = 'local_dataTable';
-
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
-  private readonly dataTable: ActionItem[] = [
+  private dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
       projectName: 'CASD Wilson & Lamberton Middle Schools',
@@ -102,12 +100,12 @@ export class TasksService {
     }
   ];
 
-  add(item: AddActionItem): Observable<ActionItem> {
+  add(actionItem: AddActionItem): Observable<ActionItem> {
     return new Observable(observer => {
       setTimeout(() => {
         const newActionItem = {
-          ...item,
-          id: this.itemId()
+          ...actionItem,
+          id: this.actionItemId()
         };
         this.dataTable.push(newActionItem);
         observer.next(newActionItem);
@@ -121,8 +119,8 @@ export class TasksService {
       }, 1000);
     });
   }
-  getActionItem(itemId: string | undefined): Observable<ActionItem> {
-    const actionItem = this.dataTable.find(({ id }) => id === itemId);
+  getActionItem(actionItemId: string | undefined): Observable<ActionItem> {
+    const actionItem = this.dataTable.find(({ id }) => id === actionItemId);
     return new Observable(observer => {
       setTimeout(() => {
         if (actionItem) {
@@ -133,34 +131,29 @@ export class TasksService {
       }, 2000);
     });
   }
-  deleteActionItem(itemId: string): Observable<ActionItem[]> {
+  deleteActionItem(actiontemId: string): Observable<ActionItem[]> {
     return new Observable(observer => {
       setTimeout(() => {
-        this.dataTable.filter(item => {
-          if (item.id === itemId) {
-            this.dataTable.splice(this.dataTable.indexOf(item), 1);
-            observer.next(this.dataTable);
-          }
+        this.dataTable.map(actionItem => {
+          actionItem.id === actiontemId
+            ? this.dataTable.splice(this.dataTable.indexOf(actionItem), 1)
+            : { ...actionItem };
+          observer.next(this.dataTable);
         }, 1000);
       });
     });
   }
-  editActionItem(editedItem: ActionItem): Observable<ActionItem> {
+  editActionItem(editedActionItem: ActionItem): Observable<string> {
     return new Observable(observer => {
       setTimeout(() => {
-        this.dataTable.filter(item => {
-          if (item.id === editedItem.id) {
-            item.title = editedItem.title;
-            item.projectName = editedItem.projectName;
-            item.dueDate = editedItem.dueDate;
-            item.description = editedItem.description;
-            observer.next(item);
-          }
-        });
+        this.dataTable = this.dataTable.map(item =>
+          item.id !== editedActionItem.id ? item : { ...item, ...editedActionItem }
+        );
+        observer.next(editedActionItem.id);
       }, 1000);
     });
   }
-  itemId(): string {
+  actionItemId(): string {
     return (
       Math.random()
         .toString(36)
