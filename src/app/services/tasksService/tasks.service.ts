@@ -135,9 +135,13 @@ export class TasksService {
     return new Observable(observer => {
       setTimeout(() => {
         this.dataTable.map(actionItem => {
-          actionItem.id === actiontemId
-            ? this.dataTable.splice(this.dataTable.indexOf(actionItem), 1)
-            : { ...actionItem };
+          if (actionItem.id === actiontemId) {
+            const deletedItemIndex = this.dataTable.indexOf(actionItem);
+            this.dataTable = [
+              ...this.dataTable.slice(0, deletedItemIndex),
+              ...this.dataTable.slice(deletedItemIndex + 1)
+            ];
+          }
           observer.next(this.dataTable);
         }, 1000);
       });
