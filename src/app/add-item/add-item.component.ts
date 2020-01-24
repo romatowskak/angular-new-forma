@@ -17,7 +17,6 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   dialogActionButton: string;
   projects?: Project[];
   isSavingDialogData: boolean = false;
-  id: string;
   loaderVisible: boolean = true;
 
   constructor(
@@ -51,7 +50,6 @@ export class AddOrUpdateActionItemComponent implements OnInit {
       description: this.data.item ? this.data.item.description : '',
       id: this.data.item ? this.data.item.id : ''
     });
-    this.id = this.data.id;
     return this.dialogForm.value;
   }
   private createForm(): void {
