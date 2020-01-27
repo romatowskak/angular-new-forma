@@ -1,8 +1,8 @@
 import { browser, by, element, promise, ElementFinder, ElementArrayFinder } from 'protractor';
 
 export class AppPage {
-  navigateTo() {
-    return browser.get('/');
+  navigateToAllActionItems(): promise.Promise<string> {
+    return browser.get('/items');
   }
 
   openDialog(): void {
@@ -74,5 +74,21 @@ export class AppPage {
 
   getNewItem(itemName): ElementFinder {
     return element(by.cssContainingText('.title', itemName));
+  }
+
+  navigateToNonExistingActionItem(): promise.Promise<string> {
+    return browser.get('/items?id=wrongPath');
+  }
+
+  getActionItemDetails(): ElementArrayFinder {
+    return element.all(by.css('.details-container'));
+  }
+
+  getActionItemName(): ElementFinder {
+    return element(by.css('.top.title'));
+  }
+
+  getErrorMessage(): ElementFinder {
+    return element(by.css('.errorMessage'));
   }
 }

@@ -1,9 +1,11 @@
 import { AddItemComponent } from './../add-item/add-item.component';
-import { Component, OnInit } from '@angular/core';
-import { map, first } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
-import { DaysLeftToDeadlineService } from '../services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -14,38 +16,40 @@ export interface ActionItemMapped extends ActionItem {
   templateUrl: './action-items.component.html',
   styleUrls: ['./action-items.component.css']
 })
-export class ActionItemsComponent implements OnInit {
+export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
-  isloadingActionItems = false;
-  private currentDate: Date = new Date();
+  isLoadingActionItems = false;
+  isLoadingActionItem = false;
+  actionItemId: string | undefined;
+  actionItem: ActionItem;
+  errorMessage: string | undefined;
+  justAddedItemId: string;
+  private queryParamsSubscription: Subscription;
+  private getActionItemSubscription: Subscription;
 
   constructor(
     private tasksService: TasksService,
-    private daysCountService: DaysLeftToDeadlineService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router,
+    private scrollToService: ScrollToService
   ) {}
+
   ngOnInit() {
     this.retrieveActionItems();
+    this.subscribeToQueryParams();
   }
+
   retrieveActionItems(): void {
-    this.isloadingActionItems = true;
+    this.isLoadingActionItems = true;
+    this.isLoadingActionItem = true;
     this.tasksService
       .getAllItems()
-      .pipe(
-        first(),
-        map(items => {
-          const mappedActionItems: ActionItemMapped[] = items.map(item => {
-            const dueDayCounted = item.dueDate
-              ? this.daysCountService.daysLeftToDeadline(item.dueDate, this.currentDate)
-              : undefined;
-            return { ...item, dueDay: dueDayCounted };
-          });
-          return mappedActionItems;
-        })
-      )
+      .pipe(first())
       .subscribe(tasks => {
         this.dataSource = tasks;
-        this.isloadingActionItems = false;
+        this.isLoadingActionItems = false;
+        this.isLoadingActionItem = false;
       });
   }
   openDialog(): void {
@@ -57,7 +61,46 @@ export class ActionItemsComponent implements OnInit {
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
+          this.justAddedItemId = item.id;
+          this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
         }
       });
+  }
+  private triggerScrollTo() {
+    const config: ScrollToConfigOptions = {
+      target: this.justAddedItemId
+    };
+    this.scrollToService.scrollTo(config);
+  }
+  private getActionItem(itemId: string | undefined): void {
+    this.isLoadingActionItem = true;
+    if (this.getActionItemSubscription) {
+      this.getActionItemSubscription.unsubscribe();
+    }
+    this.getActionItemSubscription = this.tasksService
+      .getActionItem(itemId)
+      .pipe(first())
+      .subscribe(
+        item => {
+          this.isLoadingActionItem = false;
+          this.actionItem = item;
+          this.triggerScrollTo();
+        },
+        err => {
+          if (err.status === 404) this.errorMessage = err.statusText;
+        }
+      );
+  }
+  subscribeToQueryParams(): void {
+    this.isLoadingActionItem = true;
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
+      this.actionItemId = params.id;
+      if (this.actionItemId) {
+        this.getActionItem(this.actionItemId);
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.queryParamsSubscription.unsubscribe();
   }
 }

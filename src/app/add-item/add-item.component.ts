@@ -1,4 +1,4 @@
-import { TasksService, ActionItem } from './../services/tasksService/tasks.service';
+import { TasksService, AddActionItem } from './../services/tasksService/tasks.service';
 import { Project, ProjectsService } from '../services/projects/projects.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -29,7 +29,6 @@ export class AddItemComponent implements OnInit {
       .subscribe(projects => (this.projects = projects));
     this.createForm();
   }
-
   private createForm(): void {
     this.dialogForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -38,7 +37,6 @@ export class AddItemComponent implements OnInit {
       description: ''
     });
   }
-
   createActionItem(): void {
     const newItem = this.formNewActionItem();
     this.isCreatingActionItem = true;
@@ -51,16 +49,19 @@ export class AddItemComponent implements OnInit {
         this.isCreatingActionItem = false;
       });
   }
-
-  private formNewActionItem(): ActionItem {
-    const projectNameValue = this.dialogForm.get('project').value;
-    const dueDateValue = this.dialogForm.get('dueDate').value;
-    const newItem: ActionItem = {
-      title: this.dialogForm.get('name').value,
-      projectName: projectNameValue.name,
+  private formNewActionItem(): AddActionItem {
+    const title = this.dialogForm.get('name');
+    const projectName = this.dialogForm.get('project');
+    const dueDate = this.dialogForm.get('dueDate');
+    if (!title || !projectName || !dueDate) {
+      throw 'Invalid Action Item data';
+    }
+    const newItem: AddActionItem = {
+      title: title.value,
+      projectName: projectName.value.name,
       type: 'General',
-      completed: '60',
-      dueDate: !!dueDateValue ? dueDateValue : undefined
+      completed: '0',
+      dueDate: dueDate.value
     };
     return newItem;
   }

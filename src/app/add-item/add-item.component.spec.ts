@@ -1,3 +1,5 @@
+import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CircleColorPipe } from './../pipes/circleColorPipe/circle-color.pipe';
 import { ItemDetailsComponent } from './../item-details/item-details.component';
 import { ActionItemsComponent } from './../action-items/action-items.component';
@@ -8,6 +10,7 @@ import { AddItemComponent } from './add-item.component';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { MatDialogRef } from '@angular/material';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 const dialogMock = {
   close: () => {}
@@ -24,8 +27,14 @@ describe('AddItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddItemComponent, ActionItemsComponent, ItemDetailsComponent, CircleColorPipe],
-      imports: [AppMaterialModule],
+      declarations: [
+        AddItemComponent,
+        ActionItemsComponent,
+        ItemDetailsComponent,
+        CircleColorPipe,
+        DaysLeftCountedPipe
+      ],
+      imports: [AppMaterialModule, RouterTestingModule, RoundProgressModule],
       providers: [
         {
           provide: MatDialogRef,

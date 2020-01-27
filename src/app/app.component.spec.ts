@@ -6,12 +6,21 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
+import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-counted.pipe';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AppComponent, NavbarComponent, ActionItemsComponent, CircleColorPipe, ItemDetailsComponent],
+      imports: [RouterTestingModule, RoundProgressModule],
+      declarations: [
+        AppComponent,
+        NavbarComponent,
+        ActionItemsComponent,
+        CircleColorPipe,
+        ItemDetailsComponent,
+        DaysLeftCountedPipe
+      ],
       providers: [
         {
           provide: MatDialog,
