@@ -33,7 +33,7 @@ export class TasksService {
       completed: '80',
       dueDate: new Date('2019/11/17'),
       id: '1',
-      description: 'Item description'
+      description: 'Item description.'
     },
     {
       title: 'The Flash Tutorial',
@@ -42,7 +42,7 @@ export class TasksService {
       completed: '70',
       dueDate: new Date('2019/12/29'),
       id: '2',
-      description: 'Item description'
+      description: 'Item description.'
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -51,7 +51,7 @@ export class TasksService {
       completed: '0',
       dueDate: new Date('2019/11/15'),
       id: '3',
-      description: 'Item description'
+      description: 'Item description.'
     },
     {
       title: 'Android - UI Automation Test',
@@ -60,7 +60,7 @@ export class TasksService {
       completed: '80',
       dueDate: new Date('2019/11/17'),
       id: '4',
-      description: 'Item description'
+      description: 'Item description.'
     },
     {
       title: 'The Flash Tutorial',
@@ -69,7 +69,7 @@ export class TasksService {
       completed: '70',
       dueDate: new Date('2019/11/16'),
       id: '5',
-      description: 'Item description'
+      description: 'Item description.'
     },
     {
       title: 'Android - UI Automation Test',
@@ -78,7 +78,7 @@ export class TasksService {
       completed: '80',
       dueDate: new Date('2019/11/17'),
       id: '6',
-      description: 'Item description'
+      description: 'Item description.'
     },
     {
       title: 'The Flash Tutorial',
@@ -87,7 +87,7 @@ export class TasksService {
       completed: '70',
       dueDate: new Date('2019/11/16'),
       id: '7',
-      description: 'Item description'
+      description: 'Item description.'
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -96,7 +96,7 @@ export class TasksService {
       completed: '0',
       dueDate: new Date('2020/01/05'),
       id: '8',
-      description: 'Item description'
+      description: 'Item description.'
     }
   ];
 

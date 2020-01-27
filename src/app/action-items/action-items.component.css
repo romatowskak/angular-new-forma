@@ -229,6 +229,16 @@
     background-color: #686868;
 }
 
+.detailsContainer::-webkit-scrollbar {
+    width: 10px;
+    background-color: #D0D0D0;
+}
+
+.detailsContainer::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #686868;
+}
+
 .itemsAndDetailsContainer {
     display: flex;
     width: 99%;
@@ -247,6 +257,8 @@
     margin-right: 10px;
     width: 35%;
     background-color: white;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .tableContainer {
