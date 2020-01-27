@@ -33,7 +33,7 @@ export class TasksService {
       completed: '80',
       dueDate: new Date('2019/11/17'),
       id: '1',
-      description: ''
+      description: 'Item description'
     },
     {
       title: 'The Flash Tutorial',
@@ -42,7 +42,7 @@ export class TasksService {
       completed: '70',
       dueDate: new Date('2019/12/29'),
       id: '2',
-      description: ''
+      description: 'Item description'
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -51,7 +51,7 @@ export class TasksService {
       completed: '0',
       dueDate: new Date('2019/11/15'),
       id: '3',
-      description: ''
+      description: 'Item description'
     },
     {
       title: 'Android - UI Automation Test',
@@ -60,7 +60,7 @@ export class TasksService {
       completed: '80',
       dueDate: new Date('2019/11/17'),
       id: '4',
-      description: ''
+      description: 'Item description'
     },
     {
       title: 'The Flash Tutorial',
@@ -69,7 +69,7 @@ export class TasksService {
       completed: '70',
       dueDate: new Date('2019/11/16'),
       id: '5',
-      description: ''
+      description: 'Item description'
     },
     {
       title: 'Android - UI Automation Test',
@@ -78,7 +78,7 @@ export class TasksService {
       completed: '80',
       dueDate: new Date('2019/11/17'),
       id: '6',
-      description: ''
+      description: 'Item description'
     },
     {
       title: 'The Flash Tutorial',
@@ -87,7 +87,7 @@ export class TasksService {
       completed: '70',
       dueDate: new Date('2019/11/16'),
       id: '7',
-      description: ''
+      description: 'Item description'
     },
     {
       title: 'Cleaning and Organising Your Computer',
@@ -96,7 +96,7 @@ export class TasksService {
       completed: '0',
       dueDate: new Date('2020/01/05'),
       id: '8',
-      description: ''
+      description: 'Item description'
     }
   ];
 
@@ -107,7 +107,7 @@ export class TasksService {
           ...actionItem,
           id: this.actionItemId()
         };
-        this.dataTable.push(newActionItem);
+        this.dataTable = [...this.dataTable, newActionItem];
         observer.next(newActionItem);
       }, 1000);
     });
@@ -134,17 +134,15 @@ export class TasksService {
   deleteActionItem(actiontemId: string): Observable<ActionItem[]> {
     return new Observable(observer => {
       setTimeout(() => {
-        this.dataTable.map(actionItem => {
-          if (actionItem.id === actiontemId) {
-            const deletedItemIndex = this.dataTable.indexOf(actionItem);
-            this.dataTable = [
-              ...this.dataTable.slice(0, deletedItemIndex),
-              ...this.dataTable.slice(deletedItemIndex + 1)
-            ];
-          }
-          observer.next(this.dataTable);
-        }, 1000);
-      });
+        const deletedItemIndex = this.dataTable.findIndex(x => x.id === actiontemId);
+        if (deletedItemIndex !== -1) {
+          this.dataTable = [
+            ...this.dataTable.slice(0, deletedItemIndex),
+            ...this.dataTable.slice(deletedItemIndex + 1)
+          ];
+        }
+        observer.next(this.dataTable);
+      }, 1000);
     });
   }
   editActionItem(editedActionItem: ActionItem): Observable<string> {
@@ -153,6 +151,7 @@ export class TasksService {
         this.dataTable = this.dataTable.map(item =>
           item.id !== editedActionItem.id ? item : { ...item, ...editedActionItem }
         );
+
         observer.next(editedActionItem.id);
       }, 1000);
     });

@@ -29,9 +29,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItemId?: string;
   actionItem?: ActionItem;
   errorMessage?: string;
-  actionItemIdForScroll: string;
-  scrollToActionItem: boolean;
-  createDialog: boolean;
+  actionItemIdForScroll?: string;
   dialogData: DialogData;
   showImageWhenNoActionItem: boolean;
   private queryParamsSubscription: Subscription;
@@ -64,13 +62,10 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       });
   }
   openDialog(): void {
-    this.createDialog = true;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       ...this.dialogData,
-      data: {
-        createDialog: this.createDialog
-      }
+      data: {}
     };
     this.matDialog
       .open(AddOrUpdateActionItemComponent, dialogConfig.data)
@@ -80,7 +75,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.retrieveActionItems();
           this.actionItemIdForScroll = item.id;
           this.router.navigate(['/items'], { queryParams: { id: this.actionItemIdForScroll } });
-          this.scrollToActionItem = true;
         }
       });
   }
@@ -89,7 +83,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       target: itemId
     };
     this.scrollToService.scrollTo(config);
-    this.scrollToActionItem = false;
   }
   private getActionItem(itemId: string | undefined): void {
     this.isLoadingActionItem = true;
@@ -104,7 +97,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.isLoadingActionItem = false;
           this.actionItem = item;
           this.actionItemIdForScroll = item.id;
-          if (this.scrollToActionItem) {
+          if (this.actionItemIdForScroll) {
             this.triggerScrollTo(this.actionItemIdForScroll);
           }
         },
@@ -115,7 +108,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       );
   }
   private subscribeToQueryParams(): void {
-    this.scrollToActionItem = true;
     this.isLoadingActionItem = true;
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       this.actionItemId = params.id;
@@ -134,7 +126,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
   refreshViewAfterEditing(editedItemId): void {
     this.actionItemIdForScroll = editedItemId;
-    this.scrollToActionItem = true;
+    this.retrieveActionItems();
     this.subscribeToQueryParams();
   }
   ngOnDestroy() {

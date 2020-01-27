@@ -17,7 +17,6 @@ enum dialogMode {
 })
 export class AddOrUpdateActionItemComponent implements OnInit {
   dialogForm: FormGroup;
-  createDialog: boolean;
   dialogMode: string;
   dialogActionButton: string;
   projects?: Project[];
@@ -33,7 +32,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.data.createDialog === true ? (this.dialogMode = dialogMode.create) : (this.dialogMode = dialogMode.edit);
+    !this.data.item ? (this.dialogMode = dialogMode.create) : (this.dialogMode = dialogMode.edit);
     this.dialogProjects
       .getProjectsNames()
       .pipe(first())
@@ -72,7 +71,8 @@ export class AddOrUpdateActionItemComponent implements OnInit {
     const title = this.dialogForm.get('title');
     const projectName = this.dialogForm.get('projectName');
     const dueDate = this.dialogForm.get('dueDate');
-    if (!title || !projectName || !dueDate) {
+    const description = this.dialogForm.get('description');
+    if (!title || !projectName || !dueDate || !description) {
       throw 'Invalid Action Item data';
     }
     const newActionItem: AddActionItem = {
@@ -80,7 +80,8 @@ export class AddOrUpdateActionItemComponent implements OnInit {
       projectName: projectName.value,
       type: 'General',
       completed: '0',
-      dueDate: dueDate.value
+      dueDate: dueDate.value,
+      description: description.value
     };
     return newActionItem;
   }

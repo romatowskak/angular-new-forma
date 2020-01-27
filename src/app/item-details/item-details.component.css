@@ -30,6 +30,11 @@
     padding-bottom: 2px;
 }
 
+.description {
+    word-wrap: break-word;
+    margin-top: 20px;
+}
+
 .top {
     display: flex;
     justify-content: space-between;
