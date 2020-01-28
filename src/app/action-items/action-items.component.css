@@ -257,7 +257,7 @@
     margin-right: 10px;
     width: 35%;
     background-color: white;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
