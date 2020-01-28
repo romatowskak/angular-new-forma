@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 import { AddOrUpdateActionItemComponent } from '../add-item/add-item.component';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
@@ -40,8 +42,12 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private scrollToService: ScrollToService
-  ) {}
+    private scrollToService: ScrollToService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon('emptyList', sanitizer.bypassSecurityTrustResourceUrl('/assets/empty-inbox.svg'));
+  }
 
   ngOnInit() {
     this.retrieveActionItems();

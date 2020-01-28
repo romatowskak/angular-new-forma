@@ -18,6 +18,7 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-dialog/confirmation-dialog.component';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { AddOrUpdateActionItemComponent } from './add-item/add-item.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddOrUpdateActionItemComponent } from './add-item/add-item.component';
     BrowserModule,
     AppRoutingModule,
     RoundProgressModule,
+    HttpClientModule,
     FormsModule,
     StorageServiceModule,
     ScrollToModule.forRoot(),

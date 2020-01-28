@@ -26,7 +26,7 @@
         </div>
         <div class="tBody" *ngIf="!isLoadingActionItems">
             <div *ngIf="showImageWhenNoActionItem" class="emptyListOfItem">
-                <img class="noItem" src="/assets/empty-inbox.svg">
+                <mat-icon class="noItem icon" svgIcon="emptyList" aria-hidden="false" aria-label="emptyListIcon"></mat-icon>
                 <p class="listEmpty noItem">The list of Action Items is empty.</p>
             </div>
             <div #item *ngFor="let actionItem of dataSource" id="{{ actionItem.id }}" [routerLink]="['/items']" [queryParams]="{ id: actionItem.id }" routerLinkActive="router-link-active" class="flexTable row singleItem" role="rowgroup">

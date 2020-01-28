@@ -286,3 +286,8 @@
     text-align: center;
     margin-top: 10%;
 }
+
+.icon {
+    transform: scale(4);
+    margin-bottom: 20px;
+}
