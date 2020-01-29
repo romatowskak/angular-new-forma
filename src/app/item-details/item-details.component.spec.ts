@@ -107,7 +107,17 @@ describe('ItemDetailsComponent', () => {
     expect(actionItemDetails).toBeTruthy();
   });
 
-  it('should open a confirmation dialog when button clicked', () => {
+  it('should open an edit dialog when button clicked', () => {
+    spyOn(component, 'openEditDialog');
+    component.isLoadingActionItem = false;
+    component.actionItem = actionItem;
+    fixture.detectChanges();
+    const btn = fixture.debugElement.query(By.css('.editDialog')).nativeElement;
+    btn.click();
+    expect(component.openEditDialog).toHaveBeenCalled();
+  });
+
+  it('should open a delete dialog when button clicked', () => {
     spyOn(component, 'openConfirmationDialog');
     component.isLoadingActionItem = false;
     component.actionItem = actionItem;
