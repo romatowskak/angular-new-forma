@@ -1,6 +1,7 @@
-import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 export interface ActionItem {
   title: string;
@@ -11,6 +12,8 @@ export interface ActionItem {
   description?: string;
   id: string;
 }
+
+const localStorageKey = 'localDataTable';
 
 export interface AddActionItem {
   title: string;
@@ -25,6 +28,7 @@ export interface AddActionItem {
   providedIn: 'root'
 })
 export class TasksService {
+  constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {}
   private dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
@@ -32,7 +36,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '1',
+      id: this.actionItemId(),
       description: 'Item description.'
     },
     {
@@ -41,7 +45,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/12/29'),
-      id: '2',
+      id: this.actionItemId(),
       description: 'Item description.'
     },
     {
@@ -50,7 +54,7 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2019/11/15'),
-      id: '3',
+      id: this.actionItemId(),
       description: 'Item description.'
     },
     {
@@ -59,7 +63,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '4',
+      id: this.actionItemId(),
       description: 'Item description.'
     },
     {
@@ -68,7 +72,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: '5',
+      id: this.actionItemId(),
       description: 'Item description.'
     },
     {
@@ -77,7 +81,7 @@ export class TasksService {
       type: 'General',
       completed: '80',
       dueDate: new Date('2019/11/17'),
-      id: '6',
+      id: this.actionItemId(),
       description: 'Item description.'
     },
     {
@@ -86,7 +90,7 @@ export class TasksService {
       type: 'General',
       completed: '70',
       dueDate: new Date('2019/11/16'),
-      id: '7',
+      id: this.actionItemId(),
       description: 'Item description.'
     },
     {
@@ -95,7 +99,7 @@ export class TasksService {
       type: 'Clash',
       completed: '0',
       dueDate: new Date('2020/01/05'),
-      id: '8',
+      id: this.actionItemId(),
       description: 'Item description.'
     }
   ];
@@ -108,18 +112,24 @@ export class TasksService {
           id: this.actionItemId()
         };
         this.dataTable = [...this.dataTable, newActionItem];
+        this.storage.set(localStorageKey, this.dataTable);
         observer.next(newActionItem);
       }, 1000);
     });
   }
   getAllItems(): Observable<ActionItem[]> {
+    if (this.storage.get(localStorageKey) === undefined) {
+      this.storage.set(localStorageKey, this.dataTable);
+    }
     return new Observable(observer => {
       setTimeout(() => {
+        this.dataTable = this.storage.get(localStorageKey);
         observer.next(this.dataTable);
       }, 1000);
     });
   }
   getActionItem(actionItemId: string | undefined): Observable<ActionItem> {
+    this.dataTable = this.storage.get(localStorageKey);
     const actionItem = this.dataTable.find(({ id }) => id === actionItemId);
     return new Observable(observer => {
       setTimeout(() => {
@@ -140,19 +150,20 @@ export class TasksService {
             ...this.dataTable.slice(0, deletedItemIndex),
             ...this.dataTable.slice(deletedItemIndex + 1)
           ];
+          this.storage.set(localStorageKey, this.dataTable);
         }
         observer.next(this.dataTable);
       }, 1000);
     });
   }
-  editActionItem(editedActionItem: ActionItem): Observable<string> {
+  editActionItem(editedActionItem: ActionItem): Observable<ActionItem> {
     return new Observable(observer => {
       setTimeout(() => {
         this.dataTable = this.dataTable.map(item =>
           item.id !== editedActionItem.id ? item : { ...item, ...editedActionItem }
         );
-
-        observer.next(editedActionItem.id);
+        this.storage.set(localStorageKey, this.dataTable);
+        observer.next(editedActionItem);
       }, 1000);
     });
   }

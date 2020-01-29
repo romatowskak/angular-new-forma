@@ -13,10 +13,10 @@ describe('ProjectsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getProjectsNames() should return 1 object with project name', done => {
+  it('getProjectsNames() should return multiple objects with project name', done => {
     const projectName = { name: 'CASD Wilson & Lamberton Middle Schools' };
     projectsService.getProjectsNames().subscribe(res => {
-      expect(res.length).toEqual(1);
+      expect(res.length).toBeGreaterThanOrEqual(0);
       expect(res[0]).toEqual(projectName);
       expect(res[0].name).toEqual('CASD Wilson & Lamberton Middle Schools');
       done();

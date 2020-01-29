@@ -1,3 +1,4 @@
+import { AppMaterialModule } from 'src/app/app-material/app-material.module';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionItemsComponent } from './action-items/action-items.component';
@@ -12,7 +13,7 @@ import { RoundProgressModule } from 'angular-svg-round-progressbar';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, RoundProgressModule],
+      imports: [RouterTestingModule, RoundProgressModule, AppMaterialModule],
       declarations: [
         AppComponent,
         NavbarComponent,

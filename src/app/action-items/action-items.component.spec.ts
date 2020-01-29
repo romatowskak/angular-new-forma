@@ -119,13 +119,6 @@ describe('ActionItemsComponent', () => {
     expect(component.openDialog).toHaveBeenCalled();
   });
 
-  it('should call getQueryParams()', () => {
-    component.actionItem = actionItem;
-    const getParamsSpy = spyOn(component, 'subscribeToQueryParams').and.callThrough();
-    component.ngOnInit();
-    expect(getParamsSpy).toHaveBeenCalled();
-  });
-
   it('should get action item with corresponding id', done => {
     spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
     tasksService.getActionItem('itemId').subscribe(res => {

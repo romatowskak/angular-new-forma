@@ -26,7 +26,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatNativeDateModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ],
   exports: [
     MatIconModule,
@@ -39,7 +40,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatNativeDateModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ]
 })
 export class AppMaterialModule {}

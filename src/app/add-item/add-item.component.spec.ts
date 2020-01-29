@@ -1,3 +1,4 @@
+import { TasksService } from './../services/tasksService/tasks.service';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CircleColorPipe } from './../pipes/circleColorPipe/circle-color.pipe';
@@ -20,6 +21,7 @@ describe('AddItemComponent', () => {
   let component: AddOrUpdateActionItemComponent;
   let fixture: ComponentFixture<AddOrUpdateActionItemComponent>;
   let projectsService: ProjectsService;
+  let tasksService: TasksService;
   let nameField;
   let projectField;
   let dueDateField;
@@ -50,11 +52,12 @@ describe('AddItemComponent', () => {
 
   beforeEach(() => {
     projectsService = TestBed.get(ProjectsService);
+    tasksService = TestBed.get(TasksService);
     fixture = TestBed.createComponent(AddOrUpdateActionItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    nameField = component.dialogForm.controls.name;
-    projectField = component.dialogForm.controls.project;
+    nameField = component.dialogForm.controls.title;
+    projectField = component.dialogForm.controls.projectName;
     dueDateField = component.dialogForm.controls.dueDate;
     descriptionField = component.dialogForm.controls.description;
   });
@@ -129,22 +132,18 @@ describe('AddItemComponent', () => {
     expect(descriptionField.enabled).toBe(false);
   });
 
-  it('should dispplay the spinner on the create-button when item is being created', fakeAsync(() => {
+  it('should display the spinner on the create-button when item is being created', () => {
     component.isSavingDialogData = false;
-    component.createActionItem();
-    tick();
+    component.saveForm();
     fixture.detectChanges();
     expect(component.isSavingDialogData).toBe(true);
-    tick(1000);
-    fixture.detectChanges();
-    expect(component.isSavingDialogData).toBe(false);
-  }));
+  });
 
   it('should retrieve the projects names from projectsService', () => {
     const projectsNames: Project[] = [{ name: 'CASD Wilson & Lamberton Middle Schools' }];
     spyOn(projectsService, 'getProjectsNames').and.returnValue(of(projectsNames));
     component.ngOnInit();
-    expect(component.projects!.length).toEqual(projectsNames.length);
+    expect(component.projects).toEqual(projectsNames);
   });
 
   it('button active when nameField and projectField filled', () => {
@@ -168,5 +167,42 @@ describe('AddItemComponent', () => {
     const projectError = fixture.debugElement.query(By.css('.projectError'));
     expect(nameError).toBeFalsy();
     expect(projectError).toBeFalsy();
+  });
+
+  it('should call editActionItem() in the component', () => {
+    component.dialogMode = 'Edit';
+    const editActionItemComponentSpy = spyOn(component, 'editActionItem');
+    component.saveForm();
+    fixture.detectChanges();
+    expect(editActionItemComponentSpy).toHaveBeenCalled();
+  });
+
+  it('should call editActionItem() in the Tasks Service', () => {
+    const editActionItemServiceSpy = spyOn(tasksService, 'editActionItem').and.callThrough();
+    component.editActionItem();
+    fixture.detectChanges();
+    expect(editActionItemServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should set the dialog mode to "Edit" when an item already exists', () => {
+    component.data.item = {
+      title: 'The Flash Tutorial',
+      projectName: 'CASD Wilson & Lamberton Middle Schools',
+      type: 'General',
+      completed: '70',
+      dueDate: new Date('2019/11/16'),
+      id: '5',
+      description: 'Item description.'
+    };
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.dialogMode).toEqual('Edit');
+  });
+
+  it('should set the dialog mode to "Create" when an does not exist', () => {
+    component.data.item = undefined;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.dialogMode).toEqual('Create');
   });
 });

@@ -43,10 +43,10 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private scrollToService: ScrollToService,
-    iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer
   ) {
-    iconRegistry.addSvgIcon('emptyList', sanitizer.bypassSecurityTrustResourceUrl('/assets/empty-inbox.svg'));
+    this.iconRegistry.addSvgIcon('emptyList', this.sanitizer.bypassSecurityTrustResourceUrl('/assets/empty-inbox.svg'));
   }
 
   ngOnInit() {
@@ -64,7 +64,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
         this.showImageWhenNoActionItem = false;
-        if (tasks.length === 0) this.showImageWhenNoActionItem = true;
+        if (tasks.length === 0) {
+          this.showImageWhenNoActionItem = true;
+        }
       });
   }
   openDialog(): void {
@@ -108,7 +110,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          err.status === 404 ? (this.errorMessage = err.statusText) : 'Oops! Something went wrong!';
+          err.status === 404
+            ? (this.errorMessage = err.statusText)
+            : (this.errorMessage = 'Oops! Something went wrong!');
           this.isLoadingActionItem = false;
         }
       );

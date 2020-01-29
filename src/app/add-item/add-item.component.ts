@@ -20,8 +20,8 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   dialogMode: string;
   dialogActionButton: string;
   projects?: Project[];
-  isSavingDialogData: boolean = false;
-  loaderVisible: boolean = true;
+  isSavingDialogData = false;
+  loaderVisible = true;
 
   constructor(
     public dialogRef: MatDialogRef<AddOrUpdateActionItemComponent>,
@@ -55,7 +55,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   }
   saveForm(): void {
     this.isSavingDialogData = true;
-    this.dialogMode === dialogMode.edit ? this.editItem() : this.createActionItem();
+    this.dialogMode === dialogMode.edit ? this.editActionItem() : this.createActionItem();
   }
   createActionItem(): void {
     const newActionItem = this.formNewActionItem();
@@ -64,16 +64,17 @@ export class AddOrUpdateActionItemComponent implements OnInit {
       .add(newActionItem)
       .pipe(first())
       .subscribe(actionItem => {
+        console.log(actionItem);
         this.dialogRef.close(actionItem);
       });
   }
-  private formNewActionItem(): AddActionItem {
+  formNewActionItem(): AddActionItem {
     const title = this.dialogForm.get('title');
     const projectName = this.dialogForm.get('projectName');
     const dueDate = this.dialogForm.get('dueDate');
     const description = this.dialogForm.get('description');
     if (!title || !projectName || !dueDate || !description) {
-      throw 'Invalid Action Item data';
+      throw new Error('Invalid Action Item data');
     }
     const newActionItem: AddActionItem = {
       title: title.value,
@@ -85,10 +86,10 @@ export class AddOrUpdateActionItemComponent implements OnInit {
     };
     return newActionItem;
   }
-  editItem(): void {
+  editActionItem(): void {
     const editedActionItem = this.dialogForm.value;
-    this.tasksService.editActionItem(editedActionItem).subscribe(editedActionItemId => {
-      this.dialogRef.close(editedActionItemId);
+    this.tasksService.editActionItem(editedActionItem).subscribe(actionItem => {
+      this.dialogRef.close(actionItem.id);
     });
   }
 }

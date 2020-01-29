@@ -37,7 +37,6 @@ export class ItemDetailsComponent implements OnChanges {
       width: '380px',
       autoFocus: false
     });
-
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.tasksService.deleteActionItem(this.actionItemId).subscribe(actionItems => {

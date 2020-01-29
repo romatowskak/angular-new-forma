@@ -69,7 +69,7 @@ describe('ItemDetailsComponent', () => {
   });
 
   it('should display days-left only if dueDate declared', () => {
-    component.item = actionItem;
+    component.actionItem = actionItem;
     component.ngOnChanges();
     expect(component.daysLeftVisibility).toEqual(true);
   });
@@ -81,7 +81,7 @@ describe('ItemDetailsComponent', () => {
   });
 
   it('should display error message if there is no item found', () => {
-    component.item = undefined;
+    component.actionItem = undefined;
     component.errorMessage = 'No item found!';
     component.isLoadingActionItem = false;
     fixture.detectChanges();
@@ -90,7 +90,7 @@ describe('ItemDetailsComponent', () => {
   });
 
   it('should display "Select Action Item.." message if no action ite was selected', () => {
-    component.item = undefined;
+    component.actionItem = undefined;
     component.errorMessage = undefined;
     component.isLoadingActionItem = false;
     fixture.detectChanges();
@@ -99,7 +99,7 @@ describe('ItemDetailsComponent', () => {
   });
 
   it('should display action item details if item selected and clicked', () => {
-    component.item = actionItem;
+    component.actionItem = actionItem;
     component.errorMessage = undefined;
     component.isLoadingActionItem = false;
     fixture.detectChanges();
@@ -110,7 +110,7 @@ describe('ItemDetailsComponent', () => {
   it('should open a confirmation dialog when button clicked', () => {
     spyOn(component, 'openConfirmationDialog');
     component.isLoadingActionItem = false;
-    component.item = actionItem;
+    component.actionItem = actionItem;
     fixture.detectChanges();
     const btn = fixture.debugElement.query(By.css('.confirmationDialog')).nativeElement;
     btn.click();
