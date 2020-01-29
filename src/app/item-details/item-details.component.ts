@@ -5,6 +5,7 @@ import { ActionItem, TasksService } from './../services/tasksService/tasks.servi
 import { Component, Input, ChangeDetectionStrategy, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ConfirmationDialogComponent } from '../confirmationDialog/confirmation-dialog/confirmation-dialog.component';
 import { AddOrUpdateActionItemComponent } from '../add-item/add-item.component';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-item-details',
@@ -37,13 +38,10 @@ export class ItemDetailsComponent implements OnChanges {
       width: '380px',
       autoFocus: false
     });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.tasksService.deleteActionItem(this.actionItemId).subscribe(actionItems => {
-          this.refreshViewAfterDeletion.emit(actionItems);
-        });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(mergeMap(res => this.tasksService.deleteActionItem(this.actionItemId)))
+      .subscribe(actionItemId => this.refreshViewAfterDeletion.emit(actionItemId));
   }
   openEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
