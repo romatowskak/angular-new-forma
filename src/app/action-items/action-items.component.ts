@@ -63,9 +63,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
         this.showImageWhenNoActionItem = false;
-        if (tasks.length === 0) {
-          this.showImageWhenNoActionItem = true;
-        }
+        this.showImageWhenNoActionItem = tasks.length === 0;
       });
   }
   openDialog(): void {
