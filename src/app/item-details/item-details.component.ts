@@ -16,7 +16,6 @@ import { mergeMap, filter } from 'rxjs/operators';
 })
 export class ItemDetailsComponent implements OnChanges {
   @Input() actionItem?: ActionItem;
-  @Input() actionItemId: string;
   @Input() errorMessage?: string;
   @Input() isLoadingActionItem: boolean;
   @Input() dialogData: DialogData;
@@ -42,7 +41,7 @@ export class ItemDetailsComponent implements OnChanges {
       .afterClosed()
       .pipe(
         filter(res => !!res),
-        mergeMap(res => this.tasksService.deleteActionItem(this.actionItemId))
+        mergeMap(res => this.tasksService.deleteActionItem(this.actionItem ? this.actionItem.id : ''))
       )
       .subscribe(actionItemId => this.refreshViewAfterDeletion.emit(actionItemId));
   }
@@ -52,7 +51,7 @@ export class ItemDetailsComponent implements OnChanges {
       ...this.dialogData,
       data: {
         item: this.actionItem,
-        id: this.actionItemId
+        id: this.actionItem ? this.actionItem : ''
       }
     };
     this.matDialog

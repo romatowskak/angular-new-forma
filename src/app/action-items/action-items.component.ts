@@ -28,7 +28,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
   isLoadingActionItems = false;
   isLoadingActionItem = false;
-  actionItemId?: string;
   actionItem?: ActionItem;
   errorMessage?: string;
   actionItemIdForScroll?: string;
@@ -120,9 +119,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   private subscribeToQueryParams(): void {
     this.isLoadingActionItem = true;
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
-      this.actionItemId = params.id;
-      if (this.actionItemId) {
-        this.getActionItem(this.actionItemId);
+      const actionItemId = params.id;
+      if (actionItemId) {
+        this.getActionItem(actionItemId);
       } else {
         this.isLoadingActionItem = false;
       }
