@@ -19,6 +19,8 @@ export interface DialogData {
   disableClose: boolean;
 }
 
+const dialogData: DialogData = { width: '470px', height: 'auto', disableClose: true };
+
 @Component({
   selector: 'app-action-items',
   templateUrl: './action-items.component.html',
@@ -31,7 +33,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   actionItem?: ActionItem;
   errorMessage?: string;
   actionItemIdForScroll?: string;
-  dialogData: DialogData;
+  dialogData: DialogData = dialogData;
   showImageWhenNoActionItem: boolean;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
@@ -51,7 +53,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.retrieveActionItems();
     this.subscribeToQueryParams();
-    this.dialogData = { width: '470px', height: 'auto', disableClose: true };
   }
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
@@ -69,7 +70,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   openDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      ...this.dialogData,
+      ...dialogData,
       data: {}
     };
     this.matDialog
