@@ -19,14 +19,9 @@ export interface DialogData {
   disableClose: boolean;
 }
 
-export interface DialogModeEnum {
-  create: string;
-  edit: string;
-}
-
 const dialogData: DialogData = { width: '470px', height: 'auto', disableClose: true };
 
-enum dialogModeEnum {
+export enum DialogMode {
   create = 'Create',
   edit = 'Edit'
 }
@@ -42,7 +37,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   isLoadingActionItem = false;
   actionItem?: ActionItem;
   errorMessage?: string;
-  dialogModeEnum: DialogModeEnum = dialogModeEnum;
+  dialogModeEnum: DialogMode;
   showImageWhenNoActionItem: boolean;
   private actionItemIdForScroll?: string;
   private dialogData: DialogData = dialogData;
@@ -83,7 +78,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       ...this.dialogData,
       data: {
-        dialogMode: dialogModeEnum.create
+        dialogMode: DialogMode.create
       }
     };
     this.matDialog

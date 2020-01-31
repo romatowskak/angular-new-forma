@@ -1,4 +1,4 @@
-import { DialogData, DialogModeEnum } from './../action-items/action-items.component';
+import { DialogData, DialogMode } from './../action-items/action-items.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ActionItem, TasksService } from './../services/tasksService/tasks.service';
@@ -19,7 +19,6 @@ export class ItemDetailsComponent implements OnChanges {
   @Input() errorMessage?: string;
   @Input() isLoadingActionItem: boolean;
   @Input() dialogData: DialogData;
-  @Input() dialogModeEnum: DialogModeEnum;
   @Input() showImageWhenNoActionItem: boolean;
   @Output() refreshViewAfterDeletion = new EventEmitter();
   @Output() refreshViewAfterEditing = new EventEmitter();
@@ -53,7 +52,7 @@ export class ItemDetailsComponent implements OnChanges {
       data: {
         item: this.actionItem,
         id: this.actionItem ? this.actionItem : '',
-        dialogMode: this.dialogModeEnum.edit
+        dialogMode: DialogMode.edit
       }
     };
     this.matDialog
