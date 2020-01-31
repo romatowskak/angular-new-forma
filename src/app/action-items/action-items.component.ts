@@ -39,8 +39,8 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   errorMessage?: string;
   dialogModeEnum: DialogMode;
   showImageWhenNoActionItem: boolean;
+  dialogData: DialogData = dialogData;
   private actionItemIdForScroll?: string;
-  private dialogData: DialogData = dialogData;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 

@@ -43,7 +43,7 @@ export class ItemDetailsComponent implements OnChanges {
         filter(res => !!res),
         mergeMap(res => this.tasksService.deleteActionItem(this.actionItem ? this.actionItem.id : ''))
       )
-      .subscribe(actionItemId => this.refreshViewAfterDeletion.emit(actionItemId));
+      .subscribe(actionItemId => this.refreshViewAfterDeletion.emit());
   }
   openEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
