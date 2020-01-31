@@ -5,18 +5,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-enum dialogMode {
-  create = 'Create',
-  edit = 'Edit'
-}
-
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.css']
 })
 export class AddOrUpdateActionItemComponent implements OnInit {
-  dialogForm: FormGroup;
+  private dialogForm: FormGroup;
   dialogMode: string;
   dialogActionButton: string;
   projects?: Project[];
@@ -32,7 +27,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    !this.data.item ? (this.dialogMode = dialogMode.create) : (this.dialogMode = dialogMode.edit);
+    this.dialogMode = this.data.dialogMode;
     this.dialogProjects
       .getProjectsNames()
       .pipe(first())
@@ -55,7 +50,7 @@ export class AddOrUpdateActionItemComponent implements OnInit {
   }
   saveForm(): void {
     this.isSavingDialogData = true;
-    this.dialogMode === dialogMode.edit ? this.editActionItem() : this.createActionItem();
+    this.dialogMode === 'Edit' ? this.editActionItem() : this.createActionItem();
   }
   createActionItem(): void {
     const newActionItem = this.formNewActionItem();
@@ -64,7 +59,6 @@ export class AddOrUpdateActionItemComponent implements OnInit {
       .add(newActionItem)
       .pipe(first())
       .subscribe(actionItem => {
-        console.log(actionItem);
         this.dialogRef.close(actionItem);
       });
   }

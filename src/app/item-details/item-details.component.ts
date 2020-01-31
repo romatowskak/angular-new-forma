@@ -51,7 +51,8 @@ export class ItemDetailsComponent implements OnChanges {
       ...this.dialogData,
       data: {
         item: this.actionItem,
-        id: this.actionItem ? this.actionItem : ''
+        id: this.actionItem ? this.actionItem : '',
+        dialogMode: 'Edit'
       }
     };
     this.matDialog

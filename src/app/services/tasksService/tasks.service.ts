@@ -13,8 +13,6 @@ export interface ActionItem {
   id: string;
 }
 
-const localStorageKey = 'localDataTable';
-
 export interface AddActionItem {
   title: string;
   projectName: string;
@@ -29,6 +27,7 @@ export interface AddActionItem {
 })
 export class TasksService {
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {}
+  private readonly localStorageKey = 'localDataTable';
   private dataTable: ActionItem[] = [
     {
       title: 'Android - UI Automation Test',
@@ -112,24 +111,24 @@ export class TasksService {
           id: this.actionItemId()
         };
         this.dataTable = [...this.dataTable, newActionItem];
-        this.storage.set(localStorageKey, this.dataTable);
+        this.storage.set(this.localStorageKey, this.dataTable);
         observer.next(newActionItem);
       }, 1000);
     });
   }
   getAllItems(): Observable<ActionItem[]> {
-    if (this.storage.get(localStorageKey) === undefined) {
-      this.storage.set(localStorageKey, this.dataTable);
+    if (this.storage.get(this.localStorageKey) === undefined) {
+      this.storage.set(this.localStorageKey, this.dataTable);
     }
     return new Observable(observer => {
       setTimeout(() => {
-        this.dataTable = this.storage.get(localStorageKey);
+        this.dataTable = this.storage.get(this.localStorageKey);
         observer.next(this.dataTable);
       }, 1000);
     });
   }
   getActionItem(actionItemId: string | undefined): Observable<ActionItem> {
-    this.dataTable = this.storage.get(localStorageKey);
+    this.dataTable = this.storage.get(this.localStorageKey);
     const actionItem = this.dataTable.find(({ id }) => id === actionItemId);
     return new Observable(observer => {
       setTimeout(() => {
@@ -141,17 +140,11 @@ export class TasksService {
       }, 2000);
     });
   }
-  deleteActionItem(actiontemId: string): Observable<ActionItem[]> {
+  deleteActionItem(actionItemId: string): Observable<ActionItem[]> {
     return new Observable(observer => {
       setTimeout(() => {
-        const deletedItemIndex = this.dataTable.findIndex(x => x.id === actiontemId);
-        if (deletedItemIndex !== -1) {
-          this.dataTable = [
-            ...this.dataTable.slice(0, deletedItemIndex),
-            ...this.dataTable.slice(deletedItemIndex + 1)
-          ];
-          this.storage.set(localStorageKey, this.dataTable);
-        }
+        this.dataTable = this.dataTable.filter(data => data.id !== actionItemId);
+        this.storage.set(this.localStorageKey, this.dataTable);
         observer.next(this.dataTable);
       }, 1000);
     });
@@ -162,7 +155,7 @@ export class TasksService {
         this.dataTable = this.dataTable.map(item =>
           item.id !== editedActionItem.id ? item : { ...item, ...editedActionItem }
         );
-        this.storage.set(localStorageKey, this.dataTable);
+        this.storage.set(this.localStorageKey, this.dataTable);
         observer.next(editedActionItem);
       }, 1000);
     });

@@ -21,6 +21,11 @@ export interface DialogData {
 
 const dialogData: DialogData = { width: '470px', height: 'auto', disableClose: true };
 
+enum dialogMode {
+  create = 'Create',
+  edit = 'Edit'
+}
+
 @Component({
   selector: 'app-action-items',
   templateUrl: './action-items.component.html',
@@ -32,9 +37,9 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   isLoadingActionItem = false;
   actionItem?: ActionItem;
   errorMessage?: string;
-  actionItemIdForScroll?: string;
-  dialogData: DialogData = dialogData;
   showImageWhenNoActionItem: boolean;
+  private actionItemIdForScroll?: string;
+  private dialogData: DialogData = dialogData;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -51,6 +56,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.actionItemIdForScroll);
     this.retrieveActionItems();
     this.subscribeToQueryParams();
   }
@@ -67,11 +73,13 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         this.showImageWhenNoActionItem = tasks.length === 0;
       });
   }
-  openDialog(): void {
+  openCreateDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      ...dialogData,
-      data: {}
+      ...this.dialogData,
+      data: {
+        dialogMode: 'Create'
+      }
     };
     this.matDialog
       .open(AddOrUpdateActionItemComponent, dialogConfig.data)
@@ -91,6 +99,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.scrollToService.scrollTo(config);
   }
   private getActionItem(itemId: string | undefined): void {
+    console.log(this.actionItemIdForScroll);
     this.isLoadingActionItem = true;
     if (this.getActionItemSubscription) {
       this.getActionItemSubscription.unsubscribe();
@@ -105,6 +114,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
           this.actionItemIdForScroll = item.id;
           if (this.actionItemIdForScroll) {
             this.triggerScrollTo(this.actionItemIdForScroll);
+            this.actionItemIdForScroll = undefined;
           }
         },
         err => {
