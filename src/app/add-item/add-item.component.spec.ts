@@ -184,23 +184,15 @@ describe('AddItemComponent', () => {
     expect(editActionItemServiceSpy).toHaveBeenCalled();
   });
 
-  it('should set the dialog mode to "Edit" when an item already exists', () => {
-    component.data.item = {
-      title: 'The Flash Tutorial',
-      projectName: 'CASD Wilson & Lamberton Middle Schools',
-      type: 'General',
-      completed: '70',
-      dueDate: new Date('2019/11/16'),
-      id: '5',
-      description: 'Item description.'
-    };
+  it('should set the dialog mode to "Edit"', () => {
+    component.data.dialogMode = 'Edit';
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.dialogMode).toEqual('Edit');
   });
 
-  it('should set the dialog mode to "Create" when an does not exist', () => {
-    component.data.item = undefined;
+  it('should set the dialog mode to "Create"', () => {
+    component.data.dialogMode = 'Create';
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.dialogMode).toEqual('Create');

@@ -111,22 +111,22 @@ describe('ActionItemsComponent', () => {
   });
 
   it('should open a dialog when button clicked', () => {
-    spyOn(component, 'openDialog');
+    spyOn(component, 'openCreateDialog');
     component.isLoadingActionItems = false;
     fixture.detectChanges();
     const btn = fixture.debugElement.query(By.css('.addItem')).nativeElement;
     btn.click();
-    expect(component.openDialog).toHaveBeenCalled();
+    expect(component.openCreateDialog).toHaveBeenCalled();
   });
 
   it('should get action item with corresponding id', done => {
     spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
     tasksService.getActionItem('itemId').subscribe(res => {
       component.actionItem = res;
-      component.actionItemId = res.id;
+      component.actionItem.id = res.id;
       done();
       expect(component.actionItem).toEqual(actionItem);
-      expect(component.actionItemId).toEqual(actionItem.id);
+      expect(component.actionItem.id).toEqual(actionItem.id);
     });
   });
 });

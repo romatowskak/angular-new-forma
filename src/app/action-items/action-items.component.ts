@@ -19,9 +19,14 @@ export interface DialogData {
   disableClose: boolean;
 }
 
+export interface DialogModeEnum {
+  create: string;
+  edit: string;
+}
+
 const dialogData: DialogData = { width: '470px', height: 'auto', disableClose: true };
 
-enum dialogMode {
+enum dialogModeEnum {
   create = 'Create',
   edit = 'Edit'
 }
@@ -37,6 +42,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   isLoadingActionItem = false;
   actionItem?: ActionItem;
   errorMessage?: string;
+  dialogModeEnum: DialogModeEnum = dialogModeEnum;
   showImageWhenNoActionItem: boolean;
   private actionItemIdForScroll?: string;
   private dialogData: DialogData = dialogData;
@@ -56,7 +62,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.actionItemIdForScroll);
     this.retrieveActionItems();
     this.subscribeToQueryParams();
   }
@@ -78,7 +83,7 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       ...this.dialogData,
       data: {
-        dialogMode: 'Create'
+        dialogMode: dialogModeEnum.create
       }
     };
     this.matDialog
@@ -99,7 +104,6 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     this.scrollToService.scrollTo(config);
   }
   private getActionItem(itemId: string | undefined): void {
-    console.log(this.actionItemIdForScroll);
     this.isLoadingActionItem = true;
     if (this.getActionItemSubscription) {
       this.getActionItemSubscription.unsubscribe();

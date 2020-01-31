@@ -11,7 +11,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./add-item.component.css']
 })
 export class AddOrUpdateActionItemComponent implements OnInit {
-  private dialogForm: FormGroup;
+  dialogForm: FormGroup;
   dialogMode: string;
   dialogActionButton: string;
   projects?: Project[];
