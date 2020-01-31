@@ -7,9 +7,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display table with 8 action items', () => {
+  it('should display table with multiple action items', () => {
     page.navigateToAllActionItems();
-    expect(page.getAllActionItems().count()).toBe(8);
+    expect(page.getAllActionItems().count()).toBeGreaterThanOrEqual(1);
     expect(page.getActionItemDetails().isPresent()).toBe(false);
   });
 

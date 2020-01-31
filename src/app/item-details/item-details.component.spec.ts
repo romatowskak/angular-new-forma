@@ -1,3 +1,6 @@
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppMaterialModule } from './../app-material/app-material.module';
+import { ConfirmationDialogComponent } from './../confirmationDialog/confirmation-dialog/confirmation-dialog.component';
 import { ActionItem } from 'src/app/services/tasksService/tasks.service';
 import { DaysLeftCountedPipe } from './../pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
@@ -7,17 +10,31 @@ import { ItemDetailsComponent } from './item-details.component';
 import { TasksService } from '../services/tasksService/tasks.service';
 import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { MatDialog } from '@angular/material';
 
 describe('ItemDetailsComponent', () => {
   let component: ItemDetailsComponent;
   let fixture: ComponentFixture<ItemDetailsComponent>;
   let actionItem: ActionItem;
+  let dialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RoundProgressModule],
-      declarations: [ItemDetailsComponent, CircleColorPipe, DaysLeftCountedPipe],
-      providers: [TasksService]
+      imports: [RoundProgressModule, AppMaterialModule, RouterTestingModule],
+      declarations: [ItemDetailsComponent, ConfirmationDialogComponent, CircleColorPipe, DaysLeftCountedPipe],
+      providers: [
+        TasksService,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              id: 'itemId'
+            })
+          }
+        }
+      ]
     })
       .overrideComponent(ItemDetailsComponent, { set: { changeDetection: ChangeDetectionStrategy.Default } })
       .compileComponents();
@@ -27,6 +44,7 @@ describe('ItemDetailsComponent', () => {
     fixture = TestBed.createComponent(ItemDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    dialog = TestBed.get(MatDialog);
     actionItem = {
       title: 'title',
       projectName: 'projectName',
@@ -51,7 +69,7 @@ describe('ItemDetailsComponent', () => {
   });
 
   it('should display days-left only if dueDate declared', () => {
-    component.item = actionItem;
+    component.actionItem = actionItem;
     component.ngOnChanges();
     expect(component.daysLeftVisibility).toEqual(true);
   });
@@ -63,7 +81,7 @@ describe('ItemDetailsComponent', () => {
   });
 
   it('should display error message if there is no item found', () => {
-    component.item = undefined;
+    component.actionItem = undefined;
     component.errorMessage = 'No item found!';
     component.isLoadingActionItem = false;
     fixture.detectChanges();
@@ -71,8 +89,8 @@ describe('ItemDetailsComponent', () => {
     expect(errorMessage).toBeTruthy();
   });
 
-  it('should display "Select Action Item.." message', () => {
-    component.item = undefined;
+  it('should display "Select Action Item.." message if no action ite was selected', () => {
+    component.actionItem = undefined;
     component.errorMessage = undefined;
     component.isLoadingActionItem = false;
     fixture.detectChanges();
@@ -80,12 +98,32 @@ describe('ItemDetailsComponent', () => {
     expect(selectItemMessage).toBeTruthy();
   });
 
-  it('should display action item details', () => {
-    component.item = actionItem;
+  it('should display action item details if item selected and clicked', () => {
+    component.actionItem = actionItem;
     component.errorMessage = undefined;
     component.isLoadingActionItem = false;
     fixture.detectChanges();
     const actionItemDetails = fixture.debugElement.query(By.css('.details-container'));
     expect(actionItemDetails).toBeTruthy();
+  });
+
+  it('should open an edit dialog when button clicked', () => {
+    spyOn(component, 'openEditDialog');
+    component.isLoadingActionItem = false;
+    component.actionItem = actionItem;
+    fixture.detectChanges();
+    const btn = fixture.debugElement.query(By.css('.editDialog')).nativeElement;
+    btn.click();
+    expect(component.openEditDialog).toHaveBeenCalled();
+  });
+
+  it('should open a delete dialog when button clicked', () => {
+    spyOn(component, 'openConfirmationDialog');
+    component.isLoadingActionItem = false;
+    component.actionItem = actionItem;
+    fixture.detectChanges();
+    const btn = fixture.debugElement.query(By.css('.confirmationDialog')).nativeElement;
+    btn.click();
+    expect(component.openConfirmationDialog).toHaveBeenCalled();
   });
 });

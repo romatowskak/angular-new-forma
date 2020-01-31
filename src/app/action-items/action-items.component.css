@@ -121,7 +121,7 @@
     padding: 0 15px;
 }
 
-.arrow {
+.filter .filterList .arrow {
     margin: 0 10px;
     padding-bottom: 5px;
 }
@@ -150,7 +150,7 @@
     justify-content: center;
 }
 
-.fa-edit {
+.singleItem .flexRow .fa-edit {
     font-size: 13px;
     color: #4e5860;
 }
@@ -160,6 +160,10 @@
     flex-flow: column wrap;
     width: 75%;
     padding: 0;
+}
+
+.singleItem {
+    cursor: pointer;
 }
 
 .bodyCell {
@@ -204,7 +208,7 @@
     font-size: 100px;
 }
 
-.fa-circle {
+.flexRow .titleContainer .fa-circle {
     font-size: 10px;
 }
 
@@ -221,6 +225,16 @@
 }
 
 .tBody::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #686868;
+}
+
+.detailsContainer::-webkit-scrollbar {
+    width: 10px;
+    background-color: #D0D0D0;
+}
+
+.detailsContainer::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #686868;
 }
@@ -243,6 +257,8 @@
     margin-right: 10px;
     width: 35%;
     background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .tableContainer {
@@ -257,4 +273,21 @@
     overflow-x: hidden;
     height: calc(100% - 55px);
     background-color: #ffffff;
+}
+
+.listEmpty {
+    text-align: center;
+    font-size: 14px;
+    color: #979797;
+    margin-bottom: 50px;
+}
+
+.emptyListOfItem {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.icon {
+    transform: scale(4);
+    margin-bottom: 20px;
 }

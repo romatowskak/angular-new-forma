@@ -1,15 +1,17 @@
 <div class="container dialogModal">
-    <h2 class="dialogTitle" mat-dialog-title>{{ title }}</h2>
+    <h2 class="dialogTitle" mat-dialog-title>{{ dialogMode }} Action Item</h2>
     <mat-dialog-content [formGroup]="dialogForm">
         <mat-form-field>
-            <input matInput class="typedValueColor nameInput" placeholder="Action Item Name" formControlName="name" />
+            <input matInput class="typedValueColor nameInput" placeholder="Action Item Name" formControlName="title" />
             <mat-error class="invalidFeedback nameError">
                 Name is required.
             </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-select class="projectInput" formControlName="project" placeholder="Project">
-                <mat-option *ngFor="let project of projects" [value]="project">
+            <mat-icon matSuffix *ngIf="loaderVisible" class="projectsLoader"><i class="fa fa-circle-o-notch fa-spin"></i>
+            </mat-icon>
+            <mat-select [class.loader]="loaderVisible" class="projectInput" formControlName="projectName" placeholder="Project">
+                <mat-option *ngFor="let project of projects" [value]="project.name">
                     {{ project.name }}
                 </mat-option>
             </mat-select>
@@ -28,6 +30,8 @@
     </mat-dialog-content>
 </div>
 <mat-dialog-actions class="buttons">
-    <button class="matRaisedButton close" type="button" mat-button mat-dialog-close>Close</button>
-    <button class="matRaisedButton create" [disabled]="dialogForm.invalid" (click)="createActionItem()">Create<span class="faButton" *ngIf="isCreatingActionItem"><i class="fa fa-spinner fa-spin"></i></span></button>
+    <button class="matRaisedButton close" type="button" mat-dialog-close>Close</button>
+    <button class="matRaisedButton create saveButton" [disabled]="dialogForm.invalid" (click)="saveForm()">
+        {{ dialogMode }}<span class="faButton" *ngIf="isSavingDialogData"><i class="fa fa-spinner fa-spin"></i></span>
+  </button>
 </mat-dialog-actions>

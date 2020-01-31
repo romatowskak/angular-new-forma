@@ -1,4 +1,3 @@
-import { AddItemComponent } from './../add-item/add-item.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
@@ -6,9 +5,25 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
+import { AddOrUpdateActionItemComponent } from '../add-item/add-item.component';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface ActionItemMapped extends ActionItem {
   dueDay?: number;
+}
+
+export interface DialogData {
+  width: string;
+  height: string;
+  disableClose: boolean;
+}
+
+const dialogData: DialogData = { width: '470px', height: 'auto', disableClose: true };
+
+export enum DialogMode {
+  create = 'Create',
+  edit = 'Edit'
 }
 
 @Component({
@@ -20,10 +35,12 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
   dataSource: ActionItemMapped[];
   isLoadingActionItems = false;
   isLoadingActionItem = false;
-  actionItemId: string | undefined;
-  actionItem: ActionItem;
-  errorMessage: string | undefined;
-  justAddedItemId: string;
+  actionItem?: ActionItem;
+  errorMessage?: string;
+  dialogModeEnum: DialogMode;
+  showImageWhenNoActionItem: boolean;
+  private actionItemIdForScroll?: string;
+  private dialogData: DialogData = dialogData;
   private queryParamsSubscription: Subscription;
   private getActionItemSubscription: Subscription;
 
@@ -32,14 +49,17 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private scrollToService: ScrollToService
-  ) {}
+    private scrollToService: ScrollToService,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer
+  ) {
+    this.iconRegistry.addSvgIcon('emptyList', this.sanitizer.bypassSecurityTrustResourceUrl('/assets/empty-inbox.svg'));
+  }
 
   ngOnInit() {
     this.retrieveActionItems();
     this.subscribeToQueryParams();
   }
-
   retrieveActionItems(): void {
     this.isLoadingActionItems = true;
     this.isLoadingActionItem = true;
@@ -49,26 +69,32 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.dataSource = tasks;
         this.isLoadingActionItems = false;
-        this.isLoadingActionItem = false;
+        this.showImageWhenNoActionItem = false;
+        this.showImageWhenNoActionItem = tasks.length === 0;
       });
   }
-  openDialog(): void {
+  openCreateDialog(): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = { width: '470px', height: 'auto', disableClose: true };
+    dialogConfig.data = {
+      ...this.dialogData,
+      data: {
+        dialogMode: DialogMode.create
+      }
+    };
     this.matDialog
-      .open(AddItemComponent, dialogConfig.data)
+      .open(AddOrUpdateActionItemComponent, dialogConfig.data)
       .afterClosed()
       .subscribe(item => {
         if (!!item) {
           this.retrieveActionItems();
-          this.justAddedItemId = item.id;
-          this.router.navigate(['/items'], { queryParams: { id: this.justAddedItemId } });
+          this.actionItemIdForScroll = item.id;
+          this.router.navigate(['/items'], { queryParams: { id: this.actionItemIdForScroll } });
         }
       });
   }
-  private triggerScrollTo() {
+  private triggerScrollTo(itemId: string): void {
     const config: ScrollToConfigOptions = {
-      target: this.justAddedItemId
+      target: itemId
     };
     this.scrollToService.scrollTo(config);
   }
@@ -84,21 +110,41 @@ export class ActionItemsComponent implements OnInit, OnDestroy {
         item => {
           this.isLoadingActionItem = false;
           this.actionItem = item;
-          this.triggerScrollTo();
+          this.actionItemIdForScroll = item.id;
+          if (this.actionItemIdForScroll) {
+            this.triggerScrollTo(this.actionItemIdForScroll);
+            this.actionItemIdForScroll = undefined;
+          }
         },
         err => {
-          if (err.status === 404) this.errorMessage = err.statusText;
+          err.status === 404
+            ? (this.errorMessage = err.statusText)
+            : (this.errorMessage = 'Oops! Something went wrong!');
+          this.isLoadingActionItem = false;
         }
       );
   }
-  subscribeToQueryParams(): void {
+  private subscribeToQueryParams(): void {
     this.isLoadingActionItem = true;
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
-      this.actionItemId = params.id;
-      if (this.actionItemId) {
-        this.getActionItem(this.actionItemId);
+      const actionItemId = params.id;
+      if (actionItemId) {
+        this.getActionItem(actionItemId);
+      } else {
+        this.isLoadingActionItem = false;
       }
     });
+  }
+  refreshViewAfterDeletion(): void {
+    this.router.navigate(['/items']);
+    this.retrieveActionItems();
+    this.actionItem = undefined;
+    this.errorMessage = undefined;
+  }
+  refreshViewAfterEditing(editedItemId): void {
+    this.actionItemIdForScroll = editedItemId;
+    this.retrieveActionItems();
+    this.subscribeToQueryParams();
   }
   ngOnDestroy() {
     this.queryParamsSubscription.unsubscribe();

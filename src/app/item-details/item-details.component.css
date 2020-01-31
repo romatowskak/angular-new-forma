@@ -30,6 +30,11 @@
     padding-bottom: 2px;
 }
 
+.description {
+    word-wrap: break-word;
+    margin-top: 20px;
+}
+
 .top {
     display: flex;
     justify-content: space-between;
@@ -44,8 +49,8 @@
     margin-top: 30px;
 }
 
-.fa-edit,
-.fa-check {
+.details .top .fa-edit,
+.details .top .fa-check {
     padding: 5px;
     margin: 0 5px;
     border-radius: 50%;
@@ -122,6 +127,7 @@
     text-align: center;
 }
 
-.diagramsHidden {
-    display: none;
+.confirmationDialog,
+.editDialog {
+    cursor: pointer;
 }

@@ -1,7 +1,7 @@
+import { Project, ProjectsService } from './../services/projects/projects.service';
 import { TasksService, AddActionItem } from './../services/tasksService/tasks.service';
-import { Project, ProjectsService } from '../services/projects/projects.service';
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
@@ -10,59 +10,80 @@ import { first } from 'rxjs/operators';
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.css']
 })
-export class AddItemComponent implements OnInit {
+export class AddOrUpdateActionItemComponent implements OnInit {
   dialogForm: FormGroup;
-  title = 'Create Action Item';
-  projects: Project[];
-  isCreatingActionItem = false;
+  dialogMode: string;
+  dialogActionButton: string;
+  projects?: Project[];
+  isSavingDialogData = false;
+  loaderVisible = true;
 
   constructor(
-    public dialogRef: MatDialogRef<AddItemComponent>,
+    public dialogRef: MatDialogRef<AddOrUpdateActionItemComponent>,
     private formBuilder: FormBuilder,
     private dialogProjects: ProjectsService,
-    private tasksService: TasksService
+    private tasksService: TasksService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
   ngOnInit() {
+    this.dialogMode = this.data.dialogMode;
     this.dialogProjects
       .getProjectsNames()
       .pipe(first())
-      .subscribe(projects => (this.projects = projects));
+      .subscribe(projects => {
+        this.projects = projects;
+        this.loaderVisible = false;
+      });
     this.createForm();
+    this.dialogForm.patchValue(this.data.item || {});
+    return this.dialogForm.value;
   }
   private createForm(): void {
     this.dialogForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      project: ['', Validators.required],
+      title: ['', Validators.required],
+      projectName: ['', Validators.required],
       dueDate: '',
-      description: ''
+      description: '',
+      id: ''
     });
   }
+  saveForm(): void {
+    this.isSavingDialogData = true;
+    this.dialogMode === 'Edit' ? this.editActionItem() : this.createActionItem();
+  }
   createActionItem(): void {
-    const newItem = this.formNewActionItem();
-    this.isCreatingActionItem = true;
+    const newActionItem = this.formNewActionItem();
     this.dialogForm.disable();
     this.tasksService
-      .add(newItem)
+      .add(newActionItem)
       .pipe(first())
       .subscribe(actionItem => {
         this.dialogRef.close(actionItem);
-        this.isCreatingActionItem = false;
       });
   }
-  private formNewActionItem(): AddActionItem {
-    const title = this.dialogForm.get('name');
-    const projectName = this.dialogForm.get('project');
+  formNewActionItem(): AddActionItem {
+    const title = this.dialogForm.get('title');
+    const projectName = this.dialogForm.get('projectName');
     const dueDate = this.dialogForm.get('dueDate');
-    if (!title || !projectName || !dueDate) {
-      throw 'Invalid Action Item data';
+    const description = this.dialogForm.get('description');
+    if (!title || !projectName || !dueDate || !description) {
+      throw new Error('Invalid Action Item data');
     }
-    const newItem: AddActionItem = {
+    const newActionItem: AddActionItem = {
       title: title.value,
-      projectName: projectName.value.name,
+      projectName: projectName.value,
       type: 'General',
       completed: '0',
-      dueDate: dueDate.value
+      dueDate: dueDate.value,
+      description: description.value
     };
-    return newItem;
+    return newActionItem;
+  }
+  editActionItem(): void {
+    const editedActionItem = this.dialogForm.value;
+    this.tasksService.editActionItem(editedActionItem).subscribe(actionItem => {
+      this.dialogRef.close(actionItem.id);
+    });
   }
 }

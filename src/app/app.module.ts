@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { AppMaterialModule } from './app-material/app-material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -8,13 +9,16 @@ import { ActionItemsComponent } from './action-items/action-items.component';
 import { DaysLeftToDeadlineService } from './services/daysLeftToDeadlineService/days-left-to-deadline.service';
 import { TasksService } from './services/tasksService/tasks.service';
 import { CircleColorPipe } from './pipes/circleColorPipe/circle-color.pipe';
-import { AddItemComponent } from './add-item/add-item.component';
 import { ProjectsService } from './services/projects/projects.service';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { RouterModule } from '@angular/router';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { DaysLeftCountedPipe } from './pipes/daysLeftCountedPipe/days-left-counted.pipe';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { ConfirmationDialogComponent } from './confirmationDialog/confirmation-dialog/confirmation-dialog.component';
+import { StorageServiceModule } from 'ngx-webstorage-service';
+import { AddOrUpdateActionItemComponent } from './add-item/add-item.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,15 +26,19 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
     NavbarComponent,
     ActionItemsComponent,
     CircleColorPipe,
-    AddItemComponent,
+    AddOrUpdateActionItemComponent,
     ItemDetailsComponent,
-    DaysLeftCountedPipe
+    DaysLeftCountedPipe,
+    ConfirmationDialogComponent
   ],
   imports: [
     AppMaterialModule,
     BrowserModule,
     AppRoutingModule,
     RoundProgressModule,
+    HttpClientModule,
+    FormsModule,
+    StorageServiceModule,
     ScrollToModule.forRoot(),
     RouterModule.forRoot([
       {
@@ -52,6 +60,6 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
     ScrollToModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AddItemComponent]
+  entryComponents: [AddOrUpdateActionItemComponent, ConfirmationDialogComponent]
 })
 export class AppModule {}

@@ -1,9 +1,9 @@
+import { AddOrUpdateActionItemComponent } from './../add-item/add-item.component';
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { ItemDetailsComponent } from './../item-details/item-details.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppMaterialModule } from './../app-material/app-material.module';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AddItemComponent } from './../add-item/add-item.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { TasksService, ActionItem } from '../services/tasksService/tasks.service';
@@ -18,7 +18,6 @@ describe('ActionItemsComponent', () => {
   let component: ActionItemsComponent;
   let fixture: ComponentFixture<ActionItemsComponent>;
   let tasksService: TasksService;
-
   let actionItem: ActionItem;
 
   beforeEach(async(() => {
@@ -26,7 +25,7 @@ describe('ActionItemsComponent', () => {
       declarations: [
         ActionItemsComponent,
         CircleColorPipe,
-        AddItemComponent,
+        AddOrUpdateActionItemComponent,
         DaysLeftCountedPipe,
         ItemDetailsComponent
       ],
@@ -80,7 +79,7 @@ describe('ActionItemsComponent', () => {
     expect(actionItems).toBeFalsy();
   });
 
-  it('should change the value of "loading" to "false"', () => {
+  it('should change the value of "loading" to "false" when action items retrieved', () => {
     const emptyTasks: ActionItem[] = [];
     spyOn(tasksService, 'getAllItems').and.returnValue(of(emptyTasks));
     component.ngOnInit();
@@ -111,41 +110,23 @@ describe('ActionItemsComponent', () => {
     expect(component.dataSource.length).toBe(1);
   });
 
-  it('dialog should be opened', () => {
-    spyOn(component, 'openDialog');
+  it('should open a dialog when button clicked', () => {
+    spyOn(component, 'openCreateDialog');
     component.isLoadingActionItems = false;
     fixture.detectChanges();
     const btn = fixture.debugElement.query(By.css('.addItem')).nativeElement;
     btn.click();
-    expect(component.openDialog).toHaveBeenCalled();
+    expect(component.openCreateDialog).toHaveBeenCalled();
   });
 
-  it('should call getQueryParams()', () => {
-    component.actionItem = actionItem;
-    const getParamsSpy = spyOn(component, 'subscribeToQueryParams').and.callThrough();
-    component.ngOnInit();
-    expect(getParamsSpy).toHaveBeenCalled();
-  });
-
-  it('should get action item', done => {
+  it('should get action item with corresponding id', done => {
     spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
     tasksService.getActionItem('itemId').subscribe(res => {
       component.actionItem = res;
-      component.actionItemId = res.id;
+      component.actionItem.id = res.id;
       done();
       expect(component.actionItem).toEqual(actionItem);
-      expect(component.actionItemId).toEqual(actionItem.id);
-    });
-  });
-
-  it('should get action item', done => {
-    spyOn(tasksService, 'getActionItem').and.returnValue(of(actionItem));
-    tasksService.getActionItem('itemId').subscribe(res => {
-      component.actionItem = res;
-      component.actionItemId = res.id;
-      done();
-      expect(component.actionItem).toEqual(actionItem);
-      expect(component.actionItemId).toEqual(actionItem.id);
+      expect(component.actionItem.id).toEqual(actionItem.id);
     });
   });
 });
