@@ -22,8 +22,8 @@ export interface DialogData {
 const dialogData: DialogData = { width: '470px', height: 'auto', disableClose: true };
 
 export enum DialogMode {
-  create = 'Create',
-  edit = 'Edit'
+  create = 'reate',
+  edit = 'Dedit'
 }
 
 @Component({
